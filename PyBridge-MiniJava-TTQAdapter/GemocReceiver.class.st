@@ -1,0 +1,31 @@
+Class {
+	#name : #GemocReceiver,
+	#superclass : #GemocRuntimeEntity,
+	#instVars : [
+		'receiver'
+	],
+	#category : #'PyBridge-MiniJava-TTQAdapter'
+}
+
+{ #category : #testing }
+GemocReceiver >> isVariable [
+	self flag: '[GEMOC] How do I know if the message is sent to a variable or to the result of an expression?'.
+	^true
+]
+
+{ #category : #accessing }
+GemocReceiver >> receiver [
+
+	^ receiver
+]
+
+{ #category : #accessing }
+GemocReceiver >> receiver: anObject [
+
+	receiver := anObject
+]
+
+{ #category : #accessing }
+GemocReceiver >> variable [
+	^GemocVariable new variableName: receiver symbol value name literalValue
+]
