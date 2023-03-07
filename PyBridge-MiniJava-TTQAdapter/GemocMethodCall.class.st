@@ -1,6 +1,10 @@
 Class {
 	#name : #GemocMethodCall,
 	#superclass : #GemocProgramState,
+	#instVars : [
+		'rootFrame',
+		'receiver'
+	],
 	#category : #'PyBridge-MiniJava-TTQAdapter'
 }
 
@@ -9,6 +13,26 @@ GemocMethodCall >> aliasOfObject: aGemocReceiver [
 
 	^ (aGemocReceiver receiver __str__ literalValue splitOn:
 		   Character space) last
+]
+
+{ #category : #building }
+GemocMethodCall >> build [
+	self buildRootFrame.
+	self buildReceiver 
+]
+
+{ #category : #building }
+GemocMethodCall >> buildReceiver [
+
+	receiver := GemocReceiver new receiver: programState receiver
+]
+
+{ #category : #accessing }
+GemocMethodCall >> buildRootFrame [
+
+	rootFrame := executionStep step sourceState runtimeExtensions
+		             asNativeList first runtimeBindings asNativeList first
+		             runtimeValue runtimeObject rootFrame
 ]
 
 { #category : #accessing }
@@ -49,6 +73,6 @@ GemocMethodCall >> receiver [
 
 { #category : #accessing }
 GemocMethodCall >> receiverClass [
-	self flag: '[GEMOC] How do I get the class of the receiver?'.
-	^'Object'
+
+	^ receiver receiverClass
 ]

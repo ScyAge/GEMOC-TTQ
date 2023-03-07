@@ -2,7 +2,8 @@ Class {
 	#name : #GemocReceiver,
 	#superclass : #GemocRuntimeEntity,
 	#instVars : [
-		'receiver'
+		'receiver',
+		'receiverClass'
 	],
 	#category : #'PyBridge-MiniJava-TTQAdapter'
 }
@@ -22,7 +23,13 @@ GemocReceiver >> receiver [
 { #category : #accessing }
 GemocReceiver >> receiver: anObject [
 
-	receiver := anObject
+	receiver := anObject.
+	receiverClass := anObject symbol typeRef referencedClass name
+]
+
+{ #category : #accessing }
+GemocReceiver >> receiverClass [
+	^ receiverClass
 ]
 
 { #category : #accessing }
