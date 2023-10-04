@@ -33,7 +33,8 @@ GemocTrace >> flattenSteps [
 	"We flatten the trace to obtain an ordered list of steps and substeps.
 	The order of the steps is the execution order.
 	The step granularity and the number of steps depends on the DSL."
-
+	
+	flattenedSteps := OrderedCollection new.
 	steps do: [ :s | self flattenStep: s step]
 ]
 
