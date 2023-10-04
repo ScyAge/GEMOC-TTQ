@@ -24,6 +24,7 @@ GemocReceiver >> receiver [
 GemocReceiver >> receiver: anObject [
 
 	receiver := anObject.
+	self halt.
 	receiverClass := anObject symbol typeRef referencedClass name
 ]
 

@@ -24,7 +24,8 @@ GemocMethodCall >> build [
 { #category : #building }
 GemocMethodCall >> buildReceiver [
 
-	receiver := GemocReceiver new receiver: programState receiver
+	receiver := GemocReceiver new receiver: programState receiver.
+	executionStep step subSteps asNativeList first sourceState runtimeExtensions asNativeList first runtimeBindings asNativeList first runtimeValue runtimeObject "-> root frame -> childFrame -> trouver le method call"
 ]
 
 { #category : #accessing }

@@ -5,7 +5,9 @@ Class {
 }
 
 { #category : #building }
-GemocAssignment >> build [ 	self flag: 'todo'
+GemocAssignment >> build [
+
+	self halt
 ]
 
 { #category : #'as yet unclassified' }
