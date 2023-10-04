@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'steps',
-		'flattenedSteps'
+		'flattenedSteps',
+		'gemocSteps'
 	],
 	#category : #'PyBridge-MiniJava-TTQAdapter'
 }
@@ -11,6 +12,13 @@ Class {
 { #category : #accessing }
 GemocTrace class >> steps: aCollection [
 	^self new steps: aCollection
+]
+
+{ #category : #api }
+GemocTrace >> buildSteps [
+
+	gemocSteps := flattenedSteps collect: [ :s | 
+		              GemocProgramState fromGemocStep: s ]
 ]
 
 { #category : #api }

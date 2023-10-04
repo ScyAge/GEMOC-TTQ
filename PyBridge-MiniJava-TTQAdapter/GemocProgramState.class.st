@@ -18,8 +18,8 @@ GemocProgramState class >> fromGemocStep: aGemocStep [
 
 	^ self
 		  newStepNamed:
-			  aGemocStep step semanticRuleStaticTarget value __class__ __name__
-				  literalValue uncapitalized
+			  aGemocStep semanticRuleStaticTarget value __class__ __name__
+				  literalValue
 		  fromGemocStep: aGemocStep
 ]
 
@@ -31,8 +31,7 @@ GemocProgramState class >> methodCall: aGemocStep [
 { #category : #'as yet unclassified' }
 GemocProgramState class >> newStepNamed: stepName fromGemocStep: aGemocStep [
 
-	(#( assignment methodCall ) includes: stepName) ifFalse: [ ^ nil ].
-	^ self perform: (stepName , ':') asSymbol with: aGemocStep
+	^ GemocProgramStateGenerator new build: aGemocStep typed: stepName
 ]
 
 { #category : #'as yet unclassified' }
@@ -40,7 +39,7 @@ GemocProgramState class >> step: aGemocStep [
 	|programState|
 	programState := self new.
 	programState executionStep: aGemocStep.
-	programState programState: aGemocStep step semanticRuleStaticTarget value.
+	programState programState: aGemocStep semanticRuleStaticTarget value.
 	^programState 
 ]
 
