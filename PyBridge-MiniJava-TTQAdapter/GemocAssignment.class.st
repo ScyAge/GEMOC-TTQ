@@ -23,7 +23,7 @@ GemocAssignment >> getValue [
 
 	^ ((programState __dict__ items asNativeList collect: #asNativeList)
 		   detect: [ :c | c first literalValue = 'value' ]
-		   ifNone: [ nil ]) ifNotNil: [ :c | c second ]
+		   ifNone: [ nil ]) ifNotNil: [ :c | c second ] value
 ]
 
 { #category : #'as yet unclassified' }
