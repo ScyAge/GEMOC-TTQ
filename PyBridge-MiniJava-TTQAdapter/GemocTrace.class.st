@@ -7,7 +7,9 @@ Class {
 		'gemocSteps',
 		'trace',
 		'path',
-		'metaModelTrace'
+		'metaModelTrace',
+		'programMetaModel',
+		'programTypes'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter',
 	#package : 'PyBridge-MiniJava-TTQAdapter'
@@ -23,7 +25,40 @@ GemocTrace class >> source: anAbsolutePathString [
 GemocTrace >> build [
 
 	self flattenSteps.
-	self buildSteps
+	self buildSteps.
+	self buildProgramMetaModel
+]
+
+{ #category : 'private - building' }
+GemocTrace >> buildProgramMetaModel [
+
+	| metaModelDict languageName typesModel |
+	programTypes := Dictionary new.
+	metaModelDict := programMetaModel __dict__ asNativeDict.
+	languageName := (metaModelDict at: 'nsPrefix') _value asNativeObject
+		                capitalized.
+
+	typesModel := (metaModelDict associations select: [ :association |
+		              | className |
+		              className := association key.
+		              className first isUppercase and: [
+			              (className = 'AccessLevel') not ] ]) asDictionary.
+
+	"Pass 1: generating all types"
+	typesModel keysAndValuesDo: [ :typeName :typeModel |
+		| gemocType |
+		gemocType := GemocType new.
+		gemocType typeName: typeName.
+		gemocType model: typeModel.
+		programTypes at: typeName put: gemocType ].
+
+	"Pass 2: setting super types"
+	typesModel keysAndValuesDo: [ :typeName :typeModel |
+		| gemocType |
+		gemocType := programTypes at: typeName.
+		gemocType superTypes:
+			(gemocType model eSuperTypes asNativeList collect: [ :est |
+				 programTypes at: est __name__ asNativeObject ]) ]
 ]
 
 { #category : 'private - building' }
@@ -39,6 +74,7 @@ GemocTrace >> connectToBridge [
 	trace := PyBridge load: 'gemoctrace::loader'.
 	steps := trace load_steps: path.
 	metaModelTrace := trace trace_mm.
+	programMetaModel := trace javamm.
 	self build
 ]
 
