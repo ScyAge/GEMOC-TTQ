@@ -18,15 +18,6 @@ GemocTrace class >> source: anAbsolutePathString [
 	
 ]
 
-{ #category : 'accessing' }
-GemocTrace class >> steps: aCollection [
-
-	^ self new
-		  steps: aCollection;
-		  build;
-		  yourself
-]
-
 { #category : 'private - building' }
 GemocTrace >> build [
 
