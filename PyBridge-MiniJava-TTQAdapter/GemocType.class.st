@@ -25,7 +25,14 @@ GemocType >> model: anObject [
 { #category : 'printing' }
 GemocType >> printOn: aStream [
 
-	aStream << (typeName ifNil: [ 'An undefined Gemoc type' ])
+	aStream << (typeName ifNil: [ 'An undefined Gemoc type' ]).
+	superTypes ifEmpty: [ ^ self ].
+	aStream << ' (super types: '.
+	superTypes do: [ :st |
+		aStream << st typeName.
+		aStream << (st == superTypes last
+			 ifTrue: [ ')' ]
+			 ifFalse: [ ', ' ]) ]
 ]
 
 { #category : 'accessing' }
