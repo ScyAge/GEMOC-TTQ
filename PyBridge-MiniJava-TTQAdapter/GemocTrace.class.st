@@ -4,11 +4,19 @@ Class {
 	#instVars : [
 		'steps',
 		'flattenedSteps',
-		'gemocSteps'
+		'gemocSteps',
+		'trace',
+		'path'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter',
 	#package : 'PyBridge-MiniJava-TTQAdapter'
 }
+
+{ #category : 'accessing' }
+GemocTrace class >> source: anAbsolutePathString [
+	^self new source: anAbsolutePathString
+	
+]
 
 { #category : 'accessing' }
 GemocTrace class >> steps: aCollection [
@@ -19,21 +27,29 @@ GemocTrace class >> steps: aCollection [
 		  yourself
 ]
 
-{ #category : 'api - building' }
+{ #category : 'private - building' }
 GemocTrace >> build [
 
 	self flattenSteps.
 	self buildSteps
 ]
 
-{ #category : 'api' }
+{ #category : 'private - building' }
 GemocTrace >> buildSteps [
 
 	gemocSteps := flattenedSteps collect: [ :s | 
 		              GemocProgramState fromGemocStep: s ]
 ]
 
-{ #category : 'api' }
+{ #category : 'pybridge' }
+GemocTrace >> connectToBridge [
+	PyBridge restart.
+	trace := PyBridge load: 'gemoctrace::loader'.
+	steps := trace load_steps: path.
+	self build
+]
+
+{ #category : 'private - building' }
 GemocTrace >> flattenStep: s [
 
 	| substeps |
@@ -47,7 +63,7 @@ GemocTrace >> flattenStep: s [
 	flattenedSteps add: s
 ]
 
-{ #category : 'api' }
+{ #category : 'private - building' }
 GemocTrace >> flattenSteps [
 
 	"We flatten the trace to obtain an ordered list of steps and substeps.
@@ -70,9 +86,15 @@ GemocTrace >> flattenedSteps: anObject [
 	flattenedSteps := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : 'initialization' }
 GemocTrace >> initialize [ 	
 	flattenedSteps := OrderedCollection new
+]
+
+{ #category : 'initialization' }
+GemocTrace >> source: anAbsolutePathString [
+	path := anAbsolutePathString.
+	self connectToBridge 
 ]
 
 { #category : 'accessing' }
