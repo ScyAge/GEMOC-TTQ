@@ -1,10 +1,11 @@
 Class {
-	#name : #GemocProgram,
-	#superclass : #GemocProgramState,
-	#category : #'PyBridge-MiniJava-TTQAdapter'
+	#name : 'GemocProgram',
+	#superclass : 'GemocProgramState',
+	#category : 'PyBridge-MiniJava-TTQAdapter',
+	#package : 'PyBridge-MiniJava-TTQAdapter'
 }
 
-{ #category : #building }
+{ #category : 'building' }
 GemocProgram >> build [
 	"self halt"
 ]

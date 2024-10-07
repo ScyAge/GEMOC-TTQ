@@ -1,14 +1,15 @@
 Class {
-	#name : #GemocAssignment,
-	#superclass : #GemocProgramState,
+	#name : 'GemocAssignment',
+	#superclass : 'GemocProgramState',
 	#instVars : [
 		'variableType',
 		'variableName'
 	],
-	#category : #'PyBridge-MiniJava-TTQAdapter'
+	#category : 'PyBridge-MiniJava-TTQAdapter',
+	#package : 'PyBridge-MiniJava-TTQAdapter'
 }
 
-{ #category : #building }
+{ #category : 'building' }
 GemocAssignment >> build [
 	|assignee value|
 	assignee := programState assignee value.
@@ -18,7 +19,7 @@ GemocAssignment >> build [
 	self hal
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GemocAssignment >> getValue [
 
 	^ (((programState __dict__ items asNativeList collect: #asNativeList)
@@ -26,7 +27,7 @@ GemocAssignment >> getValue [
 		    ifNone: [ nil ]) ifNotNil: [ :c | c second ]) value
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GemocAssignment >> nodeIsAssignment [
 	^true
 ]

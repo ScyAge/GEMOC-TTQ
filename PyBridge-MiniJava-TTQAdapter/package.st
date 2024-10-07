@@ -1,1 +1,1 @@
-Package { #name : #'PyBridge-MiniJava-TTQAdapter' }
+Package { #name : 'PyBridge-MiniJava-TTQAdapter' }

@@ -1,19 +1,20 @@
 Class {
-	#name : #GemocProgramState,
-	#superclass : #Object,
+	#name : 'GemocProgramState',
+	#superclass : 'Object',
 	#instVars : [
 		'executionStep',
 		'programState'
 	],
-	#category : #'PyBridge-MiniJava-TTQAdapter'
+	#category : 'PyBridge-MiniJava-TTQAdapter',
+	#package : 'PyBridge-MiniJava-TTQAdapter'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GemocProgramState class >> assignment: aGemocStep [
 	^GemocAssignment step: aGemocStep 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GemocProgramState class >> fromGemocStep: aGemocStep [
 
 	^ self
@@ -23,18 +24,18 @@ GemocProgramState class >> fromGemocStep: aGemocStep [
 		  fromGemocStep: aGemocStep
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GemocProgramState class >> methodCall: aGemocStep [
 	^GemocMethodCall step: aGemocStep 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GemocProgramState class >> newStepNamed: stepName fromGemocStep: aGemocStep [
 
 	^ GemocProgramStateGenerator new build: aGemocStep typed: stepName
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GemocProgramState class >> step: aGemocStep [ 
 	|programState|
 	programState := self new.
@@ -43,40 +44,40 @@ GemocProgramState class >> step: aGemocStep [
 	^programState 
 ]
 
-{ #category : #building }
+{ #category : 'building' }
 GemocProgramState >> build [
 	self subclassResponsibility 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GemocProgramState >> executionStep [
 
 	^ executionStep
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GemocProgramState >> executionStep: anObject [
 
 	executionStep := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GemocProgramState >> node [
 	^self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GemocProgramState >> nodeIsAssignment [
 	^false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GemocProgramState >> programState [
 
 	^ programState
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GemocProgramState >> programState: anObject [
 
 	programState := anObject

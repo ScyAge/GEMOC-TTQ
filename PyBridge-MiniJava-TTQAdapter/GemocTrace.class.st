@@ -1,27 +1,39 @@
 Class {
-	#name : #GemocTrace,
-	#superclass : #Object,
+	#name : 'GemocTrace',
+	#superclass : 'Object',
 	#instVars : [
 		'steps',
 		'flattenedSteps',
 		'gemocSteps'
 	],
-	#category : #'PyBridge-MiniJava-TTQAdapter'
+	#category : 'PyBridge-MiniJava-TTQAdapter',
+	#package : 'PyBridge-MiniJava-TTQAdapter'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GemocTrace class >> steps: aCollection [
-	^self new steps: aCollection
+
+	^ self new
+		  steps: aCollection;
+		  build;
+		  yourself
 ]
 
-{ #category : #api }
+{ #category : 'api - building' }
+GemocTrace >> build [
+
+	self flattenSteps.
+	self buildSteps
+]
+
+{ #category : 'api' }
 GemocTrace >> buildSteps [
 
 	gemocSteps := flattenedSteps collect: [ :s | 
 		              GemocProgramState fromGemocStep: s ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 GemocTrace >> flattenStep: s [
 
 	| substeps |
@@ -35,7 +47,7 @@ GemocTrace >> flattenStep: s [
 	flattenedSteps add: s
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 GemocTrace >> flattenSteps [
 
 	"We flatten the trace to obtain an ordered list of steps and substeps.
@@ -46,30 +58,30 @@ GemocTrace >> flattenSteps [
 	steps do: [ :s | self flattenStep: s step]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GemocTrace >> flattenedSteps [
 
 	^ flattenedSteps
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GemocTrace >> flattenedSteps: anObject [
 
 	flattenedSteps := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GemocTrace >> initialize [ 	
 	flattenedSteps := OrderedCollection new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GemocTrace >> steps [
 
 	^ steps
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GemocTrace >> steps: anObject [
 
 	steps := anObject

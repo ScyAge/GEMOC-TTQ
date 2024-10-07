@@ -1,13 +1,14 @@
 Class {
-	#name : #GemocBlock,
-	#superclass : #GemocProgramState,
+	#name : 'GemocBlock',
+	#superclass : 'GemocProgramState',
 	#instVars : [
 		'statements'
 	],
-	#category : #'PyBridge-MiniJava-TTQAdapter'
+	#category : 'PyBridge-MiniJava-TTQAdapter',
+	#package : 'PyBridge-MiniJava-TTQAdapter'
 }
 
-{ #category : #building }
+{ #category : 'building' }
 GemocBlock >> build [
 	statements := programState statements asNativeList
 ]

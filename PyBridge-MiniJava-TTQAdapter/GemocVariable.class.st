@@ -1,24 +1,25 @@
 Class {
-	#name : #GemocVariable,
-	#superclass : #GemocRuntimeEntity,
+	#name : 'GemocVariable',
+	#superclass : 'GemocRuntimeEntity',
 	#instVars : [
 		'variableName'
 	],
-	#category : #'PyBridge-MiniJava-TTQAdapter'
+	#category : 'PyBridge-MiniJava-TTQAdapter',
+	#package : 'PyBridge-MiniJava-TTQAdapter'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GemocVariable >> name [
 	^variableName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GemocVariable >> variableName [
 
 	^ variableName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GemocVariable >> variableName: anObject [
 
 	variableName := anObject
