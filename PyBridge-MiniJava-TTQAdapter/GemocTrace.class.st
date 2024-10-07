@@ -6,7 +6,8 @@ Class {
 		'flattenedSteps',
 		'gemocSteps',
 		'trace',
-		'path'
+		'path',
+		'metaModelTrace'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter',
 	#package : 'PyBridge-MiniJava-TTQAdapter'
@@ -37,6 +38,7 @@ GemocTrace >> connectToBridge [
 	PyBridge restart.
 	trace := PyBridge load: 'gemoctrace::loader'.
 	steps := trace load_steps: path.
+	metaModelTrace := trace trace_mm.
 	self build
 ]
 
