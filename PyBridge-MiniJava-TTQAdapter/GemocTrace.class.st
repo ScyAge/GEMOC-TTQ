@@ -138,6 +138,54 @@ GemocTrace >> flattenedSteps: anObject [
 	flattenedSteps := anObject
 ]
 
+{ #category : 'private - building' }
+GemocTrace >> generateClass: aSymbol superClass: aClass traits: anArray [
+
+	^ Smalltalk at: aSymbol ifAbsent: [
+		  ((aClass << aSymbol)
+			   traits: anArray;
+			   package: self class package name) install ]
+]
+
+{ #category : 'private - building' }
+GemocTrace >> generateTypesClasses [
+
+	| remainingTypes traits |
+	(programTypes values select: [ :type | type superTypes isEmpty ])
+		do: [ :type |
+			| className class |
+			className := ('TGemoc' , type typeName) asSymbol.
+			traits := (self class traitedTypes select: [ :tt |
+				           tt key = type typeName ]) collect: #value.
+			class := self
+				         generateClass: className
+				         superClass: GemocType
+				         traits: traits.
+			type typeClass: class ].
+
+	remainingTypes := (programTypes values select: [ :type | type superTypes notEmpty ])
+		                  																			asOrderedCollection.
+
+	[ remainingTypes isEmpty ] whileFalse: [
+		remainingTypes do: [ :type |
+			| className superClassName class |
+			className := ('TGemoc' , type typeName) asSymbol.
+			superClassName := ('TGemoc' , type superTypes first typeName)
+				                  asSymbol.
+			Smalltalk at: superClassName ifPresent: [ :superClass |
+				traits := (self class traitedTypes select: [ :tt |
+					           type superTypes anySatisfy: [ :st |
+						           st typeName = tt key ] ]) collect: #value.
+				class := self
+					         generateClass: className
+					         superClass: superClass
+					         traits: traits ].
+			type typeClass: class ].
+
+		remainingTypes := remainingTypes select: [ :type |
+			                  type typeClass isNil ] ]
+]
+
 { #category : 'initialization' }
 GemocTrace >> initialize [ 	
 	flattenedSteps := OrderedCollection new
