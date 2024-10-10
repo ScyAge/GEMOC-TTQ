@@ -5,8 +5,9 @@ Class {
 		'variableType',
 		'variableName'
 	],
-	#category : 'PyBridge-MiniJava-TTQAdapter',
-	#package : 'PyBridge-MiniJava-TTQAdapter'
+	#category : 'PyBridge-MiniJava-TTQAdapter-generated',
+	#package : 'PyBridge-MiniJava-TTQAdapter',
+	#tag : 'generated'
 }
 
 { #category : 'building' }
