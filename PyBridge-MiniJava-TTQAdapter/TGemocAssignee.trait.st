@@ -1,6 +1,11 @@
 Trait {
 	#name : 'TGemocAssignee',
-	#category : 'PyBridge-MiniJava-TTQAdapter-generated',
+	#category : 'PyBridge-MiniJava-TTQAdapter-model',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
-	#tag : 'generated'
+	#tag : 'model'
 }
+
+{ #category : 'as yet unclassified' }
+TGemocAssignee >> assigneeClass [
+	^Smalltalk at: #TGemocAssignee ifAbsent: [ nil ] 
+]
