@@ -154,7 +154,7 @@ GemocTrace >> generateTypesClasses [
 	(programTypes values select: [ :type | type superTypes isEmpty ])
 		do: [ :type |
 			| className class |
-			className := ('TGemoc' , type typeName) asSymbol.
+			className := ('Gemoc' , type typeName) asSymbol.
 			traits := (self class traitedTypes select: [ :tt |
 				           tt key = type typeName ]) collect: #value.
 			class := self
@@ -169,8 +169,8 @@ GemocTrace >> generateTypesClasses [
 	[ remainingTypes isEmpty ] whileFalse: [
 		remainingTypes do: [ :type |
 			| className superClassName class |
-			className := ('TGemoc' , type typeName) asSymbol.
-			superClassName := ('TGemoc' , type superTypes first typeName)
+			className := ('Gemoc' , type typeName) asSymbol.
+			superClassName := ('Gemoc' , type superTypes first typeName)
 				                  asSymbol.
 			Smalltalk at: superClassName ifPresent: [ :superClass |
 				traits := (self class traitedTypes select: [ :tt |
