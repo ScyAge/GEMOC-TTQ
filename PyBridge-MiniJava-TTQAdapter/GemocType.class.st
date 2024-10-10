@@ -4,10 +4,12 @@ Class {
 	#instVars : [
 		'superTypes',
 		'model',
-		'typeName'
+		'typeName',
+		'typeClass'
 	],
-	#category : 'PyBridge-MiniJava-TTQAdapter',
-	#package : 'PyBridge-MiniJava-TTQAdapter'
+	#category : 'PyBridge-MiniJava-TTQAdapter-generated',
+	#package : 'PyBridge-MiniJava-TTQAdapter',
+	#tag : 'generated'
 }
 
 { #category : 'accessing' }
@@ -45,6 +47,18 @@ GemocType >> superTypes [
 GemocType >> superTypes: anObject [
 
 	superTypes := anObject
+]
+
+{ #category : 'accessing' }
+GemocType >> typeClass [
+
+	^ typeClass
+]
+
+{ #category : 'accessing' }
+GemocType >> typeClass: anObject [
+
+	typeClass := anObject
 ]
 
 { #category : 'accessing' }

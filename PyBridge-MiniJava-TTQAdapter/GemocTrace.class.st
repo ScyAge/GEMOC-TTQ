@@ -31,6 +31,19 @@ GemocTrace class >> source: anAbsolutePathString [
 	^ Trace := self new source: anAbsolutePathString
 ]
 
+{ #category : 'private - accessing' }
+GemocTrace class >> traitedTypes [
+	^{'Assignee' -> TGemocAssignee}
+]
+
+{ #category : 'private - accessing' }
+GemocTrace class >> typeNamed: aString [
+
+	^ self current
+		  ifNil: [ GemocType null ]
+		  ifNotNil: [ :trace | trace typeNamed: aString ]
+]
+
 { #category : 'private - building' }
 GemocTrace >> build [
 
@@ -146,4 +159,10 @@ GemocTrace >> steps [
 GemocTrace >> steps: anObject [
 
 	steps := anObject
+]
+
+{ #category : 'private - accessing' }
+GemocTrace >> typeNamed: aString [
+
+	^ programTypes at: aString ifAbsent: [ GemocType null ]
 ]
