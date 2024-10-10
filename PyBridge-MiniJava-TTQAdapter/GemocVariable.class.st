@@ -4,8 +4,9 @@ Class {
 	#instVars : [
 		'variableName'
 	],
-	#category : 'PyBridge-MiniJava-TTQAdapter',
-	#package : 'PyBridge-MiniJava-TTQAdapter'
+	#category : 'PyBridge-MiniJava-TTQAdapter-model',
+	#package : 'PyBridge-MiniJava-TTQAdapter',
+	#tag : 'model'
 }
 
 { #category : 'accessing' }
