@@ -146,7 +146,8 @@ GemocTrace >> generateClass: aSymbol superClass: aClass traits: anArray [
 	^ Smalltalk at: aSymbol ifAbsent: [
 		  ((aClass << aSymbol)
 			   traits: anArray;
-			   package: self class package name , 'generated') install ]
+			   tag: 'generated';
+			   package: self class package name) install ]
 ]
 
 { #category : 'private - building' }
