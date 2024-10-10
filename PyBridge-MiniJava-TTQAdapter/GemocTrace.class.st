@@ -40,7 +40,7 @@ GemocTrace class >> traitedTypes [
 GemocTrace class >> typeNamed: aString [
 
 	^ self current
-		  ifNil: [ GemocType null ]
+		  ifNil: [ GemocUnknownType ]
 		  ifNotNil: [ :trace | trace typeNamed: aString ]
 ]
 
@@ -212,5 +212,5 @@ GemocTrace >> steps: anObject [
 { #category : 'private - accessing' }
 GemocTrace >> typeNamed: aString [
 
-	^ programTypes at: aString ifAbsent: [ GemocType null ]
+	^ programTypes at: aString ifAbsent: [ GemocUnknownType ]
 ]

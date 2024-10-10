@@ -7,5 +7,5 @@ Trait {
 
 { #category : 'as yet unclassified' }
 TGemocAssignee >> assigneeClass [
-	^Smalltalk at: #TGemocAssignee ifAbsent: [ nil ] 
+	^Smalltalk at: #TGemocAssignee ifAbsent: [ GemocUnknownType ] 
 ]
