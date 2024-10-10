@@ -62,10 +62,10 @@ GemocTrace >> buildProgramMetaModel [
 		                capitalized.
 
 	typesModel := (metaModelDict associations select: [ :association |
-		              | className |
-		              className := association key.
-		              className first isUppercase and: [
-			              (className = 'AccessLevel') not ] ]) asDictionary.
+		               | className |
+		               className := association key.
+		               className first isUppercase and: [
+			               (className = 'AccessLevel') not ] ]) asDictionary.
 
 	"Pass 1: generating all types"
 	typesModel keysAndValuesDo: [ :typeName :typeModel |
@@ -81,7 +81,9 @@ GemocTrace >> buildProgramMetaModel [
 		gemocType := programTypes at: typeName.
 		gemocType superTypes:
 			(gemocType model eSuperTypes asNativeList collect: [ :est |
-				 programTypes at: est __name__ asNativeObject ]) ]
+				 programTypes at: est __name__ asNativeObject ]) ].
+
+	self generateTypesClasses
 ]
 
 { #category : 'private - building' }
