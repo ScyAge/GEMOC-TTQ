@@ -11,14 +11,23 @@ Class {
 		'programMetaModel',
 		'programTypes'
 	],
+	#classVars : [
+		'Trace'
+	],
 	#category : 'PyBridge-MiniJava-TTQAdapter',
 	#package : 'PyBridge-MiniJava-TTQAdapter'
 }
 
 { #category : 'accessing' }
+GemocTrace class >> current [
+
+	^ Trace
+]
+
+{ #category : 'accessing' }
 GemocTrace class >> source: anAbsolutePathString [
-	^self new source: anAbsolutePathString
-	
+
+	^ Trace := self new source: anAbsolutePathString
 ]
 
 { #category : 'private - building' }
