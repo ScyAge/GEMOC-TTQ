@@ -114,8 +114,10 @@ GemocProgramStateGenerator >> visitGemocAssignmentOld: aGemocAssignment [
 ]
 
 { #category : 'visiting' }
-GemocProgramStateGenerator >> visitGemocClassRef: aGemocClassRef [ 
-	aGemocClassRef name: aGemocClassRef model referencedClass value name
+GemocProgramStateGenerator >> visitGemocClassRef: aGemocClassRef [
+
+	aGemocClassRef name:
+		aGemocClassRef model referencedClass value name literalValue
 ]
 
 { #category : 'visiting' }
