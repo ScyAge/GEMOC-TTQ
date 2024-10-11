@@ -3,17 +3,42 @@ Class {
 	#superclass : 'GemocProgramState',
 	#instVars : [
 		'variableType',
-		'variableName'
+		'variableName',
+		'assignee',
+		'value'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-model',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
 	#tag : 'model'
 }
 
+{ #category : 'visiting' }
+GemocAssignment >> acceptVisitor: aGemocProgramStateGenerator [ 
+	aGemocProgramStateGenerator visitGemocAssignment: self
+]
+
+{ #category : 'accessing' }
+GemocAssignment >> assignee [
+
+	^ assignee
+]
+
+{ #category : 'accessing' }
+GemocAssignment >> assignee: anObject [
+
+	assignee := anObject
+]
+
 { #category : 'building' }
 GemocAssignment >> build [
+	GemocProgramStateGenerator new visit: self
+]
+
+{ #category : 'building' }
+GemocAssignment >> buildOld [
 	|assignee value|
 	assignee := programState assignee value.
+	self halt.
 	variableType := self parse: assignee typeRef value.	
 	variableName := assignee name. 
 	value := self getValue.
@@ -39,10 +64,8 @@ GemocAssignment >> nodeIsAssignment [
 	^true
 ]
 
-{ #category : 'parsing' }
-GemocAssignment >> parse: aPyBridgeObject [
+{ #category : 'accessing' }
+GemocAssignment >> value: anObject [
 
-	^ aPyBridgeObject printString readStream
-		  upToAll: '<pyecore.ecore.';
-		  upTo: Character space
+	value := anObject
 ]

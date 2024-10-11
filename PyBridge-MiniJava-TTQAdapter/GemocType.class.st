@@ -25,6 +25,12 @@ GemocType >> model: anObject [
 ]
 
 { #category : 'printing' }
+GemocType >> printName: aString on: aStream [
+
+	aStream << (aString ifNil: [ '<name not found>' ])
+]
+
+{ #category : 'printing' }
 GemocType >> printOn: aStream [
 
 	aStream << (typeName ifNil: [ 'An undefined Gemoc type' ]).
