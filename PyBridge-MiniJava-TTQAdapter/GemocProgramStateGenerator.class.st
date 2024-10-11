@@ -123,7 +123,8 @@ GemocProgramStateGenerator >> visitGemocClassRef: aGemocClassRef [
 { #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocNewObject: aGemocNewObject [ 
 	
-	aGemocNewObject instantiation: aGemocNewObject model type name literalValue
+	aGemocNewObject instantiation: aGemocNewObject model type name literalValue.
+	aGemocNewObject model args asNativeList isEmpty ifFalse:[self halt]
 ]
 
 { #category : 'visiting' }
