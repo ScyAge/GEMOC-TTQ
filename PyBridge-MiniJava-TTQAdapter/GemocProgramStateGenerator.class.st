@@ -53,6 +53,23 @@ GemocProgramStateGenerator >> parse: aPyBridgeObject [
 		  upTo: Character space
 ]
 
+{ #category : 'building' }
+GemocProgramStateGenerator >> parseAndBuildAssignmentValue: aGemocAssignment [
+
+
+	| pyObjectValue _value assignmentValue |
+	pyObjectValue := (((aGemocAssignment programState __dict__ items asNativeList
+		                    collect: #asNativeList)
+		                   detect: [ :c | c first literalValue = 'value' ]
+		                   ifNone: [ ^ nil ]) ifNotNil: [ :c | c second ])
+		                 value.
+	_value := pyObjectValue value _value.
+	assignmentValue := self fromPybridgeObject: _value.
+	assignmentValue acceptVisitor: self.
+	^assignmentValue
+
+]
+
 { #category : 'parsing' }
 GemocProgramStateGenerator >> typeNamed: typeName [
 
@@ -81,7 +98,9 @@ GemocProgramStateGenerator >> visitGemocAssignment: aGemocAssignment [
 	assignee := GemocAssignee new.
 	assignee model: aGemocAssignment programState assignee value.
 	assignee acceptVisitor: self.
-	aGemocAssignment assignee: assignee
+	aGemocAssignment assignee: assignee.
+	value := self parseAndBuildAssignmentValue: aGemocAssignment.
+	aGemocAssignment value: value
 ]
 
 { #category : 'visiting' }
@@ -97,6 +116,12 @@ GemocProgramStateGenerator >> visitGemocAssignmentOld: aGemocAssignment [
 { #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocClassRef: aGemocClassRef [ 
 	aGemocClassRef name: aGemocClassRef model referencedClass value name
+]
+
+{ #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocNewObject: aGemocNewObject [ 
+	
+	aGemocNewObject instantiation: aGemocNewObject model type name literalValue
 ]
 
 { #category : 'visiting' }

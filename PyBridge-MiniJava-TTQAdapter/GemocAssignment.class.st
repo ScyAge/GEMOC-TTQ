@@ -34,17 +34,6 @@ GemocAssignment >> build [
 	GemocProgramStateGenerator new visit: self
 ]
 
-{ #category : 'building' }
-GemocAssignment >> buildOld [
-	|assignee value|
-	assignee := programState assignee value.
-	self halt.
-	variableType := self parse: assignee typeRef value.	
-	variableName := assignee name. 
-	value := self getValue.
-	
-]
-
 { #category : 'tests' }
 GemocAssignment >> getValue [
 
@@ -62,6 +51,14 @@ GemocAssignment >> getValue [
 { #category : 'as yet unclassified' }
 GemocAssignment >> nodeIsAssignment [
 	^true
+]
+
+{ #category : 'printing' }
+GemocAssignment >> printOn: aStream [
+
+	assignee printOn: aStream.
+	aStream << ' = '.
+	value printOn: aStream
 ]
 
 { #category : 'accessing' }
