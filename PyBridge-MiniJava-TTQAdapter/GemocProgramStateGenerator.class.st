@@ -135,6 +135,11 @@ GemocProgramStateGenerator >> visitGemocStringConstant: aGemocStringConstant [
 ]
 
 { #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocStringTypeRef: aGemocStringTypeRef [ 
+	aGemocStringTypeRef name: 'String'
+]
+
+{ #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocVariableDeclaration: aGemocVariableDeclaration [ 
 		|type name|
 		type := self fromPybridgeObject: aGemocVariableDeclaration model typeRef value.
