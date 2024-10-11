@@ -128,6 +128,13 @@ GemocProgramStateGenerator >> visitGemocNewObject: aGemocNewObject [
 ]
 
 { #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocStringConstant: aGemocStringConstant [
+
+	aGemocStringConstant value:
+		aGemocStringConstant model pyBridgeObjectValue _value literalValue
+]
+
+{ #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocVariableDeclaration: aGemocVariableDeclaration [ 
 		|type name|
 		type := self fromPybridgeObject: aGemocVariableDeclaration model typeRef value.
