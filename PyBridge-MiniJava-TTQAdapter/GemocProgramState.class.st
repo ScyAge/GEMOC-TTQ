@@ -47,7 +47,7 @@ GemocProgramState class >> step: aGemocStep [
 
 { #category : 'building' }
 GemocProgramState >> build [
-	self subclassResponsibility 
+	"self subclassResponsibility "
 ]
 
 { #category : 'accessing' }
