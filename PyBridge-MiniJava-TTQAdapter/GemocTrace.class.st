@@ -86,7 +86,7 @@ GemocTrace >> buildProgramMetaModel [
 	self generateTypesClasses
 ]
 
-{ #category : 'private - building' }
+{ #category : 'api' }
 GemocTrace >> buildSteps [
 
 	gemocSteps := flattenedSteps collect: [ :s | 
@@ -119,13 +119,16 @@ GemocTrace >> flattenStep: s [
 
 { #category : 'private - building' }
 GemocTrace >> flattenSteps [
-
 	"We flatten the trace to obtain an ordered list of steps and substeps.
 	The order of the steps is the execution order.
 	The step granularity and the number of steps depends on the DSL."
-	
+
 	flattenedSteps := OrderedCollection new.
-	steps do: [ :s | self flattenStep: s step]
+
+	true ifTrue: [
+		flattenedSteps := steps asNativeList collect: [ :s | s step ].
+		^ self ].
+	steps do: [ :s | self flattenStep: s step ]
 ]
 
 { #category : 'accessing' }
