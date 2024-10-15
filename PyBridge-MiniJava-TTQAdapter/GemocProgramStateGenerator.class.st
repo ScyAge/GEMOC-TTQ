@@ -104,16 +104,6 @@ GemocProgramStateGenerator >> visitGemocAssignment: aGemocAssignment [
 ]
 
 { #category : 'visiting' }
-GemocProgramStateGenerator >> visitGemocAssignmentOld: aGemocAssignment [
-
-	| assignee value |
-	assignee := self fromPybridgeObject:
-		            aGemocAssignment programState assignee value.
-	assignee acceptVisitor: self.
-	aGemocAssignment assignee: assignee
-]
-
-{ #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocClassRef: aGemocClassRef [
 
 	aGemocClassRef name:
