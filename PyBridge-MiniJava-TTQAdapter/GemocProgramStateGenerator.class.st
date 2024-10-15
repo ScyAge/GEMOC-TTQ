@@ -36,6 +36,7 @@ GemocProgramStateGenerator >> fromPybridgeObject: aPybridgeObject [
 	type := self typeNamed: typeName.
 	instance := type new.
 	instance model: aPybridgeObject.
+	instance programState: aPybridgeObject.
 	^ instance
 ]
 

@@ -5,7 +5,8 @@ Class {
 		'superTypes',
 		'model',
 		'typeName',
-		'typeClass'
+		'typeClass',
+		'programState'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-model',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
@@ -41,6 +42,11 @@ GemocType >> printOn: aStream [
 		aStream << (st == superTypes last
 			 ifTrue: [ ')' ]
 			 ifFalse: [ ', ' ]) ]
+]
+
+{ #category : 'accessing' }
+GemocType >> programState: aPyBridgeObject [ 
+	programState := aPyBridgeObject
 ]
 
 { #category : 'accessing' }
