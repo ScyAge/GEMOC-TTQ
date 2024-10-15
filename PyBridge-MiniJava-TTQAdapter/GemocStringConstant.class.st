@@ -14,6 +14,13 @@ GemocStringConstant >> acceptVisitor: aGemocProgramStateGenerator [
 	aGemocProgramStateGenerator visitGemocStringConstant: self
 ]
 
+{ #category : 'printing' }
+GemocStringConstant >> printOn: aStream [
+	aStream << '"'.
+	aStream << value.
+	aStream << '"'
+]
+
 { #category : 'accessing' }
 GemocStringConstant >> value: aString [ 
 	value := aString
