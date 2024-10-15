@@ -3,12 +3,18 @@ Class {
 	#superclass : 'GemocProgramState',
 	#instVars : [
 		'rootFrame',
-		'receiver'
+		'receiver',
+		'method'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-model',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
 	#tag : 'model'
 }
+
+{ #category : 'visiting' }
+GemocMethodCall >> acceptVisitor: aGemocProgramStateGenerator [ 
+	aGemocProgramStateGenerator visitGemocMethodCall: self
+]
 
 { #category : 'accessing' }
 GemocMethodCall >> aliasOfObject: aGemocReceiver [
@@ -19,8 +25,9 @@ GemocMethodCall >> aliasOfObject: aGemocReceiver [
 
 { #category : 'building' }
 GemocMethodCall >> build [
-	self buildRootFrame.
-	self buildReceiver 
+	self acceptVisitor: GemocProgramStateGenerator new
+	"self buildRootFrame.
+	self buildReceiver "
 ]
 
 { #category : 'building' }
@@ -65,13 +72,30 @@ GemocMethodCall >> messageSelector [
 ]
 
 { #category : 'accessing' }
+GemocMethodCall >> method: aGemocMethod [ 
+	method := aGemocMethod 
+]
+
+{ #category : 'accessing' }
 GemocMethodCall >> methodSelector [
 	^programState method value name literalValue
+]
+
+{ #category : 'printing' }
+GemocMethodCall >> printOn: aStream [
+	receiver printOn: aStream.
+	aStream << '.'.
+	method printOn: aStream
 ]
 
 { #category : 'accessing' }
 GemocMethodCall >> receiver [
 	^GemocReceiver new receiver: programState receiver
+]
+
+{ #category : 'accessing' }
+GemocMethodCall >> receiver: aGemocSymbolRef [ 
+	receiver := aGemocSymbolRef
 ]
 
 { #category : 'accessing' }

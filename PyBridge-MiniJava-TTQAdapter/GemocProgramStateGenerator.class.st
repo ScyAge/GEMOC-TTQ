@@ -111,6 +111,34 @@ GemocProgramStateGenerator >> visitGemocClassRef: aGemocClassRef [
 ]
 
 { #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocMethod: aGemocMethod [
+
+	aGemocMethod name: aGemocMethod model name literalValue.
+	aGemocMethod args:
+		(aGemocMethod model params asNativeList collect: [ :p |
+			 | gemocParam |
+			 gemocParam := self fromPybridgeObject: p.
+			 gemocParam acceptVisitor: self.
+			 gemocParam ])
+]
+
+{ #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocMethodCall: aGemocMethodCall [
+
+	| method receiver |
+	method := self fromPybridgeObject:
+		          aGemocMethodCall programState method.
+	method acceptVisitor: self.
+	aGemocMethodCall method: method.
+	
+	receiver := self fromPybridgeObject:
+		          aGemocMethodCall programState receiver.
+	receiver acceptVisitor: self.
+	aGemocMethodCall receiver: receiver
+
+]
+
+{ #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocNewObject: aGemocNewObject [ 
 	
 	aGemocNewObject instantiation: aGemocNewObject model type name literalValue.
@@ -127,6 +155,15 @@ GemocProgramStateGenerator >> visitGemocStringConstant: aGemocStringConstant [
 { #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocStringTypeRef: aGemocStringTypeRef [ 
 	aGemocStringTypeRef name: 'String'
+]
+
+{ #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocSymbolRef: aGemocSymbolRef [ 
+	|symbol|
+	symbol := self fromPybridgeObject: aGemocSymbolRef model symbol value.
+	symbol acceptVisitor: self.
+	aGemocSymbolRef symbol: symbol
+	
 ]
 
 { #category : 'visiting' }
