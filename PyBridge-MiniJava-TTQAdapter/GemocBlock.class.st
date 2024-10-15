@@ -9,7 +9,27 @@ Class {
 	#tag : 'model'
 }
 
+{ #category : 'visiting' }
+GemocBlock >> acceptVisitor: aGemocProgramStateGenerator [ 
+	aGemocProgramStateGenerator visitGemocBlock: self
+]
+
 { #category : 'building' }
 GemocBlock >> build [
-	statements := programState statements asNativeList
+	self acceptVisitor: GemocProgramStateGenerator new
+]
+
+{ #category : 'accessing' }
+GemocBlock >> printOn: aStream [
+
+	aStream << 'Block:'.
+	aStream space.
+	statements do: [ :s |
+		s printOn: aStream.
+		aStream space ]
+]
+
+{ #category : 'accessing' }
+GemocBlock >> statements: aCollection [ 
+	statements := aCollection
 ]

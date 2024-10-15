@@ -105,6 +105,17 @@ GemocProgramStateGenerator >> visitGemocAssignment: aGemocAssignment [
 ]
 
 { #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocBlock: aGemocBlock [
+
+	| statements |
+	statements := aGemocBlock model statements asNativeList collect: [ :s |
+		              | gemocStatement |
+		              gemocStatement := self fromPybridgeObject: s.
+		              gemocStatement acceptVisitor: self ].
+	aGemocBlock statements: statements
+]
+
+{ #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocClassRef: aGemocClassRef [
 
 	aGemocClassRef name:
