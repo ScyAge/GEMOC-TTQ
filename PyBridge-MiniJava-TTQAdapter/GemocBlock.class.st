@@ -22,7 +22,7 @@ GemocBlock >> build [
 { #category : 'accessing' }
 GemocBlock >> printOn: aStream [
 
-	aStream << 'Block:'.
+	aStream << '[BLOCK]'.
 	aStream space.
 	statements do: [ :s |
 		s printOn: aStream.

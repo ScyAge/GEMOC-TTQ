@@ -83,6 +83,8 @@ GemocMethodCall >> methodSelector [
 
 { #category : 'printing' }
 GemocMethodCall >> printOn: aStream [
+	aStream << '[CALL]'.
+	aStream space.
 	receiver printOn: aStream.
 	aStream << '.'.
 	method printOn: aStream

@@ -55,7 +55,8 @@ GemocAssignment >> nodeIsAssignment [
 
 { #category : 'printing' }
 GemocAssignment >> printOn: aStream [
-
+	aStream << '[ASSIGNMENT]'.
+	aStream space.
 	assignee printOn: aStream.
 	aStream << ' = '.
 	value printOn: aStream

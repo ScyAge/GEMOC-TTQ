@@ -34,6 +34,9 @@ GemocMethod >> name: aString [
 { #category : 'printing' }
 GemocMethod >> printOn: aStream [
 
+	"aStream << '[METHOD]'.
+	aStream space.
+"
 	aStream << name.
 
 	aStream << '('.

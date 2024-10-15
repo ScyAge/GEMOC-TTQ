@@ -25,8 +25,8 @@ GemocVariableDeclaration >> name: aString [
 { #category : 'printing' }
 GemocVariableDeclaration >> printOn: aStream [
 
-	type printOn: aStream.
-	aStream space.
+	"type printOn: aStream.
+	aStream space."
 	self printName: name on: aStream
 
 ]

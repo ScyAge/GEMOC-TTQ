@@ -26,7 +26,9 @@ GemocPrintStatement >> expression: aGemocSymbolRef [
 
 { #category : 'printing' }
 GemocPrintStatement >> printOn: aStream [
-	aStream << 'print:'.
+	aStream << '[PRINT]'.
 	aStream space.
-	expression printOn: aStream
+	aStream << 'System.out.println('.
+	expression printOn: aStream.
+	aStream << ')'.
 ]
