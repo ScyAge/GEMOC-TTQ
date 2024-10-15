@@ -3,7 +3,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'executionStep',
-		'programState'
+		'programState',
+		'model'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-model',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
@@ -60,6 +61,16 @@ GemocProgramState >> executionStep [
 GemocProgramState >> executionStep: anObject [
 
 	executionStep := anObject
+]
+
+{ #category : 'accessing' }
+GemocProgramState >> model [
+	^ model ifNil:[model := programState]
+]
+
+{ #category : 'accessing' }
+GemocProgramState >> model: aPyBridgeObject [ 
+	model := aPyBridgeObject 
 ]
 
 { #category : 'accessing' }
