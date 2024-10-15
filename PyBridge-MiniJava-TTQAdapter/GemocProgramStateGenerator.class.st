@@ -146,6 +146,14 @@ GemocProgramStateGenerator >> visitGemocNewObject: aGemocNewObject [
 ]
 
 { #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocPrintStatement: aGemocPrintStatement [ 
+	|expr|
+	expr := self fromPybridgeObject: aGemocPrintStatement model expression value.
+	expr acceptVisitor: self.
+	aGemocPrintStatement expression: expr
+]
+
+{ #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocStringConstant: aGemocStringConstant [
 
 	aGemocStringConstant value:
