@@ -63,6 +63,11 @@ GemocProgramState >> executionStep: anObject [
 	executionStep := anObject
 ]
 
+{ #category : 'testing' }
+GemocProgramState >> isBlock [
+	^false
+]
+
 { #category : 'accessing' }
 GemocProgramState >> model [
 	^ model ifNil:[model := programState]

@@ -19,6 +19,11 @@ GemocBlock >> build [
 	self acceptVisitor: GemocProgramStateGenerator new
 ]
 
+{ #category : 'testing' }
+GemocBlock >> isBlock [
+	^true
+]
+
 { #category : 'accessing' }
 GemocBlock >> printOn: aStream [
 
