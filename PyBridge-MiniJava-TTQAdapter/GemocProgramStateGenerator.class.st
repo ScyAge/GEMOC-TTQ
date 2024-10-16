@@ -151,6 +151,7 @@ GemocProgramStateGenerator >> visitGemocAssignment: aGemocAssignment [
 	assignee model: aGemocAssignment programState assignee value.
 	assignee acceptVisitor: self.
 	aGemocAssignment assignee: assignee.
+	self flag: 'bug: check if the assignment is a literal or an object'.
 	value := self parseAndBuildValue: aGemocAssignment.
 	aGemocAssignment value: value
 ]
