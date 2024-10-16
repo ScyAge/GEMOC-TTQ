@@ -55,19 +55,51 @@ GemocProgramStateGenerator >> parse: aPyBridgeObject [
 ]
 
 { #category : 'building' }
-GemocProgramStateGenerator >> parseAndBuildAssignmentValue: aGemocAssignment [
+GemocProgramStateGenerator >> parseAndBuildArraySize: aGemocNewArray [
 
 
-	| pyObjectValue _value assignmentValue |
-	pyObjectValue := (((aGemocAssignment programState __dict__ items asNativeList
+	| pyObjectValue size sizeValue |
+	pyObjectValue := (((aGemocNewArray model __dict__ items asNativeList
+		                    collect: #asNativeList)
+		                   detect: [ :c | c first literalValue = 'size' ]
+		                   ifNone: [ ^ nil ]) ifNotNil: [ :c | c second ])
+		                 value.
+	size := pyObjectValue value _value.
+	sizeValue := self fromPybridgeObject: size.
+	sizeValue acceptVisitor: self.
+	^sizeValue
+
+]
+
+{ #category : 'building' }
+GemocProgramStateGenerator >> parseAndBuildLiteralValue: aGemocType [
+
+
+	| pyObjectValue _value |
+	pyObjectValue := (((aGemocType model __dict__ items asNativeList
 		                    collect: #asNativeList)
 		                   detect: [ :c | c first literalValue = 'value' ]
 		                   ifNone: [ ^ nil ]) ifNotNil: [ :c | c second ])
 		                 value.
 	_value := pyObjectValue value _value.
-	assignmentValue := self fromPybridgeObject: _value.
-	assignmentValue acceptVisitor: self.
-	^assignmentValue
+	^_value literalValue
+
+]
+
+{ #category : 'building' }
+GemocProgramStateGenerator >> parseAndBuildValue: aGemocType [
+
+
+	| pyObjectValue _value valueObject |
+	pyObjectValue := (((aGemocType model __dict__ items asNativeList
+		                    collect: #asNativeList)
+		                   detect: [ :c | c first literalValue = 'value' ]
+		                   ifNone: [ ^ nil ]) ifNotNil: [ :c | c second ])
+		                 value.
+	_value := pyObjectValue value _value.
+	valueObject := self fromPybridgeObject: _value.
+	valueObject acceptVisitor: self.
+	^valueObject
 
 ]
 
@@ -108,7 +140,7 @@ GemocProgramStateGenerator >> visitGemocAssignment: aGemocAssignment [
 	assignee model: aGemocAssignment programState assignee value.
 	assignee acceptVisitor: self.
 	aGemocAssignment assignee: assignee.
-	value := self parseAndBuildAssignmentValue: aGemocAssignment.
+	value := self parseAndBuildValue: aGemocAssignment.
 	aGemocAssignment value: value
 ]
 
