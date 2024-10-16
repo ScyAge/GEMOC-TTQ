@@ -6,12 +6,27 @@ Class {
 		'model',
 		'typeName',
 		'typeClass',
-		'programState'
+		'programState',
+		'executionStep'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-model',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
 	#tag : 'model'
 }
+
+{ #category : 'accessing' }
+GemocType class >> step: aPyBridgeObject [ 
+	|programState|
+	programState := self new.
+	programState executionStep: aPyBridgeObject.
+	programState model: aPyBridgeObject semanticRuleStaticTarget value.
+	^programState 
+]
+
+{ #category : 'accessing' }
+GemocType >> executionStep: aPyBridgeObject [ 
+	executionStep := aPyBridgeObject 
+]
 
 { #category : 'accessing' }
 GemocType >> model [
