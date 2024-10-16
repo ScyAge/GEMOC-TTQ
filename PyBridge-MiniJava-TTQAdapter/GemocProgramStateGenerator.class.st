@@ -205,8 +205,7 @@ GemocProgramStateGenerator >> visitGemocNewArray: aGemocNewArray [
 	| type size |
 	type := self fromPybridgeObject: aGemocNewArray model type value.
 	type acceptVisitor: self.
-	size := self fromPybridgeObject: aGemocNewArray model size value.
-	size acceptVisitor: self.
+	size := self parseAndBuildArraySize: aGemocNewArray.
 	aGemocNewArray type: type.
 	aGemocNewArray size: size
 ]
