@@ -84,6 +84,14 @@ GemocProgramStateGenerator >> visit: aGemocTypeInstance [
 ]
 
 { #category : 'visiting' }
+GemocProgramStateGenerator >> visitArrayTypeRef: aGemocArrayTypeRef [ 
+	|typeRef|
+	typeRef := self fromPybridgeObject: 	aGemocArrayTypeRef model typeRef value.
+	typeRef acceptVisitor: self.
+	aGemocArrayTypeRef typeRef: typeRef
+]
+
+{ #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocAssignee: aGemocAssignee [
 
 	| value |
@@ -120,6 +128,11 @@ GemocProgramStateGenerator >> visitGemocClassRef: aGemocClassRef [
 
 	aGemocClassRef name:
 		aGemocClassRef model referencedClass value name literalValue
+]
+
+{ #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocIntegerTypeRef: aGemocIntegerTypeRef [ 
+	aGemocIntegerTypeRef name: 'int'
 ]
 
 { #category : 'visiting' }
