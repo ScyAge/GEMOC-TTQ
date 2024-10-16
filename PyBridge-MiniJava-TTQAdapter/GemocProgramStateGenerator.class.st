@@ -186,6 +186,22 @@ GemocProgramStateGenerator >> visitGemocClassRef: aGemocClassRef [
 ]
 
 { #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocForStatement: aGemocForStatement [ 
+	|declaration condition progression block|
+	declaration := self fromPybridgeObject: aGemocForStatement model declaration value.
+	condition := self fromPybridgeObject: aGemocForStatement model condition value.
+	progression := self fromPybridgeObject: aGemocForStatement model progression value.
+	block := self fromPybridgeObject: aGemocForStatement model block value.
+	
+	declaration acceptVisitor: self.
+	condition acceptVisitor: self.
+	progression acceptVisitor: self.
+	block acceptVisitor: self.
+	
+	self halt
+]
+
+{ #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocIfStatement: aGemocIfStatement [ 
 	|if then else|
 	if := self fromPybridgeObject: aGemocIfStatement model expression.

@@ -5,3 +5,8 @@ Class {
 	#package : 'PyBridge-MiniJava-TTQAdapter',
 	#tag : 'generated'
 }
+
+{ #category : 'visiting' }
+GemocForStatement >> acceptVisitor: aGemocProgramStateGenerator [ 
+	aGemocProgramStateGenerator visitGemocForStatement: self
+]
