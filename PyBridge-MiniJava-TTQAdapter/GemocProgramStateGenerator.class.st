@@ -157,14 +157,14 @@ GemocProgramStateGenerator >> visitGemocAssignment: aGemocAssignment [
 ]
 
 { #category : 'visiting' }
-GemocProgramStateGenerator >> visitGemocBinaryMessage: aGemocInequality [ 
+GemocProgramStateGenerator >> visitGemocBinaryMessage: aGemocBinaryMessage [
 	|left right|
-	left := self fromPybridgeObject: aGemocInequality model left value.
-	right := self fromPybridgeObject: aGemocInequality model right value.
+	left := self fromPybridgeObject: aGemocBinaryMessage model left value.
+	right := self fromPybridgeObject: aGemocBinaryMessage model right value.
 	left acceptVisitor: self.
 	right acceptVisitor: self.
-	aGemocInequality left: left.
-	aGemocInequality right: right
+	aGemocBinaryMessage left: left.
+	aGemocBinaryMessage right: right
 ]
 
 { #category : 'visiting' }
