@@ -124,6 +124,17 @@ GemocProgramStateGenerator >> visitArrayTypeRef: aGemocArrayTypeRef [
 ]
 
 { #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocArrayAccess: aGemocArrayAccess [ 
+	|arrayObject index|
+	arrayObject := self fromPybridgeObject: aGemocArrayAccess model object value.
+	arrayObject acceptVisitor: self.
+	index :=  self fromPybridgeObject: aGemocArrayAccess model index value.
+	index  acceptVisitor: self.
+	aGemocArrayAccess arrayObject: arrayObject.
+	aGemocArrayAccess accessIndex: index
+]
+
+{ #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocAssignee: aGemocAssignee [
 
 	| value |
