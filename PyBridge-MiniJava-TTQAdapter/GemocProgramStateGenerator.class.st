@@ -229,6 +229,16 @@ GemocProgramStateGenerator >> visitGemocNewObject: aGemocNewObject [
 ]
 
 { #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocParam: aGemocParameter [ 
+	|name type|
+	name := aGemocParameter model name value.
+	type := self fromPybridgeObject: aGemocParameter model typeRef value.
+	type acceptVisitor: self.
+	aGemocParameter name: aGemocParameter model name value.
+	aGemocParameter typeRef: type
+]
+
+{ #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocPrintStatement: aGemocPrintStatement [ 
 	|expr|
 	expr := self fromPybridgeObject: aGemocPrintStatement model expression value.

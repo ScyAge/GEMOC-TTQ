@@ -4,8 +4,7 @@ Class {
 	#traits : 'TGemocAssignee',
 	#classTraits : 'TGemocAssignee classTrait',
 	#instVars : [
-		'type',
-		'name'
+		'type'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-generated',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
