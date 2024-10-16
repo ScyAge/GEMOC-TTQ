@@ -163,6 +163,11 @@ GemocProgramStateGenerator >> visitGemocClassRef: aGemocClassRef [
 ]
 
 { #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocIntConstant: aGemocIntConstant [ 
+	aGemocIntConstant intValue: (self parseAndBuildLiteralValue: aGemocIntConstant)
+]
+
+{ #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocIntegerTypeRef: aGemocIntegerTypeRef [ 
 	aGemocIntegerTypeRef name: 'int'
 ]
@@ -193,6 +198,17 @@ GemocProgramStateGenerator >> visitGemocMethodCall: aGemocMethodCall [
 	receiver acceptVisitor: self.
 	aGemocMethodCall receiver: receiver
 
+]
+
+{ #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocNewArray: aGemocNewArray [ 
+	| type size |
+	type := self fromPybridgeObject: aGemocNewArray model type value.
+	type acceptVisitor: self.
+	size := self fromPybridgeObject: aGemocNewArray model size value.
+	size acceptVisitor: self.
+	aGemocNewArray type: type.
+	aGemocNewArray size: size
 ]
 
 { #category : 'visiting' }
