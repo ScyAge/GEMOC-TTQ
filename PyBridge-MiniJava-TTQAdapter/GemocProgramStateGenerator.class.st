@@ -156,6 +156,17 @@ GemocProgramStateGenerator >> visitGemocAssignment: aGemocAssignment [
 ]
 
 { #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocBinaryMessage: aGemocInequality [ 
+	|left right|
+	left := self fromPybridgeObject: aGemocInequality model left value.
+	right := self fromPybridgeObject: aGemocInequality model right value.
+	left acceptVisitor: self.
+	right acceptVisitor: self.
+	aGemocInequality left: left.
+	aGemocInequality right: right
+]
+
+{ #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocBlock: aGemocBlock [
 
 	| statements |
@@ -171,6 +182,18 @@ GemocProgramStateGenerator >> visitGemocClassRef: aGemocClassRef [
 
 	aGemocClassRef name:
 		aGemocClassRef model referencedClass value name literalValue
+]
+
+{ #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocIfStatement: aGemocIfStatement [ 
+	|if then else|
+	if := self fromPybridgeObject: aGemocIfStatement model expression.
+	then := [self fromPybridgeObject: aGemocIfStatement model thenBlock] on: Error do:[nil].
+	else := [self fromPybridgeObject: aGemocIfStatement model elseBlock] on: Error do:[nil].
+	if acceptVisitor: self.
+	then ifNotNil:[then acceptVisitor: self].
+	else ifNotNil:[else acceptVisitor: self].
+	self halt
 ]
 
 { #category : 'visiting' }
