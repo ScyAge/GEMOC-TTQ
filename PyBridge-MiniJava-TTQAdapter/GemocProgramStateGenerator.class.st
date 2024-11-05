@@ -210,7 +210,9 @@ GemocProgramStateGenerator >> visitGemocIfStatement: aGemocIfStatement [
 	if acceptVisitor: self.
 	then ifNotNil:[then acceptVisitor: self].
 	else ifNotNil:[else acceptVisitor: self].
-	self halt
+	aGemocIfStatement if: if.
+	aGemocIfStatement then: then.
+	aGemocIfStatement else: else
 ]
 
 { #category : 'visiting' }
