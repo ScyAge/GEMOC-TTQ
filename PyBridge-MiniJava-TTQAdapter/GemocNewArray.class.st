@@ -15,6 +15,16 @@ GemocNewArray >> acceptVisitor: aGemocProgramStateGenerator [
 	aGemocProgramStateGenerator visitGemocNewArray: self
 ]
 
+{ #category : 'printing' }
+GemocNewArray >> printOn: aStream [
+	aStream << 'new <'.
+	aStream space.
+	type printOn: aStream.
+	aStream << '>['.
+	size printOn: aStream.
+	aStream << ']'.
+]
+
 { #category : 'accessing' }
 GemocNewArray >> size: aGemocIntConstant [
 

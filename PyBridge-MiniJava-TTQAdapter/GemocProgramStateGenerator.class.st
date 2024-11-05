@@ -135,6 +135,11 @@ GemocProgramStateGenerator >> visitGemocArrayAccess: aGemocArrayAccess [
 ]
 
 { #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocArrayLength: aGemocArrayLength [ 
+	self shouldBeImplemented.
+]
+
+{ #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocAssignee: aGemocAssignee [
 
 	| value |
@@ -198,7 +203,7 @@ GemocProgramStateGenerator >> visitGemocForStatement: aGemocForStatement [
 	progression acceptVisitor: self.
 	block acceptVisitor: self.
 	
-	self halt
+	aGemocForStatement declaration: declaration condition: condition progression: progression block: block
 ]
 
 { #category : 'visiting' }
@@ -307,6 +312,12 @@ GemocProgramStateGenerator >> visitGemocSymbolRef: aGemocSymbolRef [
 	symbol acceptVisitor: self.
 	aGemocSymbolRef symbol: symbol
 	
+]
+
+{ #category : 'visiting' }
+GemocProgramStateGenerator >> visitGemocThis: aGemocThis [ 
+	self halt.
+	aGemocThis retrieveObjectAddress
 ]
 
 { #category : 'visiting' }

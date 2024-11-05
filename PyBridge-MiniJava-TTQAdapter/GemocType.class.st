@@ -23,6 +23,11 @@ GemocType class >> step: aPyBridgeObject [
 	^programState 
 ]
 
+{ #category : 'building' }
+GemocType >> build [
+	GemocProgramStateGenerator new visit: self
+]
+
 { #category : 'accessing' }
 GemocType >> executionStep: aPyBridgeObject [ 
 	executionStep := aPyBridgeObject 

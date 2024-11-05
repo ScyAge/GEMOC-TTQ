@@ -18,3 +18,8 @@ GemocIntConstant >> acceptVisitor: aGemocProgramStateGenerator [
 GemocIntConstant >> intValue: anInteger [ 
 	intValue := anInteger 
 ]
+
+{ #category : 'printing' }
+GemocIntConstant >> printOn: aStream [
+	aStream << intValue printString
+]
