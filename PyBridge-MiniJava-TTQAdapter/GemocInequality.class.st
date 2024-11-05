@@ -5,3 +5,8 @@ Class {
 	#package : 'PyBridge-MiniJava-TTQAdapter',
 	#tag : 'generated'
 }
+
+{ #category : 'as yet unclassified' }
+GemocInequality >> binarySymbol [
+	^'!='
+]

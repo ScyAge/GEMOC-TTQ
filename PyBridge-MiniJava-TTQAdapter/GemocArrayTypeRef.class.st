@@ -14,6 +14,11 @@ GemocArrayTypeRef >> acceptVisitor: aGemocProgramStateGenerator [
 	aGemocProgramStateGenerator visitArrayTypeRef: self
 ]
 
+{ #category : 'printing' }
+GemocArrayTypeRef >> printOn: aStream [
+	typeRef printOn: aStream
+]
+
 { #category : 'as yet unclassified' }
 GemocArrayTypeRef >> typeRef: aGemocIntegerTypeRef [ 
 	typeRef := aGemocIntegerTypeRef

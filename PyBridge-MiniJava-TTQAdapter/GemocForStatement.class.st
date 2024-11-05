@@ -61,6 +61,20 @@ GemocForStatement >> declaration: d condition: c progression: p block: b [
 	block := b
 ]
 
+{ #category : 'printing' }
+GemocForStatement >> printOn: aStream [
+
+	aStream << 'for ('.
+	declaration printOn: aStream.
+	aStream << '; '.
+	condition printOn: aStream.
+	aStream << '; '.
+	progression printOn: aStream.
+	aStream << ')'.
+	aStream cr.
+	block printOn: aStream
+]
+
 { #category : 'accessing' }
 GemocForStatement >> progression [
 

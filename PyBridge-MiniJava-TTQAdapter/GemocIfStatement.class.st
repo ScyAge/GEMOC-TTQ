@@ -40,6 +40,16 @@ GemocIfStatement >> if: anObject [
 	if := anObject
 ]
 
+{ #category : 'printing' }
+GemocIfStatement >> printOn: aStream [
+	aStream << 'if ('.
+	if printOn: aStream.
+	aStream << ')'.
+	aStream space.
+	then ifNotNil:[:t| aStream space. aStream << 'then {'. t printOn: aStream.  aStream << '}'].
+	else ifNotNil:[:e|  aStream space. aStream << 'else {'. e printOn: aStream.  aStream << '}'].
+]
+
 { #category : 'accessing' }
 GemocIfStatement >> then [
 

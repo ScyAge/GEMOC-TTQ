@@ -14,6 +14,11 @@ GemocThis >> acceptVisitor: aGemocProgramStateGenerator [
 	aGemocProgramStateGenerator visitGemocThis: self
 ]
 
+{ #category : 'printing' }
+GemocThis >> printOn: aStream [
+	aStream << 'this'
+]
+
 { #category : 'api' }
 GemocThis >> retrieveObjectAddress [
 	|addrString|

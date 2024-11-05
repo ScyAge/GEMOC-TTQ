@@ -10,3 +10,8 @@ Class {
 GemocPlus >> acceptVisitor: aGemocProgramStateGenerator [ 
 	aGemocProgramStateGenerator visitGemocBinaryMessage: self
 ]
+
+{ #category : 'as yet unclassified' }
+GemocPlus >> binarySymbol [
+	^'+'
+]

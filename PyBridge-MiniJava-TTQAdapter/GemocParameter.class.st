@@ -10,3 +10,11 @@ Class {
 GemocParameter >> acceptVisitor: aGemocProgramStateGenerator [ 
 	aGemocProgramStateGenerator visitGemocParam: self
 ]
+
+{ #category : 'printing' }
+GemocParameter >> printOn: aStream [
+	aStream << name.
+	aStream << ' ('.
+	typeRef printOn: aStream.
+	aStream << ')'. 
+]
