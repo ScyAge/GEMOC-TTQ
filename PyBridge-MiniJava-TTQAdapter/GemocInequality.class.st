@@ -1,10 +1,6 @@
 Class {
 	#name : 'GemocInequality',
-	#superclass : 'GemocExpression',
-	#instVars : [
-		'left',
-		'right'
-	],
+	#superclass : 'GemocBinaryMessage',
 	#category : 'PyBridge-MiniJava-TTQAdapter-generated',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
 	#tag : 'generated'

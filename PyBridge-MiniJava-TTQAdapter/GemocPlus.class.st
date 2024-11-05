@@ -1,7 +1,12 @@
 Class {
 	#name : 'GemocPlus',
-	#superclass : 'GemocExpression',
+	#superclass : 'GemocBinaryMessage',
 	#category : 'PyBridge-MiniJava-TTQAdapter-generated',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
 	#tag : 'generated'
 }
+
+{ #category : 'visiting' }
+GemocPlus >> acceptVisitor: aGemocProgramStateGenerator [ 
+	aGemocProgramStateGenerator visitGemocBinaryMessage: self
+]

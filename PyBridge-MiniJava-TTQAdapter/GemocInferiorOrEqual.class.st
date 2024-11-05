@@ -1,6 +1,6 @@
 Class {
 	#name : 'GemocInferiorOrEqual',
-	#superclass : 'GemocExpression',
+	#superclass : 'GemocBinaryMessage',
 	#category : 'PyBridge-MiniJava-TTQAdapter-generated',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
 	#tag : 'generated'
