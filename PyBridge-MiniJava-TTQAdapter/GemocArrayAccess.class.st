@@ -26,3 +26,9 @@ GemocArrayAccess >> arrayObject: aGemocSymbolRef [
 
 	arrayObject := aGemocSymbolRef
 ]
+
+{ #category : 'printing' }
+GemocArrayAccess >> printOn: aStream [
+	arrayObject printOn: aStream.
+	accessIndex printOn: aStream
+]

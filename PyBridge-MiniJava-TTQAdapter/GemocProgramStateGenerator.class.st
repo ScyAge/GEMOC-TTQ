@@ -315,8 +315,8 @@ GemocProgramStateGenerator >> visitGemocSymbolRef: aGemocSymbolRef [
 ]
 
 { #category : 'visiting' }
-GemocProgramStateGenerator >> visitGemocThis: aGemocThis [ 
-	self halt.
+GemocProgramStateGenerator >> visitGemocThis: aGemocThis [
+
 	aGemocThis retrieveObjectAddress
 ]
 
