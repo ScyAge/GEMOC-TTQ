@@ -23,9 +23,21 @@ GemocType class >> step: aPyBridgeObject [
 	^programState 
 ]
 
+{ #category : 'accessing' }
+GemocType >> basicModel [
+
+	^ programState ifNil: [ executionStep semanticRuleStaticTarget value ]
+]
+
 { #category : 'building' }
 GemocType >> build [
 	GemocProgramStateGenerator new visit: self
+]
+
+{ #category : 'accessing' }
+GemocType >> ensureModel [
+
+	model := self basicModel
 ]
 
 { #category : 'accessing' }
@@ -36,7 +48,8 @@ GemocType >> executionStep: aPyBridgeObject [
 { #category : 'accessing' }
 GemocType >> model [
 
-	^ model
+	self ensureModel.
+	^ model 
 ]
 
 { #category : 'accessing' }

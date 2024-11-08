@@ -89,8 +89,11 @@ GemocTrace >> buildProgramMetaModel [
 { #category : 'api' }
 GemocTrace >> buildSteps [
 
-	gemocSteps := flattenedSteps collect: [ :s | 
-		              GemocProgramState fromGemocStep: s ]
+	gemocSteps := (flattenedSteps collect: [ :s |
+		               [ GemocProgramState fromGemocStep: s ]
+			               on: Error
+			               do: [ nil ] ]) reject: #isNil.
+	gemocSteps do: #build
 ]
 
 { #category : 'pybridge' }
@@ -109,12 +112,12 @@ GemocTrace >> flattenStep: s [
 	| substeps |
 	substeps := [ s subSteps ]
 		            on: Error
-		            do: [ :e | 
+		            do: [ :e |
 			            e crTrace.
 			            #(  ) ].
-	(substeps asNativeDict at: #kind) = 'exception' ifFalse: [ 
+	(substeps asNativeDict at: #kind) = 'exception' ifFalse: [
 		substeps do: [ :subs | self flattenStep: subs ] ].
-	flattenedSteps add: s
+	s isPythonError ifFalse: [ flattenedSteps add: s ]
 ]
 
 { #category : 'private - building' }
@@ -126,7 +129,10 @@ GemocTrace >> flattenSteps [
 	flattenedSteps := OrderedCollection new.
 
 	true ifTrue: [
-		flattenedSteps := steps asNativeList collect: [ :s | s step ].
+		flattenedSteps := steps asNativeList collect: [ :s | [s step] on: Error do:[nil] ].
+		flattenedSteps := flattenedSteps reject: [:e| e isNil or: [e isPythonError] ] .
+		self assert: (flattenedSteps noneSatisfy: #isNil).
+		self assert: (flattenedSteps noneSatisfy: #isPythonError).
 		^ self ].
 	steps do: [ :s | self flattenStep: s step ]
 ]

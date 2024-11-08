@@ -46,9 +46,21 @@ GemocProgramState class >> step: aGemocStep [
 	^programState 
 ]
 
+{ #category : 'accessing' }
+GemocProgramState >> basicModel [
+
+	^ programState ifNil:[executionStep semanticRuleStaticTarget value]
+]
+
 { #category : 'building' }
 GemocProgramState >> build [
 	"self subclassResponsibility "
+]
+
+{ #category : 'accessing' }
+GemocProgramState >> ensureModel [
+
+	model := self basicModel
 ]
 
 { #category : 'accessing' }
@@ -70,6 +82,7 @@ GemocProgramState >> isBlock [
 
 { #category : 'accessing' }
 GemocProgramState >> model [
+	self ensureModel.
 	^ model ifNil:[model := programState]
 ]
 
