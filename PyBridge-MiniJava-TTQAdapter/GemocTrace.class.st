@@ -9,10 +9,15 @@ Class {
 		'path',
 		'metaModelTrace',
 		'programMetaModel',
-		'programTypes'
+		'programTypes',
+		'executionTree',
+		'executionSteps'
 	],
 	#classVars : [
 		'Trace'
+	],
+	#classInstVars : [
+		'errors'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-model',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
@@ -25,9 +30,21 @@ GemocTrace class >> current [
 	^ Trace
 ]
 
+{ #category : 'error handling' }
+GemocTrace class >> errors [ 
+
+	^errors ifNil: [ errors := OrderedCollection new ]
+]
+
+{ #category : 'error handling' }
+GemocTrace class >> logError: anErrorString [
+	self errors add: anErrorString
+]
+
 { #category : 'accessing' }
 GemocTrace class >> source: anAbsolutePathString [
-
+	
+	errors := OrderedCollection new.
 	^ Trace := self new source: anAbsolutePathString
 ]
 
@@ -92,7 +109,8 @@ GemocTrace >> buildSteps [
 	gemocSteps := (flattenedSteps collect: [ :s |
 		               [ GemocProgramState fromGemocStep: s ]
 			               on: Error
-			               do: [ nil ] ]) reject: #isNil.
+			               do: [ :err | self class logError: ('Build step error:', err printString) ].
+		               nil ]) reject: #isNil.
 	gemocSteps do: #build
 ]
 
@@ -112,8 +130,8 @@ GemocTrace >> flattenStep: s [
 	| substeps |
 	substeps := [ s subSteps ]
 		            on: Error
-		            do: [ :e |
-			            e crTrace.
+		            do: [ :err |
+			            self class logError: ('Substeps error: ', err printString).
 			            #(  ) ].
 	(substeps asNativeDict at: #kind) = 'exception' ifFalse: [
 		substeps do: [ :subs | self flattenStep: subs ] ].
@@ -129,7 +147,7 @@ GemocTrace >> flattenSteps [
 	flattenedSteps := OrderedCollection new.
 
 	true ifTrue: [
-		flattenedSteps := steps asNativeList collect: [ :s | [s step] on: Error do:[nil] ].
+		flattenedSteps := steps asNativeList collect: [ :s | [s step] on: Error do:[:err| self class logError: ('Flatten step error:',  err printString)]. nil ].
 		flattenedSteps := flattenedSteps reject: [:e| e isNil or: [e isPythonError] ] .
 		self assert: (flattenedSteps noneSatisfy: #isNil).
 		self assert: (flattenedSteps noneSatisfy: #isPythonError).
