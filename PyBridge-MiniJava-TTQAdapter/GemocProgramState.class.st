@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'executionStep',
 		'programState',
-		'model'
+		'model',
+		'pc'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-model',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
@@ -99,6 +100,11 @@ GemocProgramState >> node [
 { #category : 'as yet unclassified' }
 GemocProgramState >> nodeIsAssignment [
 	^false
+]
+
+{ #category : 'accessing' }
+GemocProgramState >> pc [
+	^pc ifNil:[pc := [executionStep number literalValue] on: Error do:[-1]]
 ]
 
 { #category : 'accessing' }
