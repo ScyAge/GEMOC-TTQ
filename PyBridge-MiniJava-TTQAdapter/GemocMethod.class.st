@@ -23,7 +23,7 @@ GemocMethod >> args: aCollection [
 { #category : 'building' }
 GemocMethod >> build [
 
-	self acceptVisitor: GemocProgramStateGenerator new
+	GemocProgramStateGenerator new visit: self
 ]
 
 { #category : 'accessing' }

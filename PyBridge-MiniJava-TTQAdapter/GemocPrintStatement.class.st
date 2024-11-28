@@ -16,7 +16,7 @@ GemocPrintStatement >> acceptVisitor: aGemocProgramStateGenerator [
 
 { #category : 'building' }
 GemocPrintStatement >> build [
-	self acceptVisitor: GemocProgramStateGenerator new
+	GemocProgramStateGenerator new visit: self
 ]
 
 { #category : 'instance creation' }
