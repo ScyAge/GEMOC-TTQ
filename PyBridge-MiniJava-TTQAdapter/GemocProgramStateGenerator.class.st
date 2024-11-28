@@ -135,8 +135,13 @@ GemocProgramStateGenerator >> visitGemocArrayAccess: aGemocArrayAccess [
 ]
 
 { #category : 'visiting' }
-GemocProgramStateGenerator >> visitGemocArrayLength: aGemocArrayLength [ 
-	self shouldBeImplemented.
+GemocProgramStateGenerator >> visitGemocArrayLength: aGemocArrayLength [
+
+	| array |
+	array := self fromPybridgeObject: aGemocArrayLength model array.
+
+	array acceptVisitor: self.
+	aGemocArrayLength array: array
 ]
 
 { #category : 'visiting' }
