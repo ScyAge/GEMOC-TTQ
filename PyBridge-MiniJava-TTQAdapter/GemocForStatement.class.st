@@ -66,7 +66,8 @@ GemocForStatement >> nicePrintOn: aStream nbTabs: nbTabs [
 
 	aStream << 'for ('.
 	declaration nicePrintOn: aStream nbTabs: nbTabs + 1.
-	aStream << '; '.
+	(aStream peekLast = $;) ifFalse:[aStream << ';'].
+	aStream space.
 	condition nicePrintOn: aStream nbTabs: nbTabs + 1.
 	aStream << '; '.
 	progression nicePrintOn: aStream nbTabs: nbTabs + 1.

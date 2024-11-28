@@ -30,8 +30,8 @@ GemocBlock >> nicePrintOn: aStream nbTabs: nbTabs [
 	aStream << '{'.
 	aStream cr.
 	statements do: [ :s |
-		nbTabs timesRepeat:[ aStream tab].
-		s nicePrintOn: aStream nbTabs: nbTabs + 1.
+		nbTabs timesRepeat:[aStream tab].
+		s nicePrintOn: aStream nbTabs: nbTabs.
 		aStream cr ].
 	nbTabs timesRepeat:[ aStream tab].
 	aStream << '}'

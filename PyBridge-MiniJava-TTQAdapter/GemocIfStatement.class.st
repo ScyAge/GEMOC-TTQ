@@ -43,7 +43,7 @@ GemocIfStatement >> if: anObject [
 { #category : 'printing' }
 GemocIfStatement >> nicePrintOn: aStream nbTabs: nbTabs [
 
-	nbTabs timesRepeat:[ aStream tab].
+	"nbTabs timesRepeat:[ aStream tab]."
 	aStream << 'if ('.
 	if nicePrintOn: aStream nbTabs: nbTabs + 1.
 	aStream << ')'.
