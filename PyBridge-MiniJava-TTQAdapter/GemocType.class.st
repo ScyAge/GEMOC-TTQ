@@ -7,7 +7,8 @@ Class {
 		'typeName',
 		'typeClass',
 		'programState',
-		'executionStep'
+		'executionStep',
+		'pc'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-model',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
@@ -55,6 +56,11 @@ GemocType >> model [
 GemocType >> model: anObject [
 
 	model := anObject
+]
+
+{ #category : 'accessing' }
+GemocType >> pc [
+	^pc ifNil:[pc := [executionStep number literalValue] on: Error do:[-1]]
 ]
 
 { #category : 'printing' }
