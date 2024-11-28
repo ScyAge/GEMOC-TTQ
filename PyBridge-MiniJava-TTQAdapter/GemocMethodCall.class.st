@@ -84,9 +84,9 @@ GemocMethodCall >> methodSelector [
 { #category : 'printing' }
 GemocMethodCall >> nicePrintOn: aStream nbTabs: nbTabs [
 
-	receiver printOn: aStream.
+	receiver nicePrintOn: aStream nbTabs: nbTabs.
 	aStream << '.'.
-	method printOn: aStream.
+	method nicePrintOn: aStream nbTabs: nbTabs .
 	aStream << ';'
 ]
 

@@ -32,6 +32,18 @@ GemocMethod >> name: aString [
 ]
 
 { #category : 'printing' }
+GemocMethod >> nicePrintOn: aStream nbTabs: nbTabs [
+
+	
+	aStream << name.
+	aStream << '('.
+	args do: [ :a |
+		a printOn: aStream.
+		a = args last ifFalse: [ aStream << ','. aStream space ] ].
+	aStream << ')'
+]
+
+{ #category : 'printing' }
 GemocMethod >> printOn: aStream [
 
 	"aStream << '[METHOD]'.

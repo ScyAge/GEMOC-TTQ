@@ -26,10 +26,11 @@ GemocBlock >> isBlock [
 
 { #category : 'accessing' }
 GemocBlock >> nicePrintOn: aStream nbTabs: nbTabs [
-
+	nbTabs = 0 ifFalse:[nbTabs timesRepeat: [ aStream space ]].
 	aStream << '{'.
 	aStream cr.
 	statements do: [ :s |
+		"aStream tab."
 		nbTabs timesRepeat:[aStream tab].
 		s nicePrintOn: aStream nbTabs: nbTabs.
 		aStream cr ].

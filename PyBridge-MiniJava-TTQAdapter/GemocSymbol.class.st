@@ -5,3 +5,10 @@ Class {
 	#package : 'PyBridge-MiniJava-TTQAdapter',
 	#tag : 'generated'
 }
+
+{ #category : 'printing' }
+GemocSymbol >> printOn: aStream [
+
+	self printName: name on: aStream
+
+]

@@ -22,11 +22,20 @@ GemocVariableDeclaration >> name: aString [
 ]
 
 { #category : 'printing' }
+GemocVariableDeclaration >> nicePrintOn: aStream nbTabs: nbTabs [
+
+	type printOn: aStream.
+	aStream space.
+	self printName: name on: aStream
+
+]
+
+{ #category : 'printing' }
 GemocVariableDeclaration >> printOn: aStream [
 
 	"type printOn: aStream.
 	aStream space."
-	self printName: name on: aStream
+	super printName: name on: aStream
 
 ]
 

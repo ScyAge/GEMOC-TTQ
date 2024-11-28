@@ -25,5 +25,5 @@ GemocNewObject >> printOn: aStream [
 	aStream << 'new'.
 	aStream space.
 	self printName: instantiation on: aStream.
-	aStream << '();'
+	aStream << '()'
 ]

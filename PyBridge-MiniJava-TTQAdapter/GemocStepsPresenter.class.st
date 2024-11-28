@@ -50,7 +50,7 @@ GemocStepsPresenter >> initializePresenters [
 	stepsTable activateOnDoubleClick whenActivatedDo: [ :step |
 		step selectedItem inspect ].
 
-	code := self newCode
+	code := self newText
 ]
 
 { #category : 'printing' }

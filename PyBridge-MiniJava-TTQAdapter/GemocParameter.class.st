@@ -12,9 +12,14 @@ GemocParameter >> acceptVisitor: aGemocProgramStateGenerator [
 ]
 
 { #category : 'printing' }
+GemocParameter >> nicePrintOn: aStream nbTabs: nbTabs [
+	aStream << name
+]
+
+{ #category : 'printing' }
 GemocParameter >> printOn: aStream [
 	aStream << name.
-	aStream << ' ('.
+	"aStream << ' ('.
 	typeRef printOn: aStream.
-	aStream << ')'. 
+	aStream << ')'. "
 ]
