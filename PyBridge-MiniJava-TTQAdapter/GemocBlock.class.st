@@ -25,6 +25,19 @@ GemocBlock >> isBlock [
 ]
 
 { #category : 'accessing' }
+GemocBlock >> nicePrintOn: aStream nbTabs: nbTabs [
+
+	aStream << '{'.
+	aStream cr.
+	statements do: [ :s |
+		nbTabs timesRepeat:[ aStream tab].
+		s nicePrintOn: aStream nbTabs: nbTabs + 1.
+		aStream cr ].
+	nbTabs timesRepeat:[ aStream tab].
+	aStream << '}'
+]
+
+{ #category : 'accessing' }
 GemocBlock >> printOn: aStream [
 
 	aStream << '[BLOCK]'.

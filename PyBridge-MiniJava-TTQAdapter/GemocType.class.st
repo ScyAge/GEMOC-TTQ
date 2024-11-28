@@ -58,6 +58,11 @@ GemocType >> model: anObject [
 	model := anObject
 ]
 
+{ #category : 'printing' }
+GemocType >> nicePrintOn: aStream nbTabs: anObject [
+	self printOn: aStream
+]
+
 { #category : 'accessing' }
 GemocType >> pc [
 	^pc ifNil:[pc := [executionStep number literalValue] on: Error do:[-1]]

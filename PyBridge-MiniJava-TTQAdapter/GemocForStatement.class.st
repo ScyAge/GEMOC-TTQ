@@ -62,6 +62,21 @@ GemocForStatement >> declaration: d condition: c progression: p block: b [
 ]
 
 { #category : 'printing' }
+GemocForStatement >> nicePrintOn: aStream nbTabs: nbTabs [
+
+	aStream << 'for ('.
+	declaration nicePrintOn: aStream nbTabs: nbTabs + 1.
+	aStream << '; '.
+	condition nicePrintOn: aStream nbTabs: nbTabs + 1.
+	aStream << '; '.
+	progression nicePrintOn: aStream nbTabs: nbTabs + 1.
+	aStream << ')'.
+	aStream cr.
+	nbTabs timesRepeat:[ aStream tab].
+	block nicePrintOn: aStream nbTabs: nbTabs + 1
+]
+
+{ #category : 'printing' }
 GemocForStatement >> printOn: aStream [
 
 	aStream << 'for ('.

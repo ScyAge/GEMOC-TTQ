@@ -47,9 +47,10 @@ GemocStepsPresenter >> initializePresenters [
 	stepsTable items: steps.
 	stepsTable transmitDo: [ :step |
 		step ifNotNil: [ self showStep: step ] ].
-	
-	code := self newCode.
-	
+	stepsTable activateOnDoubleClick whenActivatedDo: [ :step |
+		step selectedItem inspect ].
+
+	code := self newCode
 ]
 
 { #category : 'printing' }
@@ -65,7 +66,8 @@ GemocStepsPresenter >> setModelBeforeInitialization: aGemocTrace [
 ]
 
 { #category : 'private - presenters' }
-GemocStepsPresenter >> showStep: step [ 
+GemocStepsPresenter >> showStep: step [
 
-	code text: step printString
+	code text:
+		(String streamContents: [ :str | step nicePrintOn: str nbTabs: 0 ])
 ]

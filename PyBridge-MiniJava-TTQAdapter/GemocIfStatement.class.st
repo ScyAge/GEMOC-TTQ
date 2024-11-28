@@ -41,6 +41,30 @@ GemocIfStatement >> if: anObject [
 ]
 
 { #category : 'printing' }
+GemocIfStatement >> nicePrintOn: aStream nbTabs: nbTabs [
+
+	nbTabs timesRepeat:[ aStream tab].
+	aStream << 'if ('.
+	if nicePrintOn: aStream nbTabs: nbTabs + 1.
+	aStream << ')'.
+	aStream space.
+	then ifNotNil: [ :t |
+		aStream space.
+		"aStream << 'then'."
+		aStream cr.
+		nbTabs timesRepeat:[ aStream tab].
+		t nicePrintOn: aStream nbTabs: nbTabs + 1.
+		aStream cr ].
+	else ifNotNil: [ :e |
+		aStream space.
+		aStream << 'else '.
+		aStream cr.
+		nbTabs timesRepeat:[ aStream tab].
+		e nicePrintOn: aStream nbTabs: nbTabs + 1.
+		aStream cr ]
+]
+
+{ #category : 'printing' }
 GemocIfStatement >> printOn: aStream [
 	aStream << 'if ('.
 	if printOn: aStream.

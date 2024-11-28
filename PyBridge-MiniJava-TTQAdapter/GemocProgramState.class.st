@@ -92,6 +92,11 @@ GemocProgramState >> model: aPyBridgeObject [
 	model := aPyBridgeObject 
 ]
 
+{ #category : 'as yet unclassified' }
+GemocProgramState >> nicePrintOn: aStream nbTabs: anObject [
+	self printOn: aStream
+]
+
 { #category : 'accessing' }
 GemocProgramState >> node [
 	^self

@@ -48,6 +48,14 @@ GemocAssignment >> getValue [
 	self halt
 ]
 
+{ #category : 'printing' }
+GemocAssignment >> nicePrintOn: aStream nbTabs: nbTabs [
+	assignee printOn: aStream.
+	aStream << ' = '.
+	value printOn: aStream.
+	aStream << ';'.
+]
+
 { #category : 'as yet unclassified' }
 GemocAssignment >> nodeIsAssignment [
 	^true
