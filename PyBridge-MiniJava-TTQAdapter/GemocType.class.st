@@ -48,8 +48,7 @@ GemocType >> executionStep: aPyBridgeObject [
 { #category : 'accessing' }
 GemocType >> model [
 
-	self ensureModel.
-	^ model 
+	^ model ifNil: [ model := self ensureModel ]
 ]
 
 { #category : 'accessing' }
