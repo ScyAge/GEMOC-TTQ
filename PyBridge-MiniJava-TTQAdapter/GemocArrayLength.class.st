@@ -18,3 +18,11 @@ GemocArrayLength >> acceptVisitor: aGemocProgramStateGenerator [
 GemocArrayLength >> array: aGemocSymbolRef [ 
 	array := aGemocSymbolRef
 ]
+
+{ #category : 'printing' }
+GemocArrayLength >> printOn: aStream [
+
+	aStream << (typeName ifNil: [ 'An undefined Gemoc type' ]).
+	aStream space.
+	array printOn: aStream 
+]
