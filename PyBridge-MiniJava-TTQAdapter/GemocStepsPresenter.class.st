@@ -3,7 +3,9 @@ Class {
 	#superclass : 'SpPresenter',
 	#instVars : [
 		'steps',
-		'stepsTable'
+		'stepsTable',
+		'trace',
+		'code'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-presenters',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
@@ -15,20 +17,17 @@ GemocStepsPresenter >> defaultLayout [
 
 	| newLayout |
 	newLayout := SpBoxLayout newTopToBottom.
-	newLayout add: stepsTable.
-"	newLayout add: (SpPanedLayout newTopToBottom
+	newLayout add: (SpPanedLayout newLeftToRight
 			 positionOfSlider: 30 percent;
 			 add: (SpBoxLayout newTopToBottom
 					  add: 'Detected divergences'
 					  expand: false
 					  fill: false
 					  padding: 5;
-					  add: divergencesTable;
+					  add: stepsTable;
 					  yourself);
-			 add: (SpBoxLayout newLeftToRight
-					  add: self referenceExecutionLayout;
-					  add: self modifiedExecutionLayout;
-					  yourself))."
+			 add: code;
+			 yourself).
 	^ newLayout
 ]
 
@@ -45,7 +44,12 @@ GemocStepsPresenter >> initializePresenters [
 		(SpStringTableColumn title: 'Step' evaluated: [ :aGemocStep |
 			 String streamContents: [ :str | aGemocStep printOn: str ] ])
 			yourself.
-	stepsTable items: steps
+	stepsTable items: steps.
+	stepsTable transmitDo: [ :step |
+		step ifNotNil: [ self showStep: step ] ].
+	
+	code := self newCode.
+	
 ]
 
 { #category : 'printing' }
@@ -54,7 +58,14 @@ GemocStepsPresenter >> printPCFor: aGemocStep [
 ]
 
 { #category : 'accessing - model' }
-GemocStepsPresenter >> setModelBeforeInitialization: gemocSteps [
+GemocStepsPresenter >> setModelBeforeInitialization: aGemocTrace [
+	trace := aGemocTrace.
 	steps := SortedCollection sortBlock: [ :a :b| a pc < b pc ].
-	steps addAll: gemocSteps
+	steps addAll: aGemocTrace gemocSteps
+]
+
+{ #category : 'private - presenters' }
+GemocStepsPresenter >> showStep: step [ 
+
+	code text: step printString
 ]

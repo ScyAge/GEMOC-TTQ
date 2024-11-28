@@ -149,6 +149,12 @@ GemocTrace >> flattenedSteps: anObject [
 	flattenedSteps := anObject
 ]
 
+{ #category : 'accessing' }
+GemocTrace >> gemocSteps [
+
+	^ gemocSteps
+]
+
 { #category : 'private - building' }
 GemocTrace >> generateClass: aSymbol superClass: aClass traits: anArray [
 
