@@ -111,7 +111,17 @@ GemocTrace >> buildSteps [
 			               on: Error
 			               do: [ :err | self class logError: ('Build step error:', err printString) ].
 		               nil ]) reject: #isNil.
-	gemocSteps do: #build
+	gemocSteps do: #build.
+	
+	"not optimal, but we do another pass over all steps to build the execution tree"
+	gemocSteps do:[:step|
+		|execStep|
+		execStep := GemocExecutionStep on: step.
+		self flag: 'TODO: build'.
+		execStep build.
+		self flag: 'Build tree'.
+		
+		]
 ]
 
 { #category : 'pybridge' }
