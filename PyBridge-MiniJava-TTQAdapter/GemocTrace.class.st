@@ -147,8 +147,15 @@ GemocTrace >> flattenSteps [
 	flattenedSteps := OrderedCollection new.
 
 	true ifTrue: [
-		flattenedSteps := steps asNativeList collect: [ :s | [s step] on: Error do:[:err| self class logError: ('Flatten step error:',  err printString)]. nil ].
-		flattenedSteps := flattenedSteps reject: [:e| e isNil or: [e isPythonError] ] .
+		flattenedSteps := steps asNativeList collect: [ :s |
+			                  [ s step ]
+				                  on: Error
+				                  do: [ :err |
+				                  self class logError:
+					                  'Flatten step error:' , err printString ].
+			                  nil ].
+		flattenedSteps := flattenedSteps reject: [ :e |
+			                  e isNil or: [ e isPythonError ] ].
 		self assert: (flattenedSteps noneSatisfy: #isNil).
 		self assert: (flattenedSteps noneSatisfy: #isPythonError).
 		^ self ].

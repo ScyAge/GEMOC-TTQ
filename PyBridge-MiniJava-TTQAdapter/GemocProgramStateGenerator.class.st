@@ -112,7 +112,7 @@ GemocProgramStateGenerator >> typeNamed: typeName [
 { #category : 'visiting' }
 GemocProgramStateGenerator >> visit: aGemocTypeInstance [
 
-	[aGemocTypeInstance acceptVisitor: self] on: Error do: [:err| err crTrace]
+	[aGemocTypeInstance acceptVisitor: self] on: Error do: [:err| GemocTrace logError: 'Visit error: ', err printString]
 ]
 
 { #category : 'visiting' }
