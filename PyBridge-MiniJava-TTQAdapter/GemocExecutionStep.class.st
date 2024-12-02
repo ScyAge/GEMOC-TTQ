@@ -12,6 +12,14 @@ Class {
 	#tag : 'model'
 }
 
+{ #category : 'instance creation' }
+GemocExecutionStep class >> on: aGemocStep [
+	|execStep|
+	execStep := self new.
+	execStep gemocStep: aGemocStep.
+	^execStep
+]
+
 { #category : 'adding' }
 GemocExecutionStep >> addChild: aGemocExecutionStep [
 
