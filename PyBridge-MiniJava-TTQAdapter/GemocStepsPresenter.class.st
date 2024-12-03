@@ -5,7 +5,8 @@ Class {
 		'steps',
 		'stepsTable',
 		'trace',
-		'code'
+		'code',
+		'tree'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-presenters',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
@@ -17,16 +18,28 @@ GemocStepsPresenter >> defaultLayout [
 
 	| newLayout |
 	newLayout := SpBoxLayout newTopToBottom.
-	newLayout add: (SpPanedLayout newLeftToRight
-			 positionOfSlider: 30 percent;
+	newLayout add: (SpBoxLayout newLeftToRight
 			 add: (SpBoxLayout newTopToBottom
-					  add: 'Detected divergences'
+					  add: 'Execution steps'
 					  expand: false
 					  fill: false
 					  padding: 5;
 					  add: stepsTable;
 					  yourself);
-			 add: code;
+			 	add: (SpBoxLayout newTopToBottom
+					  add: 'Execution tree'
+					  expand: false
+					  fill: false
+					  padding: 5;
+					  add: tree;
+					  yourself);
+				add: (SpBoxLayout newTopToBottom
+					  add: 'Source code'
+					  expand: false
+					  fill: false
+					  padding: 5;
+					  add: code;
+					  yourself);
 			 yourself).
 	^ newLayout
 ]
@@ -50,7 +63,17 @@ GemocStepsPresenter >> initializePresenters [
 	stepsTable activateOnDoubleClick whenActivatedDo: [ :step |
 		step selectedItem inspect ].
 
-	code := self newText
+	code := self newText.
+	tree := self newTree.	
+	tree	roots: {  };
+		children: [ :step | step children ifNil:[{}]  ];
+"		displayIcon: [ :aClass | self iconNamed: aClass systemIconName ];"
+		display: [ :step | step gemocStep printString ]
+		"expandPath: #(1 1 3); ""Object/Exception/Notification"""
+	
+
+
+
 ]
 
 { #category : 'printing' }
@@ -62,12 +85,15 @@ GemocStepsPresenter >> printPCFor: aGemocStep [
 GemocStepsPresenter >> setModelBeforeInitialization: aGemocTrace [
 	trace := aGemocTrace.
 	steps := SortedCollection sortBlock: [ :a :b| a pc < b pc ].
-	steps addAll: aGemocTrace gemocSteps
+	steps addAll:( aGemocTrace gemocSteps reject:[:step| step pc < 0])
 ]
 
 { #category : 'private - presenters' }
 GemocStepsPresenter >> showStep: step [
-
+	|treeElement|
 	code text:
-		(String streamContents: [ :str | step nicePrintOn: str nbTabs: 0 ])
+		(String streamContents: [ :str | step nicePrintOn: str nbTabs: 0 ]).
+	treeElement := trace executionTree at: step uuid ifAbsent: [ self halt].
+	tree roots: { treeElement }.
+	tree expandAll
 ]
