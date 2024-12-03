@@ -127,3 +127,8 @@ GemocType >> typeName: anObject [
 
 	typeName := anObject
 ]
+
+{ #category : 'reflective operations' }
+GemocType >> uuid [
+	^self model uuid
+]

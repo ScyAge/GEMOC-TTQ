@@ -10,3 +10,8 @@ Class {
 GemocProgram >> build [
 	"self halt"
 ]
+
+{ #category : 'accessing' }
+GemocProgram >> container [
+	^executionStep _container
+]

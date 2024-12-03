@@ -23,7 +23,13 @@ GemocExecutionStep class >> on: aGemocStep [
 { #category : 'adding' }
 GemocExecutionStep >> addChild: aGemocExecutionStep [
 
-	self children add: aGemocExecutionStep
+	self children add: aGemocExecutionStep.
+	aGemocExecutionStep parent: self
+]
+
+{ #category : 'building' }
+GemocExecutionStep >> build [
+	id := gemocStep uuid
 ]
 
 { #category : 'accessing' }

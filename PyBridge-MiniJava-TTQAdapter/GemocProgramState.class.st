@@ -123,3 +123,9 @@ GemocProgramState >> programState: anObject [
 
 	programState := anObject
 ]
+
+{ #category : 'reflective operations' }
+GemocProgramState >> uuid [
+	self pc = -1 ifTrue:[^'0xError'].
+	^self executionStep uuid
+]
