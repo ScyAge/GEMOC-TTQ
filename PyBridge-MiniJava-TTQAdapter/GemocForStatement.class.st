@@ -64,6 +64,7 @@ GemocForStatement >> declaration: d condition: c progression: p block: b [
 { #category : 'printing' }
 GemocForStatement >> nicePrintOn: aStream nbTabs: nbTabs [
 
+	declaration ifNil:[aStream << 'unreadable for loop'. ^self].
 	aStream << 'for ('.
 	declaration nicePrintOn: aStream nbTabs: nbTabs + 1.
 	(aStream peekLast = $;) ifFalse:[aStream << ';'].

@@ -43,9 +43,14 @@ GemocBlock >> printOn: aStream [
 
 	aStream << '[BLOCK]'.
 	aStream space.
-	statements do: [ :s |
+	self statements do: [ :s |
 		s printOn: aStream.
 		aStream space ]
+]
+
+{ #category : 'accessing' }
+GemocBlock >> statements [
+	^statements ifNil:[statements := OrderedCollection new]
 ]
 
 { #category : 'accessing' }

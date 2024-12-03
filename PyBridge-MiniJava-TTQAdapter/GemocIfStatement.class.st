@@ -45,7 +45,7 @@ GemocIfStatement >> nicePrintOn: aStream nbTabs: nbTabs [
 
 	"nbTabs timesRepeat:[ aStream tab]."
 	aStream << 'if ('.
-	if nicePrintOn: aStream nbTabs: nbTabs + 1.
+	if ifNotNil:[if nicePrintOn: aStream nbTabs: nbTabs + 1].
 	aStream << ')'.
 	aStream space.
 	then ifNotNil: [ :t |
