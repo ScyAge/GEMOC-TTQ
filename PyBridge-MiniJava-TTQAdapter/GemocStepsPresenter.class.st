@@ -95,5 +95,6 @@ GemocStepsPresenter >> showStep: step [
 		(String streamContents: [ :str | step nicePrintOn: str nbTabs: 0 ]).
 	treeElement := trace executionTree at: step uuid ifAbsent: [ self halt].
 	tree roots: { treeElement }.
+	tree selectItem: treeElement.
 	tree expandAll
 ]
