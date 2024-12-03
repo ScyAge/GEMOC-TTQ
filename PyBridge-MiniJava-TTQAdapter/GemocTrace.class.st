@@ -65,8 +65,25 @@ GemocTrace class >> typeNamed: aString [
 GemocTrace >> build [
 
 	self flattenSteps.
+"	self buildProgramMetaModel."
 	self buildSteps.
-	self buildProgramMetaModel
+
+]
+
+{ #category : 'api' }
+GemocTrace >> buildExecutionTree [
+
+	executionSteps := OrderedCollection new.
+	executionTree := Dictionary new.
+	gemocSteps do: [ :step |
+		| execStep |
+		step pc = -1 ifFalse:[
+		execStep := GemocExecutionStep on: step.
+
+		execStep build.
+		executionSteps add: execStep.
+		executionTree at: ([step container uuid ] on: Error do:[step model uuid])ifPresent:[:e| e addChild: execStep].
+		executionTree at: execStep id put: execStep] ]
 ]
 
 { #category : 'private - building' }
@@ -109,19 +126,14 @@ GemocTrace >> buildSteps [
 	gemocSteps := (flattenedSteps collect: [ :s |
 		               [ GemocProgramState fromGemocStep: s ]
 			               on: Error
-			               do: [ :err | self class logError: ('Build step error:', err printString) ].
-		               nil ]) reject: #isNil.
+			               do: [ :err |
+				               self class logError:
+					               'Build step error:' , err printString.
+				               nil ] ]) reject: #isNil.
 	gemocSteps do: #build.
-	
+
 	"not optimal, but we do another pass over all steps to build the execution tree"
-	gemocSteps do:[:step|
-		|execStep|
-		execStep := GemocExecutionStep on: step.
-		self flag: 'TODO: build'.
-		execStep build.
-		self flag: 'Build tree'.
-		
-		]
+	self buildExecutionTree
 ]
 
 { #category : 'pybridge' }
@@ -132,6 +144,11 @@ GemocTrace >> connectToBridge [
 	metaModelTrace := trace trace_mm.
 	programMetaModel := trace javamm.
 	self build
+]
+
+{ #category : 'accessing' }
+GemocTrace >> executionTree [
+	^executionTree
 ]
 
 { #category : 'private - building' }
@@ -161,9 +178,9 @@ GemocTrace >> flattenSteps [
 			                  [ s step ]
 				                  on: Error
 				                  do: [ :err |
-				                  self class logError:
-					                  'Flatten step error:' , err printString ].
-			                  nil ].
+					                  self class logError:
+						                  'Flatten step error:' , err printString.
+					                  nil ] ].
 		flattenedSteps := flattenedSteps reject: [ :e |
 			                  e isNil or: [ e isPythonError ] ].
 		self assert: (flattenedSteps noneSatisfy: #isNil).
