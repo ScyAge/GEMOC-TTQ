@@ -77,13 +77,29 @@ GemocTrace >> buildExecutionTree [
 	executionTree := Dictionary new.
 	gemocSteps do: [ :step |
 		| execStep |
-		step pc = -1 ifFalse:[
-		execStep := GemocExecutionStep on: step.
+		step pc = -1 ifFalse: [
+			| execId modelId programStateId |
+			execStep := GemocExecutionStep on: step.
+			execStep build.
+			executionSteps add: execStep.
 
-		execStep build.
-		executionSteps add: execStep.
-		executionTree at: ([step container uuid ] on: Error do:[step model uuid])ifPresent:[:e| e addChild: execStep].
-		executionTree at: execStep id put: execStep] ]
+			executionTree
+				at: ([ step container uuid ]
+						 on: Error
+						 do: [ step model uuid ])
+				ifPresent: [ :e | e addChild: execStep ].
+			execId := [ execStep gemocStep executionStep uuid ]
+				          on: Error
+				          do: [ execStep id ].
+			modelId := [ execStep gemocStep model uuid ]
+				           on: Error
+				           do: [ execStep id ].
+			programStateId := [ execStep gemocStep programState uuid ]
+				                  on: Error
+				                  do: [ execStep id ].
+			executionTree at: execId put: execStep.
+			executionTree at: modelId put: execStep.
+			executionTree at: programStateId put: execStep ] ]
 ]
 
 { #category : 'private - building' }

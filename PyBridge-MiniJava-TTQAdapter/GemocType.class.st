@@ -42,6 +42,12 @@ GemocType >> ensureModel [
 ]
 
 { #category : 'accessing' }
+GemocType >> executionStep [
+
+	^ executionStep
+]
+
+{ #category : 'accessing' }
 GemocType >> executionStep: aPyBridgeObject [ 
 	executionStep := aPyBridgeObject 
 ]
@@ -85,6 +91,12 @@ GemocType >> printOn: aStream [
 		aStream << (st == superTypes last
 			 ifTrue: [ ')' ]
 			 ifFalse: [ ', ' ]) ]
+]
+
+{ #category : 'accessing' }
+GemocType >> programState [
+
+	^ self basicModel
 ]
 
 { #category : 'accessing' }
