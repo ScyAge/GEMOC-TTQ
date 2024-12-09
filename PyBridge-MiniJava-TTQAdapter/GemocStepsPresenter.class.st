@@ -74,6 +74,9 @@ GemocStepsPresenter >> initializePresenters [
 		step ifNotNil: [ self showStep: step ] ].
 	tree roots: { (trace executionTree
 		               at: steps second uuid )}.
+	tree	activateOnDoubleClick whenActivatedDo: [ :step |
+		step selectedItem inspect ].
+
 	tree expandAll.
 	
 
