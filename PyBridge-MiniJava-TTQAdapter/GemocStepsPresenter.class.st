@@ -59,7 +59,7 @@ GemocStepsPresenter >> initializePresenters [
 			yourself.
 	stepsTable items: steps.
 	stepsTable transmitDo: [ :step |
-		step ifNotNil: [ self showStep: step ] ].
+		step ifNotNil: [ self selectStepInTree: step ] ].
 	stepsTable activateOnDoubleClick whenActivatedDo: [ :step |
 		step selectedItem inspect ].
 
@@ -69,7 +69,12 @@ GemocStepsPresenter >> initializePresenters [
 		children: [ :step | step children ifNil:[{}]  ];
 "		displayIcon: [ :aClass | self iconNamed: aClass systemIconName ];"
 		display: [ :step | step gemocStep printString ]
-		"expandPath: #(1 1 3); ""Object/Exception/Notification"""
+		"expandPath: #(1 1 3); ""Object/Exception/Notification""".
+	tree transmitDo: [ :step |
+		step ifNotNil: [ self showStep: step ] ].
+	tree roots: { (trace executionTree
+		               at: steps second uuid )}.
+	tree expandAll.
 	
 
 
@@ -79,6 +84,17 @@ GemocStepsPresenter >> initializePresenters [
 { #category : 'printing' }
 GemocStepsPresenter >> printPCFor: aGemocStep [
 	^aGemocStep pc printString
+]
+
+{ #category : 'private - presenters' }
+GemocStepsPresenter >> selectStepInTree: step [
+
+	| treeElement |
+	treeElement := trace executionTree
+		               at: step uuid
+		               ifAbsent: [ self halt ].
+		
+	tree selectItem: treeElement atIndex: (steps indexOf: step) - 3
 ]
 
 { #category : 'accessing - model' }
@@ -91,19 +107,6 @@ GemocStepsPresenter >> setModelBeforeInitialization: aGemocTrace [
 { #category : 'private - presenters' }
 GemocStepsPresenter >> showStep: step [
 
-	| treeElement root next |
 	code text:
-		(String streamContents: [ :str | step nicePrintOn: str nbTabs: 0 ]).
-	treeElement := trace executionTree
-		               at: step uuid
-		               ifAbsent: [ self halt ].
-	root := treeElement.
-	next := treeElement parent.
-	[ next notNil ] whileTrue: [
-		root := next.
-		next := next parent ].
-	tree roots: { root }.
-	tree expandAll.
-	tree selectItem: treeElement.
-	
+		(String streamContents: [ :str | step gemocStep nicePrintOn: str nbTabs: 0 ])
 ]
