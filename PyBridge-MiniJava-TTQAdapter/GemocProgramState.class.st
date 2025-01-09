@@ -5,7 +5,8 @@ Class {
 		'executionStep',
 		'programState',
 		'model',
-		'pc'
+		'pc',
+		'ruleName'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-model',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
@@ -81,6 +82,11 @@ GemocProgramState >> isBlock [
 	^false
 ]
 
+{ #category : 'testing' }
+GemocProgramState >> isStatementEvaluation [
+	^self ruleName = 'evaluateStatement'
+]
+
 { #category : 'accessing' }
 GemocProgramState >> model [
 	self ensureModel.
@@ -122,6 +128,15 @@ GemocProgramState >> programState [
 GemocProgramState >> programState: anObject [
 
 	programState := anObject
+]
+
+{ #category : 'testing' }
+GemocProgramState >> ruleName [
+
+	^ruleName ifNil: [
+		| col |
+		col := executionStep semanticRuleName value splitOn: '_'.
+		ruleName := col last ]
 ]
 
 { #category : 'reflective operations' }
