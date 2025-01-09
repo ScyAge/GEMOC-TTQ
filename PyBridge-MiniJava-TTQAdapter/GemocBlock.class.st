@@ -41,11 +41,11 @@ GemocBlock >> nicePrintOn: aStream nbTabs: nbTabs [
 { #category : 'accessing' }
 GemocBlock >> printOn: aStream [
 
-	aStream << '[BLOCK]'.
-	aStream space.
+	aStream << '{...aBlock...}'.
+	"aStream space.
 	self statements do: [ :s |
 		s printOn: aStream.
-		aStream space ]
+		aStream space ]"
 ]
 
 { #category : 'accessing' }
