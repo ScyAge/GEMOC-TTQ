@@ -109,7 +109,7 @@ GemocStepsPresenter >> setModelBeforeInitialization: aGemocTrace [
 	validSteps := aGemocTrace gemocSteps select: [ :step | step pc >= 0 ].
 	rootStep := trace executionTree at: validSteps second uuid.
 	rootStep inspect.
-	self halt.
+	
 	steps addAll:
 		(validSteps select: [ :step | step isStatementEvaluation ])
 ]
