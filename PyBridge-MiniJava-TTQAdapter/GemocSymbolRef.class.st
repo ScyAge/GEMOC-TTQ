@@ -23,3 +23,9 @@ GemocSymbolRef >> printOn: aStream [
 GemocSymbolRef >> symbol: aGemocVariableDeclaration [ 
 	symbol := aGemocVariableDeclaration
 ]
+
+{ #category : 'accessing' }
+GemocSymbolRef >> typeClass [
+
+	^ symbol type
+]

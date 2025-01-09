@@ -255,7 +255,7 @@ GemocProgramStateGenerator >> visitGemocMethodCall: aGemocMethodCall [
 		          aGemocMethodCall programState method.
 	method acceptVisitor: self.
 	aGemocMethodCall method: method.
-	
+	self halt.
 	receiver := self fromPybridgeObject:
 		          aGemocMethodCall programState receiver.
 	receiver acceptVisitor: self.
@@ -322,7 +322,8 @@ GemocProgramStateGenerator >> visitGemocSymbolRef: aGemocSymbolRef [
 { #category : 'visiting' }
 GemocProgramStateGenerator >> visitGemocThis: aGemocThis [
 
-	aGemocThis retrieveObjectAddress
+	aGemocThis retrieveObjectAddress.
+	aGemocThis typeClass: aGemocThis model _container method _container name literalValue
 ]
 
 { #category : 'visiting' }

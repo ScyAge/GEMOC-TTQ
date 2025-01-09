@@ -40,6 +40,12 @@ GemocVariableDeclaration >> printOn: aStream [
 ]
 
 { #category : 'accessing - structure variables' }
+GemocVariableDeclaration >> type [
+
+	^ type
+]
+
+{ #category : 'accessing - structure variables' }
 GemocVariableDeclaration >> type: aGemocClassRef [ 
 	type := aGemocClassRef
 ]

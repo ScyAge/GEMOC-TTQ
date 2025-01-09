@@ -101,9 +101,9 @@ GemocMethodCall >> printOn: aStream [
 
 { #category : 'accessing' }
 GemocMethodCall >> receiver [
-
-	^ gemocReceiver ifNil: [
-		  gemocReceiver := GemocReceiver new receiver: receiver ]
+	self flag: 'This should be a lazy accessor but for now in the case of errors, we have to reload all the trace because of the lazy access. So we just read the receiver again for now.'.
+	gemocReceiver := GemocReceiver new receiver: receiver.
+	^ gemocReceiver
 ]
 
 { #category : 'accessing' }
