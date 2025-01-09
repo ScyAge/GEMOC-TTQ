@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'rootFrame',
 		'receiver',
-		'method'
+		'method',
+		'gemocReceiver'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-model',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
@@ -19,8 +20,7 @@ GemocMethodCall >> acceptVisitor: aGemocProgramStateGenerator [
 { #category : 'accessing' }
 GemocMethodCall >> aliasOfObject: aGemocReceiver [
 
-	^ (aGemocReceiver receiver __str__ literalValue splitOn:
-		   Character space) last
+	^ aGemocReceiver receiver uuid
 ]
 
 { #category : 'building' }
@@ -47,7 +47,7 @@ GemocMethodCall >> buildRootFrame [
 
 { #category : 'accessing' }
 GemocMethodCall >> bytecodeIndex [
-	^executionStep step number literalValue
+	^self pc
 ]
 
 { #category : 'testing' }
@@ -101,7 +101,9 @@ GemocMethodCall >> printOn: aStream [
 
 { #category : 'accessing' }
 GemocMethodCall >> receiver [
-	^GemocReceiver new receiver: programState receiver
+
+	^ gemocReceiver ifNil: [
+		  gemocReceiver := GemocReceiver new receiver: receiver ]
 ]
 
 { #category : 'accessing' }
@@ -111,6 +113,6 @@ GemocMethodCall >> receiver: aGemocSymbolRef [
 
 { #category : 'accessing' }
 GemocMethodCall >> receiverClass [
-
-	^ receiver receiverClass
+	
+	^ self receiver receiverClass
 ]

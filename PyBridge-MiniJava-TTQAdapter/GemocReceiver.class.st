@@ -26,8 +26,7 @@ GemocReceiver >> receiver [
 GemocReceiver >> receiver: anObject [
 
 	receiver := anObject.
-	self halt.
-	receiverClass := anObject symbol typeRef referencedClass name
+	receiverClass := anObject typeClass
 ]
 
 { #category : 'accessing' }
@@ -37,5 +36,5 @@ GemocReceiver >> receiverClass [
 
 { #category : 'accessing' }
 GemocReceiver >> variable [
-	^GemocVariable new variableName: receiver symbol value name literalValue
+	^GemocVariable new variableName: receiver printString
 ]
