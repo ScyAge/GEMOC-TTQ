@@ -6,7 +6,8 @@ Class {
 		'stepsTable',
 		'trace',
 		'code',
-		'tree'
+		'tree',
+		'rootStep'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-presenters',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
@@ -68,12 +69,11 @@ GemocStepsPresenter >> initializePresenters [
 	tree	roots: {  };
 		children: [ :step | step children ifNil:[{}]  ];
 "		displayIcon: [ :aClass | self iconNamed: aClass systemIconName ];"
-		display: [ :step | step gemocStep printString ]
+		display: [ :step | step gemocStep ruleName, ' ', step gemocStep printString ]
 		"expandPath: #(1 1 3); ""Object/Exception/Notification""".
 	tree transmitDo: [ :step |
 		step ifNotNil: [ self showStep: step ] ].
-	tree roots: { (trace executionTree
-		               at: steps second uuid )}.
+	tree roots: { rootStep}.
 	tree	activateOnDoubleClick whenActivatedDo: [ :step |
 		step selectedItem inspect ].
 
@@ -96,15 +96,22 @@ GemocStepsPresenter >> selectStepInTree: step [
 	treeElement := trace executionTree
 		               at: step uuid
 		               ifAbsent: [ self halt ].
-		
+
 	tree selectItem: treeElement atIndex: (steps indexOf: step) - 3
 ]
 
 { #category : 'accessing - model' }
 GemocStepsPresenter >> setModelBeforeInitialization: aGemocTrace [
+
+	| validSteps |
 	trace := aGemocTrace.
-	steps := SortedCollection sortBlock: [ :a :b| a pc < b pc ].
-	steps addAll:( aGemocTrace gemocSteps reject:[:step| step pc < 0])
+	steps := SortedCollection sortBlock: [ :a :b | a pc < b pc ].
+	validSteps := aGemocTrace gemocSteps select: [ :step | step pc >= 0 ].
+	rootStep := trace executionTree at: validSteps second uuid.
+	rootStep inspect.
+	self halt.
+	steps addAll:
+		(validSteps select: [ :step | step isStatementEvaluation ])
 ]
 
 { #category : 'private - presenters' }
