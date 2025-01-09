@@ -255,7 +255,6 @@ GemocProgramStateGenerator >> visitGemocMethodCall: aGemocMethodCall [
 		          aGemocMethodCall programState method.
 	method acceptVisitor: self.
 	aGemocMethodCall method: method.
-	self halt.
 	receiver := self fromPybridgeObject:
 		          aGemocMethodCall programState receiver.
 	receiver acceptVisitor: self.
