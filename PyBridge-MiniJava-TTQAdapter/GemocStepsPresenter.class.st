@@ -7,7 +7,9 @@ Class {
 		'trace',
 		'code',
 		'tree',
-		'rootStep'
+		'rootStep',
+		'queryTitle',
+		'queryResultTable'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-presenters',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
@@ -48,12 +50,12 @@ GemocStepsPresenter >> defaultLayout [
 { #category : 'ttq' }
 GemocStepsPresenter >> executeTTQAllMessageSends [
 
-	| ttq querySolver |
+	| ttq results |
 	ttq := TTQAllMessageSends
 		       safeQuerying: false;
 		       queryFrom: steps.
-	querySolver := QSCollection solve: ttq.
-	self halt
+	results := QSCollection solve: ttq.
+	self showQueryResult: results forQuery: ttq
 ]
 
 { #category : 'initialization' }
@@ -96,6 +98,13 @@ GemocStepsPresenter >> initializePresenters [
 
 ]
 
+{ #category : 'initialization' }
+GemocStepsPresenter >> initializeWindow: aWindowPresenter [
+
+	super initializeWindow: aWindowPresenter.
+	aWindowPresenter title: 'G-Seeker'
+]
+
 { #category : 'printing' }
 GemocStepsPresenter >> printPCFor: aGemocStep [
 	^aGemocStep pc printString
@@ -127,10 +136,76 @@ GemocStepsPresenter >> setModelBeforeInitialization: aGemocTrace [
 ]
 
 { #category : 'private - presenters' }
+GemocStepsPresenter >> showQueryResult: results forQuery: aTTQ [
+
+	| queryDisplayModel spColumns |
+	queryDisplayModel := aTTQ displayModel.
+	queryTitle := queryDisplayModel title.
+
+	spColumns := OrderedCollection new.
+	spColumns add: (SpIndexTableColumn new width: 40).
+
+	spColumns addAll: (queryDisplayModel columns collect: [ :each |
+			 (SpStringTableColumn
+				  title: each label
+				  evaluated: [ :row |
+					  self ttqResultTrimmingBlock value: row value: each ])
+				 beExpandable;
+				 yourself ]).
+
+	queryResultTable := self newTable.
+	queryResultTable columns: spColumns.
+	queryResultTable items: results.
+	self layout: self ttqLayout
+]
+
+{ #category : 'private - presenters' }
 GemocStepsPresenter >> showStep: step [
 
 	code text:
 		(String streamContents: [ :str | step gemocStep nicePrintOn: str nbTabs: 0 ])
+]
+
+{ #category : 'layout' }
+GemocStepsPresenter >> ttqLayout [
+
+	| ttqLayout newLayout |
+	
+	newLayout := SpBoxLayout newTopToBottom.
+	newLayout add: (SpBoxLayout newLeftToRight
+			 add: (SpBoxLayout newTopToBottom
+					  add: 'Execution steps'
+					  expand: false
+					  fill: false
+					  padding: 5;
+					  add: stepsTable;
+					  yourself);
+			 add: (SpBoxLayout newTopToBottom
+					  add: 'Execution tree'
+					  expand: false
+					  fill: false
+					  padding: 5;
+					  add: tree;
+					  yourself);
+			 add: (SpBoxLayout newTopToBottom
+					  add: 'Source code'
+					  expand: false
+					  fill: false
+					  padding: 5;
+					  add: code;
+					  yourself);
+			 yourself).
+		ttqLayout := SpPanedLayout newTopToBottom.
+		ttqLayout positionOfSlider: 60 percent.
+		ttqLayout add: newLayout.
+		ttqLayout add: (SpBoxLayout newTopToBottom
+					  add: 'Query result'
+					  expand: false
+					  fill: false
+					  padding: 5;
+					  add: queryResultTable;
+					  yourself).
+	^ ttqLayout
 ]
 
 { #category : 'initialization' }
@@ -155,4 +230,17 @@ GemocStepsPresenter >> ttqMenu [
 						  name: 'Find all instance creations';
 						  iconName: #smallNew;
 						  action: [ self executeTTQAllInstantiations ] ] ]
+]
+
+{ #category : 'private - presenters' }
+GemocStepsPresenter >> ttqResultTrimmingBlock [
+
+	^ [ :row :col |
+	  col expandable
+		  ifTrue: [ (col readValueIn: row) asString ]
+		  ifFalse: [
+			  (col readValueIn: row) asString
+				  trimForRenderWidth: col width
+				  usingFont: StandardFonts listFont
+				  autoEllipsis: true ] ]
 ]
