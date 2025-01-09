@@ -148,8 +148,7 @@ GemocStepsPresenter >> showQueryResult: results forQuery: aTTQ [
 	spColumns addAll: (queryDisplayModel columns collect: [ :each |
 			 (SpStringTableColumn
 				  title: each label
-				  evaluated: [ :row |
-					  self ttqResultTrimmingBlock value: row value: each ])
+				  evaluated: [ :row | (each readValueIn: row) asString ])
 				 beExpandable;
 				 yourself ]).
 
@@ -199,7 +198,7 @@ GemocStepsPresenter >> ttqLayout [
 		ttqLayout positionOfSlider: 60 percent.
 		ttqLayout add: newLayout.
 		ttqLayout add: (SpBoxLayout newTopToBottom
-					  add: 'Query result'
+					  add: queryTitle
 					  expand: false
 					  fill: false
 					  padding: 5;
@@ -230,17 +229,4 @@ GemocStepsPresenter >> ttqMenu [
 						  name: 'Find all instance creations';
 						  iconName: #smallNew;
 						  action: [ self executeTTQAllInstantiations ] ] ]
-]
-
-{ #category : 'private - presenters' }
-GemocStepsPresenter >> ttqResultTrimmingBlock [
-
-	^ [ :row :col |
-	  col expandable
-		  ifTrue: [ (col readValueIn: row) asString ]
-		  ifFalse: [
-			  (col readValueIn: row) asString
-				  trimForRenderWidth: col width
-				  usingFont: StandardFonts listFont
-				  autoEllipsis: true ] ]
 ]
