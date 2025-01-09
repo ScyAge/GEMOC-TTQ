@@ -45,6 +45,17 @@ GemocStepsPresenter >> defaultLayout [
 	^ newLayout
 ]
 
+{ #category : 'ttq' }
+GemocStepsPresenter >> executeTTQAllMessageSends [
+
+	| ttq querySolver |
+	ttq := TTQAllMessageSends
+		       safeQuerying: false;
+		       queryFrom: steps.
+	querySolver := QSCollection solve: ttq.
+	self halt
+]
+
 { #category : 'initialization' }
 GemocStepsPresenter >> initializePresenters [
 
