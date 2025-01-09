@@ -49,6 +49,7 @@ GemocStepsPresenter >> defaultLayout [
 GemocStepsPresenter >> initializePresenters [
 
 	stepsTable := self newTable.
+	stepsTable contextMenu: self ttqMenu.
 	stepsTable addColumn: ((SpStringTableColumn
 			  title: 'PC'
 			  evaluated: [ :aGemocStep | self printPCFor: aGemocStep ])
@@ -119,4 +120,28 @@ GemocStepsPresenter >> showStep: step [
 
 	code text:
 		(String streamContents: [ :str | step gemocStep nicePrintOn: str nbTabs: 0 ])
+]
+
+{ #category : 'initialization' }
+GemocStepsPresenter >> ttqMenu [
+
+	^ self newMenu
+		  title: 'Time-Traveling Queries';
+		  addGroup: [ :aGroup |
+			  aGroup
+				  addItem: [ :anItem |
+					  anItem
+						  name: 'Find all message sends';
+						  iconName: #smallObjects;
+						  action: [ self executeTTQAllMessageSends ] ];
+				  addItem: [ :anItem |
+					  anItem
+						  name: 'Find all assignments';
+						  iconName: #smallLanguage;
+						  action: [ self executeTTQAllAssignments ] ];
+				  addItem: [ :anItem |
+					  anItem
+						  name: 'Find all instance creations';
+						  iconName: #smallNew;
+						  action: [ self executeTTQAllInstantiations ] ] ]
 ]
