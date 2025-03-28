@@ -25,7 +25,7 @@ GemocSelectionFunctionGenerationPresenter >> defaultLayout [
 ]
 
 { #category : 'initialization' }
-GemocSelectionFunctionGenerationPresenter >> intializePresenters [
+GemocSelectionFunctionGenerationPresenter >> initializePresenters [
 
 	structuralFeatures := self newList.
 	selectedFeatures := self newList.
