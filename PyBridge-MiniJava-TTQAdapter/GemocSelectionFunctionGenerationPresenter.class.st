@@ -29,7 +29,22 @@ GemocSelectionFunctionGenerationPresenter >> intializePresenters [
 
 	structuralFeatures := self newList.
 	selectedFeatures := self newList.
-	structuralFeatures items: programModel keys
+	structuralFeatures items: programModel keys.
+	menuBar
+	placeAtEnd;
+		add: (self newButton
+			icon: (self application iconNamed: #smallAdd);
+			label: 'Generate';
+			yourself);
+		add: (self newButton
+			icon: (self application iconNamed: #smallDelete);
+			label: 'Delete';
+			yourself);
+		add: (self newButton
+			icon: (self application iconNamed: #smallCopy);
+			label: 'Copy';
+			yourself).
+
 ]
 
 { #category : 'initialization' }
