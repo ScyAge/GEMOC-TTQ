@@ -4,12 +4,25 @@ Class {
 	#instVars : [
 		'structuralFeatures',
 		'selectedFeatures',
-		'programModel'
+		'programModel',
+		'menuBar'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter-presenters',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
 	#tag : 'presenters'
 }
+
+{ #category : 'initialization' }
+GemocSelectionFunctionGenerationPresenter >> defaultLayout [
+
+	^ SpBoxLayout newTopToBottom
+		  add: (SpBoxLayout newLeftToRight
+				   add: structuralFeatures;
+				   add: selectedFeatures;
+				   yourself);
+		  add: menuBar expand: false;
+		  yourself
+]
 
 { #category : 'initialization' }
 GemocSelectionFunctionGenerationPresenter >> intializePresenters [
