@@ -28,23 +28,37 @@ GemocSelectionFunctionGenerationPresenter >> defaultLayout [
 GemocSelectionFunctionGenerationPresenter >> initializePresenters [
 
 	structuralFeatures := self newList.
+	structuralFeatures
+		activateOnSingleClick;
+		whenActivatedDo: [ :selection |
+			| features |
+			features := selectedFeatures items asOrderedCollection.
+			features addIfNotPresent: selection selectedItem.
+			selectedFeatures items: features ].
 	selectedFeatures := self newList.
+	selectedFeatures
+		activateOnSingleClick;
+		whenActivatedDo: [ :selection |
+			| features |
+			features := selectedFeatures items asOrderedCollection.
+			features remove: selection selectedItem.
+			selectedFeatures items: features ].
 	structuralFeatures items: programModel keys.
 	menuBar := self newButtonBar.
-	menuBar placeAtEnd;
+	menuBar
+		placeAtEnd;
 		add: (self newButton
-			icon: (self application iconNamed: #smallAdd);
-			label: 'Generate';
-			yourself);
+				 icon: (self application iconNamed: #smallAdd);
+				 label: 'Generate';
+				 yourself);
 		add: (self newButton
-			icon: (self application iconNamed: #smallDelete);
-			label: 'Delete';
-			yourself);
+				 icon: (self application iconNamed: #smallDelete);
+				 label: 'Delete';
+				 yourself);
 		add: (self newButton
-			icon: (self application iconNamed: #smallCopy);
-			label: 'Copy';
-			yourself).
-
+				 icon: (self application iconNamed: #smallCopy);
+				 label: 'Copy';
+				 yourself)
 ]
 
 { #category : 'initialization' }
