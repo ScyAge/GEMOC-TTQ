@@ -30,8 +30,8 @@ GemocSelectionFunctionGenerationPresenter >> initializePresenters [
 	structuralFeatures := self newList.
 	selectedFeatures := self newList.
 	structuralFeatures items: programModel keys.
-	menuBar
-	placeAtEnd;
+	menuBar := self newButtonBar.
+	menuBar placeAtEnd;
 		add: (self newButton
 			icon: (self application iconNamed: #smallAdd);
 			label: 'Generate';
