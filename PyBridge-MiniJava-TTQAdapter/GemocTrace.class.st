@@ -11,7 +11,8 @@ Class {
 		'programMetaModel',
 		'programTypes',
 		'executionTree',
-		'executionSteps'
+		'executionSteps',
+		'isProgramMetaModelGenereted'
 	],
 	#classVars : [
 		'Trace'
@@ -65,9 +66,10 @@ GemocTrace class >> typeNamed: aString [
 GemocTrace >> build [
 
 	self flattenSteps.
-"	self buildProgramMetaModel."
+	isProgramMetaModelGenereted ifFalse: [ 
+		self buildProgramMetaModel. 
+		isProgramMetaModelGenereted := true].
 	self buildSteps.
-
 ]
 
 { #category : 'api' }
