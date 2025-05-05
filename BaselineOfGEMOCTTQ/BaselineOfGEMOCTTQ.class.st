@@ -9,8 +9,8 @@ Class {
 BaselineOfGEMOCTTQ >> baseline: spec [
 	<baseline>
 	spec
-		for: #pharo
+		for: #common
 		do:  [ spec package: 'PyBridge-MiniJava-TTQAdapter'.  
-				spec package: 'Gemoc-MetaModel-Generator' .
+				spec package: 'Gemoc-MetaModel-Generator' with: [spec requires: #('PyBridge-MiniJava-TTQAdapter')].
 			 ].
 ]
