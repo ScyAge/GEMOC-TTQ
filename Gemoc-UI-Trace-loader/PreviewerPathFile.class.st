@@ -44,12 +44,14 @@ aFileRef
 			aFileReference  := nil.
 			filePreviewer := self newTextInput.
 			filePreviewer editable: false.
+			pathPreviwer := self newTextInput.
 			 ]
 		ifNotNil: [
 			aFileReference  := aFileRef.
 			filePreviewer := filePreviewerGenerator basicPreviewOn: aFileReference.
+			filePreviewer editable: false.
 			pathPreviwer text: aFileReference asPath pathString
 			].
-		
-self layout replaceSecond: filePreviewer . 
+
+self replaceLayoutWith: self defaultLayout . 
 ]

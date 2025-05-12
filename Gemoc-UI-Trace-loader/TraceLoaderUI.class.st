@@ -12,6 +12,18 @@ Class {
 	#package : 'Gemoc-UI-Trace-loader'
 }
 
+{ #category : 'testing' }
+TraceLoaderUI >> bottomBar [
+
+	^ bottomBar
+]
+
+{ #category : 'testing' }
+TraceLoaderUI >> browser [
+
+	^ browser
+]
+
 { #category : 'initialization' }
 TraceLoaderUI >> connectPresenters [ 
 
@@ -27,10 +39,10 @@ TraceLoaderUI >> defaultLayout [
 ]
 
 { #category : 'as yet unclassified' }
-TraceLoaderUI >> getFilePath [
+TraceLoaderUI >> getFilePathFromBrowser [
  	| fileRef |
 	fileRef := browser openModal.
-	fileRef ifNotNil:[self model: fileRef]
+	fileRef ifNotNil:[self model: fileRef].
 	
 	
 ]
@@ -39,37 +51,50 @@ TraceLoaderUI >> getFilePath [
 TraceLoaderUI >> initializePresenters [
 
 	| fileSystemModel fileSystemPresenter root |
+	
 	fileSystemModel := StFileSystemModel new.
 	fileSystemPresenter := StFileSystemPresenter on: fileSystemModel.
-	root := StFileSystemResource current root.
+	root := FileLocator home.
+	
 	browser := (StOpenFilePresenter
 		            owner: fileSystemPresenter
 		            on: fileSystemModel) defaultFolder: root.
+	
 	previewer := self instantiate: PreviewerPathFile
 ]
 
 { #category : 'initialization' }
 TraceLoaderUI >> initializeWindow: aWindow [ 
 
-| toolbar button button2 | 
+| toolbar buttonAddTrace buttonLoadTrace  buttonRemoveTrace | 
 
-button := self newToolbarButton
+buttonAddTrace := self newToolbarButton
 					label: 'add trace';
 					icon: (self iconNamed: #smallAdd);
-					action: [ self getFilePath];
+					action: [ self getFilePathFromBrowser];
 					yourself.
 					
-toolbar := self newToolbar
-					add: button;
-					yourself.
-					
-button2 := 	(self newButton 
+buttonLoadTrace := 	(self newButton 
 							icon:(self iconNamed: #smallAdd);
 							label: 'load trace';
-					 		yourself).		
+							action: [ self loadTrace ]
+					 		yourself).	
+								
+buttonRemoveTrace := (self newToolbarButton 
+							icon: (self iconNamed: #removeOptions);
+							label: 'remove trace';
+							action: [ self removeTrace ];
+							yourself).
+					
+toolbar := self newToolbar
+					add: buttonAddTrace;
+					add: buttonRemoveTrace;
+					yourself.
+					
+
 					
 bottomBar := self newActionBar 
-						add:  button2;
+						add:  buttonLoadTrace;
 						yourself.	
 
 
@@ -79,4 +104,40 @@ aWindow
 		initialExtent: 600@400;
 		toolbar: toolbar.
 		
+]
+
+{ #category : 'as yet unclassified' }
+TraceLoaderUI >> loadTrace [ 
+
+(self model) ifNotNil: [ 
+	[
+	| test |
+	test:= GemocTrace source: ((self model) fullPath pathString withoutPrefix: '/').
+	
+	test inspect
+	] fork.
+	 ]
+]
+
+{ #category : 'testing' }
+TraceLoaderUI >> previewer [
+
+	^ previewer
+]
+
+{ #category : 'removing' }
+TraceLoaderUI >> removeTrace [
+	self model: nil.
+]
+
+{ #category : 'testing' }
+TraceLoaderUI >> toolBar [
+
+	^ toolBar
+]
+
+{ #category : 'testing' }
+TraceLoaderUI >> tracepath [
+
+	^ tracepath
 ]

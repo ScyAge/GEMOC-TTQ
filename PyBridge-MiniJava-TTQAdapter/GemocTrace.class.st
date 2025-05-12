@@ -64,12 +64,12 @@ GemocTrace class >> typeNamed: aString [
 
 { #category : 'private - building' }
 GemocTrace >> build [
-
-	self flattenSteps.
+	self buildProgramMetaModel. 
+	"self flattenSteps.
 	isProgramMetaModelGenereted ifFalse: [ 
 		self buildProgramMetaModel. 
 		isProgramMetaModelGenereted := true].
-	self buildSteps.
+	self buildSteps."
 ]
 
 { #category : 'api' }
@@ -135,7 +135,7 @@ GemocTrace >> buildProgramMetaModel [
 			(gemocType model eSuperTypes asNativeList collect: [ :est |
 				 programTypes at: est __name__ asNativeObject ]) ].
 
-	self generateTypesClasses
+	"self generateTypesClasses"
 ]
 
 { #category : 'api' }
@@ -157,7 +157,7 @@ GemocTrace >> buildSteps [
 { #category : 'pybridge' }
 GemocTrace >> connectToBridge [
 	PyBridge restart.
-	trace := PyBridge load: 'gemoctrace::loader'.
+	trace := PyBridge load: 'gemocloader::loader'.
 	steps := trace load_steps: path.
 	metaModelTrace := trace trace_mm.
 	programMetaModel := trace javamm.
