@@ -3,7 +3,6 @@ Class {
 	#superclass : 'SpPresenterWithModel',
 	#instVars : [
 		'tracepath',
-		'bottomBar',
 		'toolBar',
 		'previewer',
 		'browser'
@@ -11,12 +10,6 @@ Class {
 	#category : 'Gemoc-UI-Trace-loader',
 	#package : 'Gemoc-UI-Trace-loader'
 }
-
-{ #category : 'testing' }
-TraceLoaderUI >> bottomBar [
-
-	^ bottomBar
-]
 
 { #category : 'testing' }
 TraceLoaderUI >> browser [
@@ -34,7 +27,6 @@ self transmitTo: previewer.
 TraceLoaderUI >> defaultLayout [ 
 ^ SpBoxLayout newTopToBottom
 	add: previewer ;
-	addLast: bottomBar
 	yourself
 ]
 
@@ -48,13 +40,24 @@ TraceLoaderUI >> getFilePathFromBrowser [
 ]
 
 { #category : 'initialization' }
+TraceLoaderUI >> initializeDialogWindow: aDialogPresenter [ 
+
+aDialogPresenter  centered.
+aDialogPresenter 
+	addButton: 'Cancel' do: [ :button | button close ];
+	addButton: 'Load Trace' do: [ :button | self model ifNotNil: [button beOk ; close ]].
+	
+]
+
+{ #category : 'initialization' }
 TraceLoaderUI >> initializePresenters [
 
 	| fileSystemModel fileSystemPresenter root |
 	
 	fileSystemModel := StFileSystemModel new.
 	fileSystemPresenter := StFileSystemPresenter on: fileSystemModel.
-	root := FileLocator home.
+	self flag: 'root := FileLocator home.'.
+	root := 'C:\Users\evanj\Documents\stage\gemoc\gemoc\minijava\modeling_workbench\minijava-examples\gemoc-gen\execution\execution-20241016_091542' asFileLocatorOrReference.
 	
 	browser := (StOpenFilePresenter
 		            owner: fileSystemPresenter
@@ -66,7 +69,7 @@ TraceLoaderUI >> initializePresenters [
 { #category : 'initialization' }
 TraceLoaderUI >> initializeWindow: aWindow [ 
 
-| toolbar buttonAddTrace buttonLoadTrace  buttonRemoveTrace | 
+| toolbar buttonAddTrace  buttonRemoveTrace | 
 
 buttonAddTrace := self newToolbarButton
 					label: 'add trace';
@@ -74,11 +77,7 @@ buttonAddTrace := self newToolbarButton
 					action: [ self getFilePathFromBrowser];
 					yourself.
 					
-buttonLoadTrace := 	(self newButton 
-							icon:(self iconNamed: #smallAdd);
-							label: 'load trace';
-							action: [ self loadTrace ]
-					 		yourself).	
+
 								
 buttonRemoveTrace := (self newToolbarButton 
 							icon: (self iconNamed: #removeOptions);
@@ -92,12 +91,6 @@ toolbar := self newToolbar
 					yourself.
 					
 
-					
-bottomBar := self newActionBar 
-						add:  buttonLoadTrace;
-						yourself.	
-
-
 
 aWindow 
 		title: 'Trace Loader';
@@ -107,16 +100,22 @@ aWindow
 ]
 
 { #category : 'as yet unclassified' }
-TraceLoaderUI >> loadTrace [ 
+TraceLoaderUI >> loadTraceInFuture [ 
+| traceFuture path |
+
+path := (self model) fullPath pathString withoutPrefix: '/'.
 
 (self model) ifNotNil: [ 
-	[
-	| test |
-	test:= GemocTrace source: ((self model) fullPath pathString withoutPrefix: '/').
-	
-	test inspect
-	] fork.
-	 ]
+traceFuture := [GemocTrace source: path] future.
+].
+
+^ traceFuture
+]
+
+{ #category : 'showing' }
+TraceLoaderUI >> openModal [
+	super openModal cancelled ifTrue: [ ^ nil ].
+	^ self loadTraceInFuture
 ]
 
 { #category : 'testing' }
