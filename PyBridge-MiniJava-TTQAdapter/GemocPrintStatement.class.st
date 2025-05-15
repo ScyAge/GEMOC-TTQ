@@ -14,11 +14,6 @@ GemocPrintStatement >> acceptVisitor: aGemocProgramStateGenerator [
 	aGemocProgramStateGenerator visitGemocPrintStatement: self
 ]
 
-{ #category : 'building' }
-GemocPrintStatement >> build [
-	GemocProgramStateGenerator new visit: self
-]
-
 { #category : 'instance creation' }
 GemocPrintStatement >> expression: aGemocSymbolRef [ 
 	expression := aGemocSymbolRef

@@ -18,9 +18,9 @@ GemocAbstractModelRepresentation >> basicModel [
 	^ programState ifNil:[executionStep semanticRuleStaticTarget value]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'building' }
 GemocAbstractModelRepresentation >> build [
-	^ self subclassResponsibility
+	GemocProgramStateGenerator new visit: self
 ]
 
 { #category : 'accessing' }

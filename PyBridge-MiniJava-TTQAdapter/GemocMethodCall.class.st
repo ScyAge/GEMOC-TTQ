@@ -24,13 +24,6 @@ GemocMethodCall >> aliasOfObject: aGemocReceiver [
 ]
 
 { #category : 'building' }
-GemocMethodCall >> build [
-	GemocProgramStateGenerator new visit: self
-	"self buildRootFrame.
-	self buildReceiver "
-]
-
-{ #category : 'building' }
 GemocMethodCall >> buildReceiver [
 
 	receiver := GemocReceiver new receiver: programState receiver.

@@ -29,11 +29,6 @@ GemocAssignment >> assignee: anObject [
 	assignee := anObject
 ]
 
-{ #category : 'building' }
-GemocAssignment >> build [
-	GemocProgramStateGenerator new visit: self
-]
-
 { #category : 'tests' }
 GemocAssignment >> getValue [
 

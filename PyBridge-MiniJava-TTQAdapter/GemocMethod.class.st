@@ -20,12 +20,6 @@ GemocMethod >> args: aCollection [
 	args := aCollection
 ]
 
-{ #category : 'building' }
-GemocMethod >> build [
-
-	GemocProgramStateGenerator new visit: self
-]
-
 { #category : 'accessing' }
 GemocMethod >> name: aString [ 
 	name := aString

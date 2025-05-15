@@ -14,11 +14,6 @@ GemocBlock >> acceptVisitor: aGemocProgramStateGenerator [
 	aGemocProgramStateGenerator visitGemocBlock: self
 ]
 
-{ #category : 'building' }
-GemocBlock >> build [
-	GemocProgramStateGenerator new visit: self
-]
-
 { #category : 'testing' }
 GemocBlock >> isBlock [
 	^true

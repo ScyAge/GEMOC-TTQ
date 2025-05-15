@@ -20,11 +20,6 @@ GemocType class >> step: aPyBridgeObject [
 	^programState 
 ]
 
-{ #category : 'building' }
-GemocType >> build [
-	GemocProgramStateGenerator new visit: self
-]
-
 { #category : 'printing' }
 GemocType >> printName: aString on: aStream [
 
