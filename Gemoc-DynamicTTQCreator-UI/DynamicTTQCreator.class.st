@@ -1,0 +1,96 @@
+Class {
+	#name : 'DynamicTTQCreator',
+	#superclass : 'SpPresenter',
+	#instVars : [
+		'trace',
+		'traceLoaderInterface',
+		'listMetaModelElement',
+		'listChoosenPredicate',
+		'detailWrapper'
+	],
+	#classInstVars : [
+		'getTraceFromInterface'
+	],
+	#category : 'Gemoc-DynamicTTQCreator-UI',
+	#package : 'Gemoc-DynamicTTQCreator-UI'
+}
+
+{ #category : 'accessing' }
+DynamicTTQCreator class >> getTraceFromInterface [
+	^ getTraceFromInterface
+]
+
+{ #category : 'initialization' }
+DynamicTTQCreator >> connectPresenters [ 
+
+	listMetaModelElement transmitTo: detailWrapper 
+]
+
+{ #category : 'layout' }
+DynamicTTQCreator >> defaultLayout [ 
+
+^ SpBoxLayout newTopToBottom 
+		add: (SpBoxLayout newLeftToRight
+				add: listMetaModelElement;
+				add: detailWrapper );
+		add: listChoosenPredicate .
+]
+
+{ #category : 'as yet unclassified' }
+DynamicTTQCreator >> getAllTheMetaModelElement [ 
+
+| subclassesOfProgramState subClassesOfTypo | 
+
+subclassesOfProgramState := GemocProgramState allSubclasses .
+
+subClassesOfTypo := GemocTypeRef allSubclasses.
+
+subclassesOfProgramState addAll: subClassesOfTypo.
+
+^ subclassesOfProgramState.
+]
+
+{ #category : 'initialization' }
+DynamicTTQCreator >> initializePresenters [
+
+	traceLoaderInterface := self instantiate: TraceLoaderUI on: nil.
+	
+	listMetaModelElement := self newList.
+	listMetaModelElement items: (OrderedCollection newFrom: self getAllTheMetaModelElement).
+	
+	listChoosenPredicate := self newList.
+	
+	detailWrapper := self instantiate: DetailTTQPredicateCreationWrapper.
+]
+
+{ #category : 'initialization' }
+DynamicTTQCreator >> initializeWindow: aWindow [
+
+| toolBar addTraceButton |
+
+addTraceButton := self newToolbarButton 
+						label: 'add trace';
+						icon: (self iconNamed: #smallAdd);
+						action: [ self loadTraceInThePresenter];
+						yourself.
+						
+toolBar := self newToolbar 
+					add: addTraceButton;
+					yourself.
+					
+aWindow 
+	title: 'Dynamic TTQ Generator';
+	initialExtent: 1000@600;
+	toolbar: toolBar.					
+]
+
+{ #category : 'as yet unclassified' }
+DynamicTTQCreator >> loadTraceInThePresenter [
+| future |
+future := traceLoaderInterface openModal.
+
+future ifNotNil: [  
+future onSuccessDo: [ :v | trace := v.
+	trace inspect  ].
+].
+]
