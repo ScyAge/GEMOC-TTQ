@@ -41,14 +41,15 @@ GemocAbstractModelRepresentation >> executionStep: anObject [
 	executionStep := anObject
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'testing' }
 GemocAbstractModelRepresentation >> isStatementEvaluation [
-	^ self subclassResponsibility
+	^self ruleName = 'evaluateStatement'
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 GemocAbstractModelRepresentation >> model [
-	^ self subclassResponsibility
+
+	^ model ifNil: [ self ensureModel ]
 ]
 
 { #category : 'accessing' }

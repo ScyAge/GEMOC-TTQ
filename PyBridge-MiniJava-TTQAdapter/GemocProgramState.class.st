@@ -51,17 +51,6 @@ GemocProgramState >> isBlock [
 	^false
 ]
 
-{ #category : 'testing' }
-GemocProgramState >> isStatementEvaluation [
-	^self ruleName = 'evaluateStatement'
-]
-
-{ #category : 'accessing' }
-GemocProgramState >> model [
-	self ensureModel.
-	^ model ifNil:[model := programState]
-]
-
 { #category : 'accessing' }
 GemocProgramState >> programState [
 

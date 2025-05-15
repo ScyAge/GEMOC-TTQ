@@ -25,17 +25,6 @@ GemocType >> build [
 	GemocProgramStateGenerator new visit: self
 ]
 
-{ #category : 'testing' }
-GemocType >> isStatementEvaluation [
-	^self ruleName = 'evaluateStatement'
-]
-
-{ #category : 'accessing' }
-GemocType >> model [
-
-	^ model ifNil: [ model := self ensureModel ]
-]
-
 { #category : 'printing' }
 GemocType >> printName: aString on: aStream [
 
