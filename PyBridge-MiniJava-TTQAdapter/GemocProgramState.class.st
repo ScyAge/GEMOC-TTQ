@@ -1,13 +1,6 @@
 Class {
 	#name : 'GemocProgramState',
-	#superclass : 'Object',
-	#instVars : [
-		'executionStep',
-		'programState',
-		'model',
-		'pc',
-		'ruleName'
-	],
+	#superclass : 'GemocAbstractModelRepresentation',
 	#category : 'PyBridge-MiniJava-TTQAdapter-model',
 	#package : 'PyBridge-MiniJava-TTQAdapter',
 	#tag : 'model'
@@ -48,33 +41,9 @@ GemocProgramState class >> step: aGemocStep [
 	^programState 
 ]
 
-{ #category : 'accessing' }
-GemocProgramState >> basicModel [
-
-	^ programState ifNil:[executionStep semanticRuleStaticTarget value]
-]
-
 { #category : 'building' }
 GemocProgramState >> build [
 	"self subclassResponsibility "
-]
-
-{ #category : 'accessing' }
-GemocProgramState >> ensureModel [
-
-	model := self basicModel
-]
-
-{ #category : 'accessing' }
-GemocProgramState >> executionStep [
-
-	^ executionStep
-]
-
-{ #category : 'accessing' }
-GemocProgramState >> executionStep: anObject [
-
-	executionStep := anObject
 ]
 
 { #category : 'testing' }
@@ -94,49 +63,9 @@ GemocProgramState >> model [
 ]
 
 { #category : 'accessing' }
-GemocProgramState >> model: aPyBridgeObject [ 
-	model := aPyBridgeObject 
-]
-
-{ #category : 'as yet unclassified' }
-GemocProgramState >> nicePrintOn: aStream nbTabs: anObject [
-	self printOn: aStream
-]
-
-{ #category : 'accessing' }
-GemocProgramState >> node [
-	^self
-]
-
-{ #category : 'as yet unclassified' }
-GemocProgramState >> nodeIsAssignment [
-	^false
-]
-
-{ #category : 'accessing' }
-GemocProgramState >> pc [
-	^pc ifNil:[pc := [executionStep number literalValue] on: Error do:[-1]]
-]
-
-{ #category : 'accessing' }
 GemocProgramState >> programState [
 
 	^ programState
-]
-
-{ #category : 'accessing' }
-GemocProgramState >> programState: anObject [
-
-	programState := anObject
-]
-
-{ #category : 'testing' }
-GemocProgramState >> ruleName [
-
-	^ruleName ifNil: [
-		| col |
-		col := executionStep semanticRuleName value splitOn: '_'.
-		ruleName := col last ]
 ]
 
 { #category : 'reflective operations' }
