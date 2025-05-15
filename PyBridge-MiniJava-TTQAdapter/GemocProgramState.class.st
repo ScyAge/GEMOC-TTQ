@@ -46,11 +46,6 @@ GemocProgramState >> build [
 	"self subclassResponsibility "
 ]
 
-{ #category : 'testing' }
-GemocProgramState >> isBlock [
-	^false
-]
-
 { #category : 'accessing' }
 GemocProgramState >> programState [
 
