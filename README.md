@@ -21,4 +21,19 @@ Metacello new
 
 
   	Next step : find how i will merge the different implementation.
-  	
+
+  exemple :
+
+  ```
+  GemocProgramState>>model
+	self ensureModel.
+	^ model ifNil:[model := programState]
+  ```
+
+   ```
+  GemocType>>model
+	^ model ifNil: [ model := self ensureModel ]
+  ```
+
+Here the code seems to have the same goal. But we need to choose the bottom version, slightly modified, because `self ensureModel` returns nothing and just returns  `self ensureModel` in the block that already affects a value in the model instance variable. By choosing the bottom version, we only reassign model if model is nil, while the top one reassigns model every time the method is called. Plus, the block in the top version is never reached because model always has a value with the call to  `self ensureModel`.
+
