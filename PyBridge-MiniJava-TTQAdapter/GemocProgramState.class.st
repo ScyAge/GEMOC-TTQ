@@ -41,12 +41,6 @@ GemocProgramState class >> step: aGemocStep [
 	^programState 
 ]
 
-{ #category : 'accessing' }
-GemocProgramState >> programState [
-
-	^ programState
-]
-
 { #category : 'reflective operations' }
 GemocProgramState >> uuid [
 	self pc = -1 ifTrue:[^'0xError'].

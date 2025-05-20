@@ -40,12 +40,6 @@ GemocType >> printOn: aStream [
 ]
 
 { #category : 'accessing' }
-GemocType >> programState [
-
-	^ self basicModel
-]
-
-{ #category : 'accessing' }
 GemocType >> superTypes [
 
 	^ superTypes

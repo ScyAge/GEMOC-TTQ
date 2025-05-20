@@ -77,9 +77,10 @@ GemocAbstractModelRepresentation >> pc [
 	^pc ifNil:[pc := [executionStep number literalValue] on: Error do:[-1]]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 GemocAbstractModelRepresentation >> programState [
-	^ self subclassResponsibility
+
+	^ self basicModel
 ]
 
 { #category : 'accessing' }
