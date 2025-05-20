@@ -5,17 +5,28 @@ Class {
 		'executionStep',
 		'pc',
 		'model',
-		'programState',
-		'ruleName'
+		'ruleName',
+		'superTypes',
+		'typeClass',
+		'typeName'
 	],
 	#category : 'PyBridge-MiniJava-TTQAdapter',
 	#package : 'PyBridge-MiniJava-TTQAdapter'
 }
 
+{ #category : 'as yet unclassified' }
+GemocAbstractModelRepresentation class >> step: aGemocStep [ 
+	|programState|
+	programState := self new.
+	programState executionStep: aGemocStep.
+	programState model: aGemocStep semanticRuleStaticTarget value.
+	^programState 
+]
+
 { #category : 'accessing' }
 GemocAbstractModelRepresentation >> basicModel [
 
-	^ programState ifNil:[executionStep semanticRuleStaticTarget value]
+	^ model ifNil:[executionStep semanticRuleStaticTarget value]
 ]
 
 { #category : 'building' }
@@ -77,18 +88,6 @@ GemocAbstractModelRepresentation >> pc [
 	^pc ifNil:[pc := [executionStep number literalValue] on: Error do:[-1]]
 ]
 
-{ #category : 'accessing' }
-GemocAbstractModelRepresentation >> programState [
-
-	^ self basicModel
-]
-
-{ #category : 'accessing' }
-GemocAbstractModelRepresentation >> programState: anObject [
-
-	programState := anObject
-]
-
 { #category : 'testing' }
 GemocAbstractModelRepresentation >> ruleName [
 
@@ -96,6 +95,42 @@ GemocAbstractModelRepresentation >> ruleName [
 		| col |
 		col := executionStep semanticRuleName value splitOn: '_'.
 		ruleName := col last ]
+]
+
+{ #category : 'accessing' }
+GemocAbstractModelRepresentation >> superTypes [
+
+	^ superTypes
+]
+
+{ #category : 'accessing' }
+GemocAbstractModelRepresentation >> superTypes: anObject [
+
+	superTypes := anObject
+]
+
+{ #category : 'accessing' }
+GemocAbstractModelRepresentation >> typeClass [
+
+	^ typeClass
+]
+
+{ #category : 'accessing' }
+GemocAbstractModelRepresentation >> typeClass: anObject [
+
+	typeClass := anObject
+]
+
+{ #category : 'accessing' }
+GemocAbstractModelRepresentation >> typeName [
+
+	^ typeName
+]
+
+{ #category : 'accessing' }
+GemocAbstractModelRepresentation >> typeName: anObject [
+
+	typeName := anObject
 ]
 
 { #category : 'as yet unclassified' }

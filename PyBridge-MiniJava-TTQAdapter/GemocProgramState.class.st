@@ -32,15 +32,6 @@ GemocProgramState class >> newStepNamed: stepName fromGemocStep: aGemocStep [
 	^ GemocProgramStateGenerator new build: aGemocStep typed: stepName
 ]
 
-{ #category : 'as yet unclassified' }
-GemocProgramState class >> step: aGemocStep [ 
-	|programState|
-	programState := self new.
-	programState executionStep: aGemocStep.
-	programState programState: aGemocStep semanticRuleStaticTarget value.
-	^programState 
-]
-
 { #category : 'reflective operations' }
 GemocProgramState >> uuid [
 	self pc = -1 ifTrue:[^'0xError'].
