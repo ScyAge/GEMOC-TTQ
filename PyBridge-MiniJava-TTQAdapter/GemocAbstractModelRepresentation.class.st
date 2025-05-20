@@ -88,6 +88,25 @@ GemocAbstractModelRepresentation >> pc [
 	^pc ifNil:[pc := [executionStep number literalValue] on: Error do:[-1]]
 ]
 
+{ #category : 'printing' }
+GemocAbstractModelRepresentation >> printName: aString on: aStream [
+
+	aStream << (aString ifNil: [ '<name not found>' ])
+]
+
+{ #category : 'printing' }
+GemocAbstractModelRepresentation >> printOn: aStream [
+
+	aStream << (typeName ifNil: [ 'An undefined Gemoc type' ]).
+	superTypes ifEmpty: [ ^ self ].
+	aStream << ' (super types: '.
+	superTypes do: [ :st |
+		aStream << st typeName.
+		aStream << (st == superTypes last
+			 ifTrue: [ ')' ]
+			 ifFalse: [ ', ' ]) ]
+]
+
 { #category : 'testing' }
 GemocAbstractModelRepresentation >> ruleName [
 

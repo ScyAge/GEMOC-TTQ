@@ -32,6 +32,18 @@ GemocProgramState class >> newStepNamed: stepName fromGemocStep: aGemocStep [
 	^ GemocProgramStateGenerator new build: aGemocStep typed: stepName
 ]
 
+{ #category : 'printing' }
+GemocProgramState >> printOn: aStream [
+	"Append to the argument, aStream, a sequence of characters that
+	identifies the receiver."
+
+	| title |
+	title := self class name.
+	aStream
+		nextPutAll: (title first isVowel ifTrue: ['an '] ifFalse: ['a ']);
+		nextPutAll: title
+]
+
 { #category : 'reflective operations' }
 GemocProgramState >> uuid [
 	self pc = -1 ifTrue:[^'0xError'].
