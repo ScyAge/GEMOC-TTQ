@@ -7,11 +7,6 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-GemocProgramState class >> assignment: aGemocStep [
-	^GemocAssignment step: aGemocStep 
-]
-
-{ #category : 'as yet unclassified' }
 GemocProgramState class >> fromGemocStep: aGemocStep [
 
 	^ self
@@ -19,11 +14,6 @@ GemocProgramState class >> fromGemocStep: aGemocStep [
 			  aGemocStep semanticRuleStaticTarget value __class__ __name__
 				  literalValue
 		  fromGemocStep: aGemocStep
-]
-
-{ #category : 'as yet unclassified' }
-GemocProgramState class >> methodCall: aGemocStep [
-	^GemocMethodCall step: aGemocStep 
 ]
 
 { #category : 'as yet unclassified' }
