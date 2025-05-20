@@ -43,9 +43,3 @@ GemocProgramState >> printOn: aStream [
 		nextPutAll: (title first isVowel ifTrue: ['an '] ifFalse: ['a ']);
 		nextPutAll: title
 ]
-
-{ #category : 'reflective operations' }
-GemocProgramState >> uuid [
-	self pc = -1 ifTrue:[^'0xError'].
-	^self executionStep uuid
-]

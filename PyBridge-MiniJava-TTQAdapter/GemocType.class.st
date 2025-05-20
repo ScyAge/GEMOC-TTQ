@@ -5,8 +5,3 @@ Class {
 	#package : 'PyBridge-MiniJava-TTQAdapter',
 	#tag : 'model'
 }
-
-{ #category : 'reflective operations' }
-GemocType >> uuid [
-	^self model uuid
-]

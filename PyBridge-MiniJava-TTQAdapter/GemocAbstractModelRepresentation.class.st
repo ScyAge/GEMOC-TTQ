@@ -152,7 +152,8 @@ GemocAbstractModelRepresentation >> typeName: anObject [
 	typeName := anObject
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'reflective operations' }
 GemocAbstractModelRepresentation >> uuid [
-	^ self subclassResponsibility
+	self pc = -1 ifTrue:[^'0xError'].
+	^self executionStep uuid
 ]
