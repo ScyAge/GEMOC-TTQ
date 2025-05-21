@@ -1,6 +1,6 @@
 Class {
 	#name : 'GemocBlock',
-	#superclass : 'GemocProgramState',
+	#superclass : 'GemocType',
 	#instVars : [
 		'statements'
 	],

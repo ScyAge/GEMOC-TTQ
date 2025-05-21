@@ -1,6 +1,6 @@
 Class {
 	#name : 'GemocMethod',
-	#superclass : 'GemocProgramState',
+	#superclass : 'GemocType',
 	#instVars : [
 		'name',
 		'args'

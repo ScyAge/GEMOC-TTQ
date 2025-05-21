@@ -1,6 +1,6 @@
 Class {
 	#name : 'GemocPrintStatement',
-	#superclass : 'GemocProgramState',
+	#superclass : 'GemocType',
 	#instVars : [
 		'expression'
 	],

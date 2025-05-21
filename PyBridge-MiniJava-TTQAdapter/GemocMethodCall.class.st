@@ -1,6 +1,6 @@
 Class {
 	#name : 'GemocMethodCall',
-	#superclass : 'GemocProgramState',
+	#superclass : 'GemocType',
 	#instVars : [
 		'rootFrame',
 		'receiver',
