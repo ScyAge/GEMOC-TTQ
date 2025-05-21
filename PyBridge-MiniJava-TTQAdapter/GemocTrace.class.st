@@ -142,7 +142,7 @@ GemocTrace >> buildProgramMetaModel [
 GemocTrace >> buildSteps [
 
 	gemocSteps := (flattenedSteps collect: [ :s |
-		               [ GemocProgramState fromGemocStep: s ]
+		               [ GemocType fromGemocStep: s ]
 			               on: Error
 			               do: [ :err |
 				               self class logError:
