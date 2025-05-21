@@ -43,7 +43,7 @@ GemocProgramStateGenerator >> fromPybridgeObject: aPybridgeObject [
 { #category : 'building' }
 GemocProgramStateGenerator >> generateClass: className [
 
-	^ GemocProgramState subclass: className
+	^ GemocType subclass: className
 ]
 
 { #category : 'parsing' }
