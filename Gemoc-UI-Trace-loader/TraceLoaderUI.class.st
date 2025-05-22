@@ -5,11 +5,18 @@ Class {
 		'tracepath',
 		'toolBar',
 		'previewer',
-		'browser'
+		'browser',
+		'blockLoader'
 	],
 	#category : 'Gemoc-UI-Trace-loader',
 	#package : 'Gemoc-UI-Trace-loader'
 }
+
+{ #category : 'adding' }
+TraceLoaderUI >> addBlockLoader: aBlock [ 
+
+	blockLoader := aBlock 
+]
 
 { #category : 'testing' }
 TraceLoaderUI >> browser [
@@ -18,9 +25,9 @@ TraceLoaderUI >> browser [
 ]
 
 { #category : 'initialization' }
-TraceLoaderUI >> connectPresenters [ 
+TraceLoaderUI >> connectPresenters [
 
-self transmitTo: previewer.
+	self model ifNotNil: [ self transmitTo: previewer ]
 ]
 
 { #category : 'layout' }
@@ -40,30 +47,36 @@ TraceLoaderUI >> getFilePathFromBrowser [
 ]
 
 { #category : 'initialization' }
-TraceLoaderUI >> initializeDialogWindow: aDialogPresenter [ 
+TraceLoaderUI >> initializeDialogWindow: aDialogPresenter [
 
-aDialogPresenter  centered.
-aDialogPresenter 
-	addButton: 'Cancel' do: [ :button | button close ];
-	addButton: 'Load Trace' do: [ :button | self model ifNotNil: [button beOk ; close ]].
-	
+	aDialogPresenter centered.
+
+	aDialogPresenter okAction: [ self notifyLoadFutureAction ].
+	aDialogPresenter
+		addButton: 'Cancel' do: [ :button | button close ];
+		addButton: 'Load Trace' do: [ :button |
+			self model ifNotNil: [
+					button
+						beOk;
+						close ] ]
 ]
 
 { #category : 'initialization' }
 TraceLoaderUI >> initializePresenters [
 
 	| fileSystemModel fileSystemPresenter root |
-	
 	fileSystemModel := StFileSystemModel new.
 	fileSystemPresenter := StFileSystemPresenter on: fileSystemModel.
 	self flag: 'root := FileLocator home.'.
-	root := 'C:\Users\evanj\Documents\stage\gemoc\gemoc\minijava\modeling_workbench\minijava-examples\gemoc-gen\execution\execution-20241016_091542' asFileLocatorOrReference.
+	root := 'C:\Users\evanj\Documents\stage\gemoc\gemoc\minijava\modeling_workbench\minijava-examples\gemoc-gen\execution\execution-20241016_091542'
+		        asFileLocatorOrReference.
+
 	
 	browser := (StOpenFilePresenter
 		            owner: fileSystemPresenter
 		            on: fileSystemModel) defaultFolder: root.
-	
-	previewer := self instantiate: PreviewerPathFile
+
+	previewer := self instantiate: PreviewerPathFile.
 ]
 
 { #category : 'initialization' }
@@ -112,10 +125,24 @@ traceFuture := [GemocTrace source: path] future.
 ^ traceFuture
 ]
 
+{ #category : 'as yet unclassified' }
+TraceLoaderUI >> notifyLoadFutureAction [ 
+
+^ blockLoader ifNotNil: [ :block | block cull: self loadTraceInFuture  ].
+]
+
+{ #category : 'showing' }
+TraceLoaderUI >> open [ 
+
+	^ self openDialog
+]
+
 { #category : 'showing' }
 TraceLoaderUI >> openModal [
-	super openModal cancelled ifTrue: [ ^ nil ].
-	^ self loadTraceInFuture
+
+	super openModal cancelled
+		ifTrue: [ ^ nil ]
+		ifFalse: [ self notifyLoadFutureAction ].
 ]
 
 { #category : 'testing' }

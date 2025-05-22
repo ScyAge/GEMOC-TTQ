@@ -39,15 +39,8 @@ DynamicTTQCreator >> defaultLayout [
 { #category : 'as yet unclassified' }
 DynamicTTQCreator >> getAllTheMetaModelElement [ 
 
-| subclassesOfProgramState subClassesOfTypo | 
 
-subclassesOfProgramState := GemocProgramState allSubclasses .
-
-subClassesOfTypo := GemocTypeRef allSubclasses.
-
-subclassesOfProgramState addAll: subClassesOfTypo.
-
-^ subclassesOfProgramState.
+^ GemocAbstractModelRepresentation allSubclasses.
 ]
 
 { #category : 'initialization' }

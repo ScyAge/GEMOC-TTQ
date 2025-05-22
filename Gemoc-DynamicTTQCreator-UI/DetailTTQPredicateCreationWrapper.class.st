@@ -22,9 +22,9 @@ DetailTTQPredicateCreationWrapper >> initializePresenters [
 ]
 
 { #category : 'accessing - model' }
-DetailTTQPredicateCreationWrapper >> setModel: MockModel [ 
+DetailTTQPredicateCreationWrapper >> setModel: mockModel [ 
 
-	detail := self instantiate: (MockModel detailRepresentation). 
+	detail := self instantiate: (mockModel gemocDynamicTTQCreatorDetailUI). 
 	
 	self replaceLayoutWith: self defaultLayout . 
 ]
