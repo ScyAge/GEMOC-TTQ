@@ -6,7 +6,8 @@ Class {
 		'traceLoaderInterface',
 		'listMetaModelElement',
 		'listChoosenPredicate',
-		'detailWrapper'
+		'detailWrapper',
+		'future'
 	],
 	#classInstVars : [
 		'getTraceFromInterface'
@@ -40,13 +41,14 @@ DynamicTTQCreator >> defaultLayout [
 DynamicTTQCreator >> getAllTheMetaModelElement [ 
 
 
-^ GemocAbstractModelRepresentation allSubclasses.
+^ GemocType allSubclasses.
 ]
 
 { #category : 'initialization' }
 DynamicTTQCreator >> initializePresenters [
 
 	traceLoaderInterface := self instantiate: TraceLoaderUI on: nil.
+	traceLoaderInterface addBlockResult: [ :futureRes | future := futureRes ].
 	
 	listMetaModelElement := self newList.
 	listMetaModelElement items: (OrderedCollection newFrom: self getAllTheMetaModelElement).
@@ -79,11 +81,12 @@ aWindow
 
 { #category : 'as yet unclassified' }
 DynamicTTQCreator >> loadTraceInThePresenter [
-| future |
-future := traceLoaderInterface openModal.
 
-future ifNotNil: [  
-future onSuccessDo: [ :v | trace := v.
-	trace inspect  ].
-].
+	traceLoaderInterface openModal.
+
+	future ifNotNil: [
+		future onSuccessDo: [ :v |
+			trace := v.
+			future := nil.
+			trace inspect ] ]
 ]
