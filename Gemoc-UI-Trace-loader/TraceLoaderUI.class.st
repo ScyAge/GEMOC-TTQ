@@ -1,3 +1,22 @@
+"
+TraceLoaderUI is a presenter that help to load a Gemoc Trace in the system by using PyBridge
+
+Usage : 
+
+| test  res |
+
+test := TraceLoaderUi newApplication: anApp withBlockResult: aBlock
+
+anApp is a SpApplication.
+
+aBlock is where the future of the trace will be get.
+
+exemple of a block: [ :future  | res := future ].
+
+The result will be in the variable res in the you open the presenter as a Modal or as a Dialog windows
+
+
+"
 Class {
 	#name : 'TraceLoaderUI',
 	#superclass : 'SpPresenterWithModel',
@@ -11,6 +30,14 @@ Class {
 	#category : 'Gemoc-UI-Trace-loader',
 	#package : 'Gemoc-UI-Trace-loader'
 }
+
+{ #category : 'instance creation' }
+TraceLoaderUI class >> newApplication: anApplication withBlockResult: aBlockWithParam [
+
+	^ (self newApplication: anApplication)
+		  addBlockLoader: aBlockWithParam;
+		  yourself
+]
 
 { #category : 'adding' }
 TraceLoaderUI >> addBlockLoader: aBlock [ 
@@ -50,13 +77,16 @@ TraceLoaderUI >> getFilePathFromBrowser [
 TraceLoaderUI >> initializeDialogWindow: aDialogPresenter [
 
 	aDialogPresenter centered.
-
 	aDialogPresenter okAction: [ self notifyLoadFutureAction ].
+	
 	aDialogPresenter
-		addButton: 'Cancel' do: [ :button | button close ];
+		addButton: 'Cancel' do: [ :button |
+			button triggerCancelAction.
+			button close ];
 		addButton: 'Load Trace' do: [ :button |
 			self model ifNotNil: [
 					button
+						triggerOkAction;
 						beOk;
 						close ] ]
 ]
@@ -134,15 +164,14 @@ TraceLoaderUI >> notifyLoadFutureAction [
 { #category : 'showing' }
 TraceLoaderUI >> open [ 
 
-	^ self openDialog
+	^ self openDialog.
 ]
 
 { #category : 'showing' }
 TraceLoaderUI >> openModal [
 
 	super openModal cancelled
-		ifTrue: [ ^ nil ]
-		ifFalse: [ self notifyLoadFutureAction ].
+		ifTrue: [ ^ nil ].
 ]
 
 { #category : 'testing' }
