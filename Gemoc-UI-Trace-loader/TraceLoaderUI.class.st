@@ -2,17 +2,17 @@
 TraceLoaderUI is a presenter that help to load a Gemoc Trace in the system by using PyBridge
 
 Usage : 
+```
+| test  res  anApp|
 
-| test  res |
-
-test := TraceLoaderUi newApplication: anApp withBlockResult: aBlock
+test := TraceLoaderUi newApplication: anApp 
+							addBlockResult: [ :future  | res := future]; 
+							yourself.
+```
 
 anApp is a SpApplication.
 
-aBlock is where the future of the trace will be get.
-
-exemple of a block: [ :future  | res := future ].
-
+the Block is where the future of the trace will retrive.
 The result will be in the variable res in the you open the presenter as a Modal or as a Dialog windows
 
 
@@ -31,16 +31,8 @@ Class {
 	#package : 'Gemoc-UI-Trace-loader'
 }
 
-{ #category : 'instance creation' }
-TraceLoaderUI class >> newApplication: anApplication withBlockResult: aBlockWithParam [
-
-	^ (self newApplication: anApplication)
-		  addBlockLoader: aBlockWithParam;
-		  yourself
-]
-
 { #category : 'adding' }
-TraceLoaderUI >> addBlockLoader: aBlock [ 
+TraceLoaderUI >> addBlockResult: aBlock [ 
 
 	blockLoader := aBlock 
 ]
@@ -156,9 +148,15 @@ traceFuture := [GemocTrace source: path] future.
 ]
 
 { #category : 'as yet unclassified' }
-TraceLoaderUI >> notifyLoadFutureAction [ 
+TraceLoaderUI >> notifyLoadFutureAction [
 
-^ blockLoader ifNotNil: [ :block | block cull: self loadTraceInFuture  ].
+	^ blockLoader
+		  ifNotNil: [ :block | block cull: self loadTraceInFuture ]
+		  ifNil: [
+			  Exception new
+				  messageText:
+					  'add a Block that retrive the result with addBlockResult:. ';
+				  signal ]
 ]
 
 { #category : 'showing' }
