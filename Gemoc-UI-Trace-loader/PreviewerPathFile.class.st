@@ -12,6 +12,14 @@ Class {
 }
 
 { #category : 'layout' }
+PreviewerPathFile >> defaultInputPort [
+
+	self flag: 'probleme iceberg'.
+
+	^ self inputModelPort.
+]
+
+{ #category : 'layout' }
 PreviewerPathFile >> defaultLayout [ 
 
 ^ SpPanedLayout newLeftToRight
