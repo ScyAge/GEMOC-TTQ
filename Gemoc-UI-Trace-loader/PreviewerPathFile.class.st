@@ -16,7 +16,7 @@ PreviewerPathFile >> defaultInputPort [
 
 	self flag: 'probleme iceberg'.
 
-	^ self inputModelPort.
+	^ SpModelPort newPresenter: self.
 ]
 
 { #category : 'layout' }
@@ -46,6 +46,7 @@ PreviewerPathFile >> initializePresenters [
 
 { #category : 'accessing - model' }
 PreviewerPathFile >> setModel: aFileRef [ 
+
 
 aFileRef
 		ifNil: [

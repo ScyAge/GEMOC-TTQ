@@ -46,7 +46,7 @@ TraceLoaderUI >> browser [
 { #category : 'initialization' }
 TraceLoaderUI >> connectPresenters [
 
-	self model ifNotNil: [ self transmitTo: previewer ]
+	self transmitTo: previewer.
 ]
 
 { #category : 'layout' }
