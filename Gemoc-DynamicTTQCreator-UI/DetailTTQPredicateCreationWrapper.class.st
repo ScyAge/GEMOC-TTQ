@@ -8,6 +8,12 @@ Class {
 	#package : 'Gemoc-DynamicTTQCreator-UI'
 }
 
+{ #category : 'accessing - model' }
+DetailTTQPredicateCreationWrapper >> defaultInputPort [ 
+
+^ SpModelPort newPresenter: self.
+]
+
 { #category : 'layout' }
 DetailTTQPredicateCreationWrapper >> defaultLayout [ 
 

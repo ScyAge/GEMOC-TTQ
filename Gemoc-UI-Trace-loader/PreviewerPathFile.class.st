@@ -14,8 +14,6 @@ Class {
 { #category : 'layout' }
 PreviewerPathFile >> defaultInputPort [
 
-	self flag: 'probleme iceberg'.
-
 	^ SpModelPort newPresenter: self.
 ]
 
