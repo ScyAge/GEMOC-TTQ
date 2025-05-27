@@ -115,7 +115,7 @@ buttonAddTrace := self newToolbarButton
 
 								
 buttonRemoveTrace := (self newToolbarButton 
-							icon: (self iconNamed: #removeOptions);
+							icon: (self iconNamed: #delete );
 							label: 'remove trace';
 							action: [ self removeTrace ];
 							yourself).

@@ -20,12 +20,16 @@ PreviewerPathFile >> defaultInputPort [
 ]
 
 { #category : 'layout' }
-PreviewerPathFile >> defaultLayout [ 
+PreviewerPathFile >> defaultLayout [
 
-^ SpPanedLayout newLeftToRight
-	add: pathPreviwer ;
-	add:filePreviewer ;
-	yourself.
+	^ SpBoxLayout newTopToBottom
+		  spacing: 10;
+		  add: pathPreviwer withConstraints: [ :constraint |
+			  constraint
+				  height: 50;
+				  width: 100 ];
+		  add: filePreviewer;
+		  yourself
 ]
 
 { #category : 'initialization' }
@@ -33,13 +37,13 @@ PreviewerPathFile >> initializePresenters [
 
 
 	
-	pathPreviwer  := self newTextInput.
-	pathPreviwer editable: false.
+	pathPreviwer  := self newText.
+	pathPreviwer beNotEditable.
 	
 	filePreviewerGenerator := StFileBrowserTextBasedPreviewer new.
 	
 	filePreviewer := self newTextInput.
-	filePreviewer editable: false.
+	filePreviewer beNotEditable.
 
 
 ]
@@ -59,7 +63,7 @@ aFileRef
 			aFileReference  := aFileRef.
 			filePreviewer := filePreviewerGenerator basicPreviewOn: aFileReference.
 			filePreviewer editable: false.
-			pathPreviwer text: aFileReference asPath pathString
+			pathPreviwer text: (aFileReference fullPath pathString withoutPrefix: '/')
 			].
 
 self replaceLayoutWith: self defaultLayout . 

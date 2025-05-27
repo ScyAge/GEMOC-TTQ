@@ -4,9 +4,16 @@ Class {
 	#instVars : [
 		'detail'
 	],
-	#category : 'Gemoc-DynamicTTQCreator-UI',
-	#package : 'Gemoc-DynamicTTQCreator-UI'
+	#category : 'Gemoc-DynamicTTQCreator-UI-Presenters',
+	#package : 'Gemoc-DynamicTTQCreator-UI',
+	#tag : 'Presenters'
 }
+
+{ #category : 'accessing - model' }
+DetailTTQPredicateCreationWrapper >> defaultInputPort [ 
+
+^ SpModelPort newPresenter: self.
+]
 
 { #category : 'layout' }
 DetailTTQPredicateCreationWrapper >> defaultLayout [ 
@@ -24,7 +31,7 @@ DetailTTQPredicateCreationWrapper >> initializePresenters [
 { #category : 'accessing - model' }
 DetailTTQPredicateCreationWrapper >> setModel: mockModel [ 
 
-	detail := self instantiate: (mockModel gemocDynamicTTQCreatorDetailUI). 
+	detail := self instantiate: (mockModel new gemocDynamicTTQCreatorDetailUI). 
 	
 	self replaceLayoutWith: self defaultLayout . 
 ]
