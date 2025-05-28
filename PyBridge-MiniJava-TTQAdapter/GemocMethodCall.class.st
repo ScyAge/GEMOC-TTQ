@@ -26,7 +26,7 @@ GemocMethodCall >> aliasOfObject: aGemocReceiver [
 { #category : 'building' }
 GemocMethodCall >> buildReceiver [
 
-	receiver := GemocReceiver new receiver: programState receiver.
+	receiver := GemocReceiver new receiver: model receiver.
 	executionStep step subSteps asNativeList first sourceState runtimeExtensions asNativeList first runtimeBindings asNativeList first runtimeValue runtimeObject "-> root frame -> childFrame -> trouver le method call"
 ]
 
@@ -71,7 +71,7 @@ GemocMethodCall >> method: aGemocMethod [
 
 { #category : 'accessing' }
 GemocMethodCall >> methodSelector [
-	^programState method value name literalValue
+	^model method value name literalValue
 ]
 
 { #category : 'printing' }
