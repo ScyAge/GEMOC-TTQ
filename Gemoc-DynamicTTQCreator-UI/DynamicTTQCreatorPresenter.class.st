@@ -66,7 +66,6 @@ DynamicTTQCreatorPresenter >> initializePresenters [
 	listChoosenPredicate := self newList.
 	listChoosenPredicate items: OrderedCollection new.
 	
-	detailWrapper := self instantiate: DetailTTQPredicateCreationWrapper.
 ]
 
 { #category : 'initialization' }
