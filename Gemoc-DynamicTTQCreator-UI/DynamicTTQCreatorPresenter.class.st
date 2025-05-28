@@ -1,5 +1,5 @@
 Class {
-	#name : 'DynamicTTQCreator',
+	#name : 'DynamicTTQCreatorPresenter',
 	#superclass : 'SpPresenter',
 	#instVars : [
 		'trace',
@@ -18,20 +18,29 @@ Class {
 }
 
 { #category : 'accessing' }
-DynamicTTQCreator class >> getTraceFromInterface [
+DynamicTTQCreatorPresenter class >> getTraceFromInterface [
 	^ getTraceFromInterface
 ]
 
 { #category : 'initialization' }
-DynamicTTQCreator >> connectPresenters [ 
+DynamicTTQCreatorPresenter >> connectPresenters [
 
-	listMetaModelElement transmitTo: detailWrapper 
+	listMetaModelElement whenSelectedItemChangedDo: [ :item |
+		detailWrapper := self instantiate: item new gemocDynamicTTQCreatorDetailUI.
+		self replaceLayoutWith: self defaultLayout . ]
+]
+
+{ #category : 'accessing - model' }
+DynamicTTQCreatorPresenter >> defaultInputPort [ 
+
+^ SpModelPort newPresenter: self.
 ]
 
 { #category : 'layout' }
-DynamicTTQCreator >> defaultLayout [ 
+DynamicTTQCreatorPresenter >> defaultLayout [ 
 
 ^ SpBoxLayout newTopToBottom 
+		spacing: 10;
 		add: (SpBoxLayout newLeftToRight
 				add: listMetaModelElement;
 				add: detailWrapper );
@@ -39,14 +48,14 @@ DynamicTTQCreator >> defaultLayout [
 ]
 
 { #category : 'as yet unclassified' }
-DynamicTTQCreator >> getAllTheMetaModelElement [ 
+DynamicTTQCreatorPresenter >> getAllTheMetaModelElement [ 
 
 
 ^ GemocType allSubclasses.
 ]
 
 { #category : 'initialization' }
-DynamicTTQCreator >> initializePresenters [
+DynamicTTQCreatorPresenter >> initializePresenters [
 
 	traceLoaderInterface := self instantiate: TraceLoaderUI on: nil.
 	traceLoaderInterface addBlockResult: [ :futureRes | future := futureRes ].
@@ -55,12 +64,13 @@ DynamicTTQCreator >> initializePresenters [
 	listMetaModelElement items: (OrderedCollection newFrom: self getAllTheMetaModelElement).
 	
 	listChoosenPredicate := self newList.
+	listChoosenPredicate items: OrderedCollection new.
 	
 	detailWrapper := self instantiate: DetailTTQPredicateCreationWrapper.
 ]
 
 { #category : 'initialization' }
-DynamicTTQCreator >> initializeWindow: aWindow [
+DynamicTTQCreatorPresenter >> initializeWindow: aWindow [
 
 | toolBar addTraceButton |
 
@@ -81,7 +91,7 @@ aWindow
 ]
 
 { #category : 'as yet unclassified' }
-DynamicTTQCreator >> loadTraceInThePresenter [
+DynamicTTQCreatorPresenter >> loadTraceInThePresenter [
 
 	traceLoaderInterface openModal.
 
@@ -90,4 +100,11 @@ DynamicTTQCreator >> loadTraceInThePresenter [
 			trace := v.
 			future := nil.
 			trace inspect ] ]
+]
+
+{ #category : 'accessing - model' }
+DynamicTTQCreatorPresenter >> setModel: res [
+
+listChoosenPredicate items add: res.
+listChoosenPredicate updateList.
 ]
