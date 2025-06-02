@@ -2,7 +2,8 @@ Class {
 	#name : 'DynamicTTQCreator',
 	#superclass : 'Object',
 	#instVars : [
-		'predicateList'
+		'predicateList',
+		'trace'
 	],
 	#category : 'Gemoc-DynamicTTQCreator-UI-model',
 	#package : 'Gemoc-DynamicTTQCreator-UI',
@@ -25,4 +26,16 @@ predicateList := OrderedCollection new.
 DynamicTTQCreator >> predicateList [
 
 	^ predicateList
+]
+
+{ #category : 'accessing' }
+DynamicTTQCreator >> trace [
+
+	^ trace
+]
+
+{ #category : 'accessing' }
+DynamicTTQCreator >> trace: anObject [
+
+	trace := anObject
 ]

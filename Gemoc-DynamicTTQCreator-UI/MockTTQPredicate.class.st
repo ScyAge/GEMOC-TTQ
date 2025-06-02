@@ -30,5 +30,5 @@ MockTTQPredicate >> initializePresenters [
 	textInput := self newTextInput.
 	
 	accepButton := self newButton label: 'choose this configuration';
-											action: [ self createTTQObjectPredicate ]
+											action: [ self sendPredicateCreated ]
 ]

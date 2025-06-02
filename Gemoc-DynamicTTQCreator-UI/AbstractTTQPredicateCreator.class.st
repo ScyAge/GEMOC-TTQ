@@ -1,6 +1,9 @@
 Class {
 	#name : 'AbstractTTQPredicateCreator',
-	#superclass : 'SpPresenterWithModel',
+	#superclass : 'SpPresenter',
+	#instVars : [
+		'predicateCreationCallBack'
+	],
 	#category : 'Gemoc-DynamicTTQCreator-UI-Presenters',
 	#package : 'Gemoc-DynamicTTQCreator-UI',
 	#tag : 'Presenters'
@@ -12,21 +15,26 @@ AbstractTTQPredicateCreator class >> isAbstract [
 	^ self == AbstractTTQPredicateCreator
 ]
 
-{ #category : 'initialization' }
-AbstractTTQPredicateCreator >> connectPresenters [ 
-
-self transmitTo: self owner.
-]
-
 { #category : 'as yet unclassified' }
 AbstractTTQPredicateCreator >> createTTQObjectPredicate [ 
 	self subclassResponsibility.
 ]
 
+{ #category : 'as yet unclassified' }
+AbstractTTQPredicateCreator >> sendPredicateCreated [
+
+	| predicate |
+	predicate := self createTTQObjectPredicate.
+
+	predicateCreationCallBack
+		ifNil: [
+			self error:
+				'a call back block is needed, add one with setCallBackMetrod: ' ]
+		ifNotNil: [ predicateCreationCallBack cull: predicate ]
+]
+
 { #category : 'initialization' }
-AbstractTTQPredicateCreator >> initialize [ 
+AbstractTTQPredicateCreator >> setCallBackMethod: block [
 
-self model: nil.
-super initialize.
-
+	predicateCreationCallBack := block
 ]

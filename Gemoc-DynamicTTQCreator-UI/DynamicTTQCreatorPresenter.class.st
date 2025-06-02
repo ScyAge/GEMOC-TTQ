@@ -1,8 +1,7 @@
 Class {
 	#name : 'DynamicTTQCreatorPresenter',
-	#superclass : 'SpPresenter',
+	#superclass : 'SpPresenterWithModel',
 	#instVars : [
-		'trace',
 		'traceLoaderInterface',
 		'listMetaModelElement',
 		'listChoosenPredicate',
@@ -26,8 +25,12 @@ DynamicTTQCreatorPresenter class >> getTraceFromInterface [
 DynamicTTQCreatorPresenter >> connectPresenters [
 
 	listMetaModelElement whenSelectedItemChangedDo: [ :item |
-		detailWrapper := self instantiate: item new gemocDynamicTTQCreatorDetailUI.
-		self replaceLayoutWith: self defaultLayout . ]
+		detailWrapper := self instantiate:
+			                 item new gemocDynamicTTQCreatorDetailUI.
+		detailWrapper setCallBackMethod: [ :predicate |
+			self model addPredicteInList: predicate.
+			listChoosenPredicate updateList ].
+		self replaceLayoutWith: self defaultLayout ]
 ]
 
 { #category : 'accessing - model' }
@@ -63,8 +66,10 @@ DynamicTTQCreatorPresenter >> initializePresenters [
 	listMetaModelElement := self newList.
 	listMetaModelElement items: (OrderedCollection newFrom: self getAllTheMetaModelElement).
 	
+	detailWrapper:= self newText.
+	
 	listChoosenPredicate := self newList.
-	listChoosenPredicate items: OrderedCollection new.
+	listChoosenPredicate items: self model predicateList.
 	
 ]
 
@@ -96,14 +101,7 @@ DynamicTTQCreatorPresenter >> loadTraceInThePresenter [
 
 	future ifNotNil: [
 		future onSuccessDo: [ :v |
-			trace := v.
+			self model trace: v.
 			future := nil.
-			trace inspect ] ]
-]
-
-{ #category : 'accessing - model' }
-DynamicTTQCreatorPresenter >> setModel: res [
-
-listChoosenPredicate items add: res.
-listChoosenPredicate updateList.
+			self model trace inspect ] ]
 ]

@@ -15,7 +15,7 @@ Class {
 { #category : 'as yet unclassified' }
 GemocMethodCallPredicatePresenter >> createTTQObjectPredicate [
 
-	 self model: (MethodCallPredicate new
+	 ^ (MethodCallPredicate new
 			 argument: arg text;
 			 selector: selector text;
 			 receiver: receiver text)
@@ -47,5 +47,5 @@ arg := self newTextInput.
 receiver := self newTextInput.
 
 createPredicateButton := self newButton label: 'create predicate';
-									action: [self createTTQObjectPredicate ].
+									action: [self sendPredicateCreated  ].
 ]
