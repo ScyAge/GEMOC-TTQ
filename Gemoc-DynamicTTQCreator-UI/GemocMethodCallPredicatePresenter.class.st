@@ -15,10 +15,11 @@ Class {
 { #category : 'as yet unclassified' }
 GemocMethodCallPredicatePresenter >> createTTQObjectPredicate [
 
-	 ^ (MethodCallPredicate new
-			 argument: arg text;
-			 selector: selector text;
-			 receiver: receiver text)
+	^ (TTQPredicate
+		  newPredicateOn: GemocMethodCall
+		  withDictionnary:
+			  ('selector' -> selector text , 'receiver' -> receiver text
+			  , 'arguments' -> arg text))
 ]
 
 { #category : 'layout' }

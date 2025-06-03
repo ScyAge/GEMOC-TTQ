@@ -1,7 +1,7 @@
 Class {
 	#name : 'DynamicTTQCreatorApp',
 	#superclass : 'SpApplication',
-	#category : 'Gemoc-DynamicTTQCreator-UI-Presenters',
+	#category : 'Gemoc-DynamicTTQCreator-UI-model',
 	#package : 'Gemoc-DynamicTTQCreator-UI',
-	#tag : 'Presenters'
+	#tag : 'model'
 }
