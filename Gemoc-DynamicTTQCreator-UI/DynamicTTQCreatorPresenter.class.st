@@ -5,8 +5,7 @@ Class {
 		'traceLoaderInterface',
 		'listMetaModelElement',
 		'listChoosenPredicate',
-		'detailWrapper',
-		'future'
+		'detailWrapper'
 	],
 	#classInstVars : [
 		'getTraceFromInterface'
@@ -33,12 +32,6 @@ DynamicTTQCreatorPresenter >> connectPresenters [
 		self replaceLayoutWith: self defaultLayout ]
 ]
 
-{ #category : 'accessing - model' }
-DynamicTTQCreatorPresenter >> defaultInputPort [ 
-
-^ SpModelPort newPresenter: self.
-]
-
 { #category : 'layout' }
 DynamicTTQCreatorPresenter >> defaultLayout [ 
 
@@ -48,6 +41,12 @@ DynamicTTQCreatorPresenter >> defaultLayout [
 				add: listMetaModelElement;
 				add: detailWrapper );
 		add: listChoosenPredicate .
+]
+
+{ #category : 'private - testing' }
+DynamicTTQCreatorPresenter >> detailWrapper [
+
+	^ detailWrapper
 ]
 
 { #category : 'as yet unclassified' }
@@ -61,7 +60,6 @@ DynamicTTQCreatorPresenter >> getAllTheMetaModelElement [
 DynamicTTQCreatorPresenter >> initializePresenters [
 
 	traceLoaderInterface := self instantiate: TraceLoaderUI on: nil.
-	traceLoaderInterface addBlockResult: [ :futureRes | future := futureRes ].
 	
 	listMetaModelElement := self newList.
 	listMetaModelElement items: (OrderedCollection newFrom: self getAllTheMetaModelElement).
@@ -94,14 +92,33 @@ aWindow
 	toolbar: toolBar.					
 ]
 
+{ #category : 'private - testing' }
+DynamicTTQCreatorPresenter >> listChoosenPredicate [
+
+	^ listChoosenPredicate
+]
+
+{ #category : 'private - testing' }
+DynamicTTQCreatorPresenter >> listMetaModelElement [
+
+	^ listMetaModelElement
+]
+
 { #category : 'as yet unclassified' }
 DynamicTTQCreatorPresenter >> loadTraceInThePresenter [
-
+	| future |
+	
+	traceLoaderInterface addBlockResult: [ :futureRes | future := futureRes ].
 	traceLoaderInterface openModal.
-
+	
 	future ifNotNil: [
 		future onSuccessDo: [ :v |
 			self model trace: v.
-			future := nil.
 			self model trace inspect ] ]
+]
+
+{ #category : 'private - testing' }
+DynamicTTQCreatorPresenter >> traceLoaderInterface [
+
+	^ traceLoaderInterface
 ]
