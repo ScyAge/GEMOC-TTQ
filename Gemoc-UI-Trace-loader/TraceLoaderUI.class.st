@@ -1,3 +1,22 @@
+"
+TraceLoaderUI is a presenter that help to load a Gemoc Trace in the system by using PyBridge
+
+Usage : 
+```
+| test  res  anApp|
+
+test := TraceLoaderUi newApplication: anApp 
+							addBlockResult: [ :future  | res := future]; 
+							yourself.
+```
+
+anApp is a SpApplication.
+
+the Block is where the future of the trace will retrive.
+The result will be in the variable res in the you open the presenter as a Modal or as a Dialog windows
+
+
+"
 Class {
 	#name : 'TraceLoaderUI',
 	#superclass : 'SpPresenterWithModel',
@@ -13,7 +32,7 @@ Class {
 }
 
 { #category : 'adding' }
-TraceLoaderUI >> addBlockLoader: aBlock [ 
+TraceLoaderUI >> addBlockResult: aBlock [ 
 
 	blockLoader := aBlock 
 ]
@@ -27,7 +46,7 @@ TraceLoaderUI >> browser [
 { #category : 'initialization' }
 TraceLoaderUI >> connectPresenters [
 
-	self model ifNotNil: [ self transmitTo: previewer ]
+	self transmitTo: previewer.
 ]
 
 { #category : 'layout' }
@@ -50,13 +69,16 @@ TraceLoaderUI >> getFilePathFromBrowser [
 TraceLoaderUI >> initializeDialogWindow: aDialogPresenter [
 
 	aDialogPresenter centered.
-
 	aDialogPresenter okAction: [ self notifyLoadFutureAction ].
+	
 	aDialogPresenter
-		addButton: 'Cancel' do: [ :button | button close ];
+		addButton: 'Cancel' do: [ :button |
+			button triggerCancelAction.
+			button close ];
 		addButton: 'Load Trace' do: [ :button |
 			self model ifNotNil: [
 					button
+						triggerOkAction;
 						beOk;
 						close ] ]
 ]
@@ -93,7 +115,7 @@ buttonAddTrace := self newToolbarButton
 
 								
 buttonRemoveTrace := (self newToolbarButton 
-							icon: (self iconNamed: #removeOptions);
+							icon: (self iconNamed: #delete );
 							label: 'remove trace';
 							action: [ self removeTrace ];
 							yourself).
@@ -126,23 +148,28 @@ traceFuture := [GemocTrace source: path] future.
 ]
 
 { #category : 'as yet unclassified' }
-TraceLoaderUI >> notifyLoadFutureAction [ 
+TraceLoaderUI >> notifyLoadFutureAction [
 
-^ blockLoader ifNotNil: [ :block | block cull: self loadTraceInFuture  ].
+	^ blockLoader
+		  ifNotNil: [ :block | block cull: self loadTraceInFuture ]
+		  ifNil: [
+			  Exception new
+				  messageText:
+					  'add a Block that retrive the result with addBlockResult:. ';
+				  signal ]
 ]
 
 { #category : 'showing' }
 TraceLoaderUI >> open [ 
 
-	^ self openDialog
+	^ self openDialog.
 ]
 
 { #category : 'showing' }
 TraceLoaderUI >> openModal [
 
 	super openModal cancelled
-		ifTrue: [ ^ nil ]
-		ifFalse: [ self notifyLoadFutureAction ].
+		ifTrue: [ ^ nil ].
 ]
 
 { #category : 'testing' }

@@ -5,8 +5,9 @@ Class {
 		'accepButton',
 		'textInput'
 	],
-	#category : 'Gemoc-DynamicTTQCreator-UI',
-	#package : 'Gemoc-DynamicTTQCreator-UI'
+	#category : 'Gemoc-DynamicTTQCreator-UI-Presenters',
+	#package : 'Gemoc-DynamicTTQCreator-UI',
+	#tag : 'Presenters'
 }
 
 { #category : 'as yet unclassified' }
@@ -29,5 +30,5 @@ MockTTQPredicate >> initializePresenters [
 	textInput := self newTextInput.
 	
 	accepButton := self newButton label: 'choose this configuration';
-											action: [ self createTTQObjectPredicate ]
+											action: [ self sendPredicateCreated ]
 ]

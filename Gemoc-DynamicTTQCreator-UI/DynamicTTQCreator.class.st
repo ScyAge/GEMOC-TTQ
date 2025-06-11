@@ -1,89 +1,41 @@
 Class {
 	#name : 'DynamicTTQCreator',
-	#superclass : 'SpPresenter',
+	#superclass : 'Object',
 	#instVars : [
-		'trace',
-		'traceLoaderInterface',
-		'listMetaModelElement',
-		'listChoosenPredicate',
-		'detailWrapper'
+		'predicateList',
+		'trace'
 	],
-	#classInstVars : [
-		'getTraceFromInterface'
-	],
-	#category : 'Gemoc-DynamicTTQCreator-UI',
-	#package : 'Gemoc-DynamicTTQCreator-UI'
+	#category : 'Gemoc-DynamicTTQCreator-UI-model',
+	#package : 'Gemoc-DynamicTTQCreator-UI',
+	#tag : 'model'
 }
 
+{ #category : 'adding' }
+DynamicTTQCreator >> addPredicteInList: aPredicte [
+
+predicateList add: aPredicte 
+]
+
+{ #category : 'initialization' }
+DynamicTTQCreator >> initialize [ 
+
+predicateList := OrderedCollection new.
+]
+
 { #category : 'accessing' }
-DynamicTTQCreator class >> getTraceFromInterface [
-	^ getTraceFromInterface
+DynamicTTQCreator >> predicateList [
+
+	^ predicateList
 ]
 
-{ #category : 'initialization' }
-DynamicTTQCreator >> connectPresenters [ 
+{ #category : 'accessing' }
+DynamicTTQCreator >> trace [
 
-	listMetaModelElement transmitTo: detailWrapper 
+	^ trace
 ]
 
-{ #category : 'layout' }
-DynamicTTQCreator >> defaultLayout [ 
+{ #category : 'accessing' }
+DynamicTTQCreator >> trace: anObject [
 
-^ SpBoxLayout newTopToBottom 
-		add: (SpBoxLayout newLeftToRight
-				add: listMetaModelElement;
-				add: detailWrapper );
-		add: listChoosenPredicate .
-]
-
-{ #category : 'as yet unclassified' }
-DynamicTTQCreator >> getAllTheMetaModelElement [ 
-
-
-^ GemocAbstractModelRepresentation allSubclasses.
-]
-
-{ #category : 'initialization' }
-DynamicTTQCreator >> initializePresenters [
-
-	traceLoaderInterface := self instantiate: TraceLoaderUI on: nil.
-	
-	listMetaModelElement := self newList.
-	listMetaModelElement items: (OrderedCollection newFrom: self getAllTheMetaModelElement).
-	
-	listChoosenPredicate := self newList.
-	
-	detailWrapper := self instantiate: DetailTTQPredicateCreationWrapper.
-]
-
-{ #category : 'initialization' }
-DynamicTTQCreator >> initializeWindow: aWindow [
-
-| toolBar addTraceButton |
-
-addTraceButton := self newToolbarButton 
-						label: 'add trace';
-						icon: (self iconNamed: #smallAdd);
-						action: [ self loadTraceInThePresenter];
-						yourself.
-						
-toolBar := self newToolbar 
-					add: addTraceButton;
-					yourself.
-					
-aWindow 
-	title: 'Dynamic TTQ Generator';
-	initialExtent: 1000@600;
-	toolbar: toolBar.					
-]
-
-{ #category : 'as yet unclassified' }
-DynamicTTQCreator >> loadTraceInThePresenter [
-| future |
-future := traceLoaderInterface openModal.
-
-future ifNotNil: [  
-future onSuccessDo: [ :v | trace := v.
-	trace inspect  ].
-].
+	trace := anObject
 ]
