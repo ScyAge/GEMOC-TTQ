@@ -30,6 +30,12 @@ GemocTraceServerHandler >> getDefault [
 ]
 
 { #category : 'as yet unclassified' }
+GemocTraceServerHandler >> getRuntime [ 
+
+^ STONJSON fromString: (client get: (hostURL , '/runTime')).
+]
+
+{ #category : 'as yet unclassified' }
 GemocTraceServerHandler >> getStep [ 
 
 ^ client get: (hostURL , '/step').

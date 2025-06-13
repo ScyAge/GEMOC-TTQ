@@ -20,6 +20,12 @@ DynamicTTQCreatorPresenter class >> getTraceFromInterface [
 	^ getTraceFromInterface
 ]
 
+{ #category : 'private - testing' }
+DynamicTTQCreatorPresenter >> clickMetaModelElementAtIndex: index [
+
+	listMetaModelElement clickAtIndex: index
+]
+
 { #category : 'initialization' }
 DynamicTTQCreatorPresenter >> connectPresenters [
 
