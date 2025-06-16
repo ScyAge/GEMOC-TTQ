@@ -64,9 +64,9 @@ JavaWrapperFileCreator >> createJavaFileForClass: aClass [
 JavaWrapperFileCreator >> createTheFileInTheProject: aClass [
 
 
-defaultDestinationDirectory := (FileLocator home) / 'eclipse-workspaces' / 'gemoc-workspace' / 'Gemoc-connection-handler' / 'src' / 'main' / 'java' / 'gemocServer' / 'metamodelElementWrapper' / 'generatedWrapper'.
+defaultDestinationDirectory := home / 'eclipse-workspaces' / 'gemoc-workspace' / 'Gemoc-connection-handler' / 'src' / 'main' / 'java' / 'gemocServer' / 'metamodelElementWrapper' / 'generatedWrapper'.
 
-self createJavaFileForClass: GemocMethodCall.
+self createJavaFileForClass: aClass.
 ]
 
 { #category : 'accessing' }
