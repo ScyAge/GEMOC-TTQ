@@ -4,8 +4,8 @@ this class generate java code by using a class as input, JavaWrapperClassGenerat
 Class {
 	#name : 'JavaWrapperClassGenerator',
 	#superclass : 'Object',
-	#category : 'Gemoc-Java-Trace-Server',
-	#package : 'Gemoc-Java-Trace-Server'
+	#category : 'Gemoc-Java-File-Creator',
+	#package : 'Gemoc-Java-File-Creator'
 }
 
 { #category : 'translating' }
@@ -14,10 +14,11 @@ JavaWrapperClassGenerator >> generateClassBodyOnElement: aMetaModelElement [
 	^ String streamContents: [ :str |
 		  self
 			  generateInstanceVarible: aMetaModelElement onStream: str;
-				generateWrappedAttribute: aMetaModelElement onStream: str;
+			  generateConstructorOn: aMetaModelElement onStream: str;
+			  generateWrappedAttribute: aMetaModelElement onStream: str;
 			  generateStub: aMetaModelElement onStream: str;
-			  generateImplementedMethodeOnStream: str ;
-				generateWrappedAttributeStub: aMetaModelElement onStream:str]
+			  generateImplementedMethodeOnStream: str;
+			  generateWrappedAttributeStub: aMetaModelElement onStream: str ]
 ]
 
 { #category : 'translating' }
@@ -31,14 +32,47 @@ JavaWrapperClassGenerator >> generateClassOnElement: aMetaModelElement [
 			  ('public class {1}Wrapper implements MetamodelElementWrapper \{
 			{2}
 			\}' format: {
-					   aMetaModelElement name.
+					   (self generateTrueClassName: aMetaModelElement).
 					   (self generateClassBodyOnElement: aMetaModelElement) }) ]
 ]
 
 { #category : 'as yet unclassified' }
-JavaWrapperClassGenerator >> generateGetterForAttribute: aString withReturnType: aRType [ 
+JavaWrapperClassGenerator >> generateConstructorOn: aMetaModelElement onStream: aStream [
 
-^ self generatePublicMethodTextWithReturnType: aRType withName: aString withParam: '' withBody: 'return ',aString , ';'
+	| className |
+	className := self generateTrueClassName: aMetaModelElement.
+
+	aStream
+		cr;
+		<< ('public {1}Wrapper({1} element)\{
+	{2} = element;
+\}' format: {
+						 className.
+						 className asLowercase })
+]
+
+{ #category : 'as yet unclassified' }
+JavaWrapperClassGenerator >> generateConstructorOn: aMetaModelElement onStream: aStream withBody: body [
+
+	| className |
+	className := self generateTrueClassName: aMetaModelElement.
+
+	aStream << ('public {1}Wrapper({1} element){
+	{3} = value;
+}' format: {
+			 className.
+			 body.
+			 className lowercase })
+]
+
+{ #category : 'as yet unclassified' }
+JavaWrapperClassGenerator >> generateGetterForAttribute: aString withReturnType: aRType [
+
+	^ self
+		  generatePublicMethodTextWithReturnType: aRType
+		  withName: aString
+		  withParam: ''
+		  withBody: 'return ' , aString , ';'
 ]
 
 { #category : 'as yet unclassified' }
@@ -63,7 +97,7 @@ import main.java.gemocServer.runtimeStepReader.MetamodelElementWrapperReaderVisi
 		cr;
 		<< ('import org.tetrabox.minijava.model.miniJava.impl.{1};' format:
 					 { (self generateTrueClassName: aMetaModelElement) });
-		cr.
+		cr
 ]
 
 { #category : 'as yet unclassified' }
@@ -79,9 +113,13 @@ JavaWrapperClassGenerator >> generateInstanceVarible: aMetaModelElement onStream
 { #category : 'as yet unclassified' }
 JavaWrapperClassGenerator >> generatePublicMethodTextWithReturnType: aType withName: aName withParam: param withBody: aBody [
 
-^ '	public {1} {2}({3}) \{
+	^ '	public {1} {2}({3}) \{
 		{4}
-	\}' format: { aType . aName . param . aBody }
+	\}' format: {
+			  aType.
+			  aName.
+			  param.
+			  aBody }
 ]
 
 { #category : 'as yet unclassified' }

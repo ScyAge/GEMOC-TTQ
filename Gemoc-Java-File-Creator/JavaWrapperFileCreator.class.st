@@ -24,8 +24,8 @@ Class {
 		'javaFileWrapper',
 		'defaultDestinationDirectory'
 	],
-	#category : 'Gemoc-Java-Trace-Server',
-	#package : 'Gemoc-Java-Trace-Server'
+	#category : 'Gemoc-Java-File-Creator',
+	#package : 'Gemoc-Java-File-Creator'
 }
 
 { #category : 'as yet unclassified' }
@@ -41,7 +41,10 @@ JavaWrapperFileCreator >> createJavaFileFileRef: aClass [
 	| name fileRef |
 	name := aClass name.
 
-	fileRef := (defaultDestinationDirectory / (name  ,'Wrapper', '.java')) asFileReference.
+	fileRef := (defaultDestinationDirectory
+	            /
+	            ((javaFileWrapper generateTrueClassName:
+		             aClass ), 'Wrapper' , '.java')) asFileReference.
 
 	fileRef exists ifTrue: [ fileRef delete ].
 	fileRef ensureCreateFile.
