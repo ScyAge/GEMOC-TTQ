@@ -1,5 +1,5 @@
 Class {
-	#name : 'JavaListOfParameters',
+	#name : 'JavaListOfElement',
 	#superclass : 'Object',
 	#instVars : [
 		'parameters'
@@ -10,26 +10,32 @@ Class {
 }
 
 { #category : 'adding' }
-JavaListOfParameters >> addAparameter: aParameter [
+JavaListOfElement >> addAnElement: aParameter [
 
 parameters add: aParameter 
 ]
 
 { #category : 'initialization' }
-JavaListOfParameters >> initialize [ 
+JavaListOfElement >> initialize [ 
 
 	parameters := OrderedCollection new.
 ]
 
+{ #category : 'testing' }
+JavaListOfElement >> isEmpty [ 
+
+^ parameters isEmpty.
+]
+
 { #category : 'printing' }
-JavaListOfParameters >> printOn: aStream [
+JavaListOfElement >> printOn: aStream [
 	parameters doWithIndex: [ :param :index |
 		param printOn: aStream.
 		aStream << (self putAComma: index listSize: parameters size )].
 ]
 
 { #category : 'as yet unclassified' }
-JavaListOfParameters >> putAComma: index listSize: size [
+JavaListOfElement >> putAComma: index listSize: size [
 
 size > index ifTrue: [ ^ ', ' ] ifFalse: [ ^ '' ]
 ]

@@ -26,7 +26,7 @@ JavaConstructor >> body: anObject [
 { #category : 'initialization' }
 JavaConstructor >> initialize [ 
 
-parameters := JavaListOfParameters new.
+parameters := JavaListOfElement new.
 ]
 
 { #category : 'accessing' }

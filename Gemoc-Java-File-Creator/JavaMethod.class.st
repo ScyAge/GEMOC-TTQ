@@ -40,7 +40,7 @@ JavaMethod >> body: anObject [
 { #category : 'initialization' }
 JavaMethod >> initialize [ 
 
-parameter := JavaListOfParameters new.
+parameter := JavaListOfElement new.
 ]
 
 { #category : 'accessing' }

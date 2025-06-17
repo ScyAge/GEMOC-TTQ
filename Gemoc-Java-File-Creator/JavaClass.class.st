@@ -5,7 +5,9 @@ Class {
 		'name',
 		'attributes',
 		'constructor',
-		'methods'
+		'methods',
+		'implementor',
+		'extender'
 	],
 	#category : 'Gemoc-Java-File-Creator-java-element-represenation',
 	#package : 'Gemoc-Java-File-Creator',
@@ -24,6 +26,12 @@ JavaClass class >> createClassWithName: aName [
 JavaClass >> addAttribute: anAttribute [
 
 	attributes add: anAttribute
+]
+
+{ #category : 'adding' }
+JavaClass >> addConstructor: aJavaConstructor [
+
+	constructor add: aJavaConstructor
 ]
 
 { #category : 'adding' }
@@ -60,7 +68,9 @@ JavaClass >> constructor: anObject [
 JavaClass >> initialize [
 
 	methods := OrderedCollection new.
-	attributes := OrderedCollection new
+	attributes := OrderedCollection new.
+	constructor := OrderedCollection new.
+	implementor := JavaListOfElement new.
 ]
 
 { #category : 'accessing' }
@@ -97,9 +107,9 @@ JavaClass >> printOn: aStream [
 
 	attributes do: [ :att | att printOn: aStream ].
 
-	constructor printOn: aStream.
+	constructor isEmpty ifFalse: [  constructor printOn: aStream ].
 
 	methods do: [ :met | met printOn: aStream ].
 
-	aStream << '\}'
+	aStream << '}'
 ]
