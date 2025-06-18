@@ -59,7 +59,7 @@ JavaWrapperFileCreator >> createJavaFileForClass: aClass [
 	self createEndpointDirectory.
 	fileRef := self createJavaFileFileRef: aClass.
 	
-	fileRef writeStreamDo: [ :aStream | aStream nextPutAll: (javaFileWrapper generateClassOnElement: aClass) ].
+	fileRef writeStreamDo: [ :aStream | (javaFileWrapper generateClass: aClass) printOn: aStream ].
 	
 ]
 
@@ -88,6 +88,6 @@ JavaWrapperFileCreator >> defaultDestinationDirectory: anObject [
 JavaWrapperFileCreator >> initialize [ 
 
 home := FileLocator home.
-javaFileWrapper := JavaWrapperClassGenerator new.
+javaFileWrapper := JavaWrappedClassGenerator new.
 defaultDestinationDirectory := home /'generateJavaFileDirectory'
 ]

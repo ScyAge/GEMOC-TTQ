@@ -36,7 +36,7 @@ JavaAttribute >> name: anObject [
 { #category : 'printing' }
 JavaAttribute >> printOn: aStream [
 
-	aStream << ('{1} {2} {3};' format: {
+	aStream << ('	{1} {2} {3};' format: {
 			 visibility.
 			 type.
 			 name }).

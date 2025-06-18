@@ -70,7 +70,7 @@ JavaMethod >> parameter: anObject [
 { #category : 'printing' }
 JavaMethod >> printOn: aStream [
 
-	aStream << ('{1} {2} {3}(' format: {
+	aStream << ('	{1} {2} {3}(' format: {
 			 visibility.
 			 returnType.
 			 name }).
@@ -78,8 +78,8 @@ JavaMethod >> printOn: aStream [
 	parameter printOn: aStream.
 
 	aStream << (')\{
-{1}
-\}' format: { body }).
+		{1}
+	\}' format: { body }).
 
 	aStream
 		cr;

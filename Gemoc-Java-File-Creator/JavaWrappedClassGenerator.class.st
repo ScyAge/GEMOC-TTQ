@@ -10,14 +10,16 @@ JavaWrappedClassGenerator >> generateClass: aMetaModelElement [
 
 	| generator |
 	generator := JavaClass createClassWithName:
-		             (self generateTrueClassName: aMetaModelElement).
+		             ((self generateTrueClassName: aMetaModelElement),'Wrapper').
 
 
 	self
+		generateImportAndPackageOn: generator onElement: aMetaModelElement ;
 		generateInstanceVaribleOnClass: generator
 		onElement: aMetaModelElement;
 		generateStubOnClasseGen: generator onElement: aMetaModelElement;
-		generateStubForWrappedAttributeOnClasseGen: generator onElement:aMetaModelElement. 
+		generateStubForWrappedAttributeOnClasseGen: generator onElement:aMetaModelElement;
+		generateImplementorOnAJavaClassGenerator: generator.
 		
 	
 		^ generator 
@@ -35,6 +37,41 @@ JavaWrappedClassGenerator >> generateGetterForInstanceVarible: name [
 ]
 
 { #category : 'as yet unclassified' }
+JavaWrappedClassGenerator >> generateImplementorOnAJavaClassGenerator: aGenerator [
+
+	| listParam |
+	aGenerator addImplementedInterface:
+		(JavaType createJavaType: 'MetamodelElementWrapper').
+
+	listParam := JavaListOfElement new.
+	listParam addAnElement: (JavaParameter
+			 createAParameterWithName: 'visitor'
+			 withType: (JavaType createJavaType: 'MetamodelElementWrapperReaderVisitor')).
+	
+	aGenerator addMethod: (JavaMethod
+			 createAjavaMethodWithVisibility: 'public'
+			 withReturnType: 'String'
+			 withParameter: listParam
+			 withBody: 'return visitor.visit(this);'
+			 withName: 'accept')
+]
+
+{ #category : 'as yet unclassified' }
+JavaWrappedClassGenerator >> generateImportAndPackageOn: aGenerator onElement: aMetaModelElement [
+
+	aGenerator
+		addImport: (JavaType createJavaType:
+					 'main.java.gemocServer.metamodelElementWrapper.MetamodelElementWrapper');
+		addImport: (JavaType createJavaType:
+					 'main.java.gemocServer.runtimeStepReader.MetamodelElementWrapperReaderVisitor');
+		addImport: (JavaType createJavaType:
+					 ('org.tetrabox.minijava.model.miniJava.impl.{1}' format:
+							  { (self generateTrueClassName: aMetaModelElement) }));
+		package:
+			'main.java.gemocServer.metamodelElementWrapper.generatedWrapper'
+]
+
+{ #category : 'as yet unclassified' }
 JavaWrappedClassGenerator >> generateInstanceVaribleOnClass: classGen onElement: aMetaModelElement [
 
 	(self getInstanceVariableFromAMetaModelElement: aMetaModelElement)
@@ -47,7 +84,7 @@ JavaWrappedClassGenerator >> generateInstanceVaribleOnClass: classGen onElement:
 	classGen addAttribute: (JavaAttribute
 					 createAttributeWithName: ((self generateTrueClassName: aMetaModelElement) asLowercase )
 					 withVisibility: 'private'
-					 withType: 'String')
+					 withType: (self generateTrueClassName: aMetaModelElement))
 				
 ]
 
@@ -58,13 +95,13 @@ JavaWrappedClassGenerator >> generateSetterForInstanceVarible: name [
 
 listParam := JavaListOfElement new.
 
-listParam addAnElement: (JavaParameter createAParameterWithName: 'name' withType: 'String' ).
+listParam addAnElement: (JavaParameter createAParameterWithName: 'value' withType: 'String' ).
 
 	^ JavaMethod
 		  createAjavaMethodWithVisibility: 'public'
 		  withReturnType: 'void'
 		  withParameter: listParam
-		  withBody: ('return {1};' format: { name })
+		  withBody: ('{1} = value;' format: { name })
 		  withName: ('set{1}' format: { name })
 ]
 
