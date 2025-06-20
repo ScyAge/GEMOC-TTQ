@@ -98,7 +98,7 @@ JavaWrapperFileCreator >> initialize [
 home := FileLocator home.
 javaFileWrapper := JavaWrappedClassGenerator new.
 defaultDestinationDirectory := home.
-outPutFolderName := 'generateJavaFileDirectory'.
+outPutFolderName := 'generatedJavaFileDirectory'.
 ]
 
 { #category : 'accessing' }
