@@ -36,7 +36,6 @@ GemocProgramStateGenerator >> fromPybridgeObject: aPybridgeObject [
 	type := self typeNamed: typeName.
 	instance := type new.
 	instance model: aPybridgeObject.
-	instance programState: aPybridgeObject.
 	^ instance
 ]
 
@@ -158,7 +157,7 @@ GemocProgramStateGenerator >> visitGemocAssignment: aGemocAssignment [
 
 	| assignee value |
 	assignee := GemocAssignee new.
-	assignee model: aGemocAssignment programState assignee value.
+	assignee model: aGemocAssignment model assignee value.
 	assignee acceptVisitor: self.
 	aGemocAssignment assignee: assignee.
 	self flag: 'bug: check if the assignment is a literal or an object'.
@@ -252,11 +251,11 @@ GemocProgramStateGenerator >> visitGemocMethodCall: aGemocMethodCall [
 
 	| method receiver |
 	method := self fromPybridgeObject:
-		          aGemocMethodCall programState method.
+		          aGemocMethodCall model method.
 	method acceptVisitor: self.
 	aGemocMethodCall method: method.
 	receiver := self fromPybridgeObject:
-		          aGemocMethodCall programState receiver.
+		          aGemocMethodCall model receiver.
 	receiver acceptVisitor: self.
 	aGemocMethodCall receiver: receiver
 
