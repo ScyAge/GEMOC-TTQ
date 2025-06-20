@@ -135,16 +135,15 @@ aWindow
 ]
 
 { #category : 'as yet unclassified' }
-TraceLoaderUI >> loadTraceInFuture [ 
-| traceFuture path |
+TraceLoaderUI >> loadTraceInFuture [
 
-path := (self model) fullPath pathString withoutPrefix: '/'.
+	| traceFuture path |
+	path := self model fullPath pathString withoutPrefix: '/'.
 
-(self model) ifNotNil: [ 
-traceFuture := [GemocTrace source: path] future.
-].
+	self model ifNotNil: [
+		traceFuture := [ GemocTrace source: path ] future ].
 
-^ traceFuture
+	^ traceFuture
 ]
 
 { #category : 'as yet unclassified' }

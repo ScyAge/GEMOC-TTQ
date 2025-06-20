@@ -32,7 +32,7 @@ JavaWrappedClassGenerator >> generateGetterForInstanceVarible: name [
 		  createAjavaMethodWithVisibility: 'public'
 		  withReturnType: 'String'
 		  withParameter: JavaListOfElement new
-		  withBody: ('return {1};' format: { name })
+		  withBody: ('return {1}Generated;' format: { name })
 		  withName: ('get{1}' format: { name })
 ]
 
@@ -77,7 +77,7 @@ JavaWrappedClassGenerator >> generateInstanceVaribleOnClass: classGen onElement:
 	(self getInstanceVariableFromAMetaModelElement: aMetaModelElement)
 		do: [ :att |
 			classGen addAttribute: (JavaAttribute
-					 createAttributeWithName: att
+					 createAttributeWithName: (att, 'Generated')
 					 withVisibility: 'private'
 					 withType: 'String') ].
 	
@@ -101,7 +101,7 @@ listParam addAnElement: (JavaParameter createAParameterWithName: 'value' withTyp
 		  createAjavaMethodWithVisibility: 'public'
 		  withReturnType: 'void'
 		  withParameter: listParam
-		  withBody: ('{1} = value;' format: { name })
+		  withBody: ('{1}Generated = value;' format: { name })
 		  withName: ('set{1}' format: { name })
 ]
 

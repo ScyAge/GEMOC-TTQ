@@ -4,7 +4,8 @@ This class creates .java file with Java code in it
 
 createJavaFileForClass: method for creating a java file for the class you specified the code in the file is generated with the JavaWrapperClassGenerator
 
-The .java file is created in the generateWrapper which is in your user directory by default but you can modify it by seting a new path in defaultDestinationDirectory instance variable
+The .java is generated in the directory 'generateJavaFileDirectory' by default wich is in your home directory.
+You can change the name of the destination folder by using outPutFolderName: method and change the path where the directory is created by using defaultDestionationDirectory: method
 
 
 Example: 
@@ -22,7 +23,8 @@ Class {
 	#instVars : [
 		'home',
 		'javaFileWrapper',
-		'defaultDestinationDirectory'
+		'defaultDestinationDirectory',
+		'outPutFolderName'
 	],
 	#category : 'Gemoc-Java-File-Creator',
 	#package : 'Gemoc-Java-File-Creator'
@@ -32,7 +34,7 @@ Class {
 JavaWrapperFileCreator >> createEndpointDirectory [
 
 
-defaultDestinationDirectory isDirectory ifFalse: [ defaultDestinationDirectory ensureCreateDirectory ].
+self getCompleteDirPath isDirectory ifFalse: [ self getCompleteDirPath ensureCreateDirectory ].
 ]
 
 { #category : 'as yet unclassified' }
@@ -41,10 +43,10 @@ JavaWrapperFileCreator >> createJavaFileFileRef: aClass [
 	| name fileRef |
 	name := aClass name.
 
-	fileRef := (defaultDestinationDirectory
+	fileRef := (self getCompleteDirPath
 	            /
-	            ((javaFileWrapper generateTrueClassName:
-		             aClass ), 'Wrapper' , '.java')) asFileReference.
+	            ((javaFileWrapper generateTrueClassName: aClass)
+	             , 'Wrapper' , '.java')) asFileReference.
 
 	fileRef exists ifTrue: [ fileRef delete ].
 	fileRef ensureCreateFile.
@@ -79,9 +81,15 @@ JavaWrapperFileCreator >> defaultDestinationDirectory [
 ]
 
 { #category : 'accessing' }
-JavaWrapperFileCreator >> defaultDestinationDirectory: anObject [
+JavaWrapperFileCreator >> defaultDestinationDirectory: aFileLocator [
 
-	defaultDestinationDirectory := anObject
+	defaultDestinationDirectory := aFileLocator
+]
+
+{ #category : 'as yet unclassified' }
+JavaWrapperFileCreator >> getCompleteDirPath [ 
+
+ ^ (defaultDestinationDirectory / outPutFolderName).
 ]
 
 { #category : 'initialization' }
@@ -89,5 +97,18 @@ JavaWrapperFileCreator >> initialize [
 
 home := FileLocator home.
 javaFileWrapper := JavaWrappedClassGenerator new.
-defaultDestinationDirectory := home /'generateJavaFileDirectory'
+defaultDestinationDirectory := home.
+outPutFolderName := 'generateJavaFileDirectory'.
+]
+
+{ #category : 'accessing' }
+JavaWrapperFileCreator >> outPutFolderName [
+
+	^ outPutFolderName
+]
+
+{ #category : 'accessing' }
+JavaWrapperFileCreator >> outPutFolderName: aString [
+
+	outPutFolderName := aString
 ]
