@@ -18,7 +18,7 @@ JavaWrapperFileCreator new createJavaFileForClass: GemocTraceServerHandler
 
 "
 Class {
-	#name : 'JavaWrapperFileCreator',
+	#name : 'JavaFileCreator',
 	#superclass : 'Object',
 	#instVars : [
 		'home',
@@ -30,23 +30,33 @@ Class {
 	#package : 'Gemoc-Java-File-Creator'
 }
 
+{ #category : 'defaults' }
+JavaFileCreator class >> defaultOutputFilename [ 
+
+	^ 'generatedFile'
+]
+
+{ #category : 'testing' }
+JavaFileCreator class >> isAbstract [
+
+	^ self == JavaFileCreator
+]
+
 { #category : 'as yet unclassified' }
-JavaWrapperFileCreator >> createEndpointDirectory [
+JavaFileCreator >> createEndpointDirectory [
 
 
 self getCompleteDirPath isDirectory ifFalse: [ self getCompleteDirPath ensureCreateDirectory ].
 ]
 
 { #category : 'as yet unclassified' }
-JavaWrapperFileCreator >> createJavaFileFileRef: aClass [
+JavaFileCreator >> createJavaFileFileRef: aClass [
 
 	| name fileRef |
 	name := aClass name.
 
-	fileRef := (self getCompleteDirPath
-	            /
-	            ((javaFileWrapper generateTrueClassName: aClass)
-	             , 'Wrapper' , '.java')) asFileReference.
+	fileRef := (self getCompleteDirPath / (self getFileName: aClass))
+		           asFileReference.
 
 	fileRef exists ifTrue: [ fileRef delete ].
 	fileRef ensureCreateFile.
@@ -55,7 +65,7 @@ JavaWrapperFileCreator >> createJavaFileFileRef: aClass [
 ]
 
 { #category : 'as yet unclassified' }
-JavaWrapperFileCreator >> createJavaFileForClass: aClass [
+JavaFileCreator >> createJavaFileForClass: aClass [
 
 	|  fileRef |
 	self createEndpointDirectory.
@@ -65,50 +75,64 @@ JavaWrapperFileCreator >> createJavaFileForClass: aClass [
 	
 ]
 
-{ #category : 'as yet unclassified' }
-JavaWrapperFileCreator >> createTheFileInTheProject: aClass [
-
-
-defaultDestinationDirectory := home / 'eclipse-workspaces' / 'gemoc-workspace' / 'Gemoc-connection-handler' / 'src' / 'main' / 'java' / 'gemocServer' / 'metamodelElementWrapper' / 'generatedWrapper'.
-
-self createJavaFileForClass: aClass.
-]
-
 { #category : 'accessing' }
-JavaWrapperFileCreator >> defaultDestinationDirectory [
+JavaFileCreator >> defaultDestinationDirectory [
 
 	^ defaultDestinationDirectory
 ]
 
 { #category : 'accessing' }
-JavaWrapperFileCreator >> defaultDestinationDirectory: aFileLocator [
+JavaFileCreator >> defaultDestinationDirectory: aFileLocator [
 
 	defaultDestinationDirectory := aFileLocator
 ]
 
 { #category : 'as yet unclassified' }
-JavaWrapperFileCreator >> getCompleteDirPath [ 
+JavaFileCreator >> getCompleteDirPath [ 
 
  ^ (defaultDestinationDirectory / outPutFolderName).
 ]
 
+{ #category : 'hooks' }
+JavaFileCreator >> getFileName: aClass [
+
+	self subclassResponsibility.
+]
+
+{ #category : 'hooks' }
+JavaFileCreator >> getJavaClassGenerator [
+
+	self subclassResponsibility.
+]
+
+{ #category : 'hooks' }
+JavaFileCreator >> getOutputFolderName [
+
+	self subclassResponsibility.
+]
+
 { #category : 'initialization' }
-JavaWrapperFileCreator >> initialize [ 
+JavaFileCreator >> initialize [ 
 
-home := FileLocator home.
-javaFileWrapper := JavaWrappedClassGenerator new.
-defaultDestinationDirectory := home.
-outPutFolderName := 'generatedJavaFileDirectory'.
+javaFileWrapper := self getJavaClassGenerator.
+defaultDestinationDirectory := FileLocator home.
+outPutFolderName := self getOutputFolderName.
 ]
 
 { #category : 'accessing' }
-JavaWrapperFileCreator >> outPutFolderName [
+JavaFileCreator >> javaFileWrapper: anAbstractJavaWrapper [
 
-	^ outPutFolderName
+	javaFileWrapper := anAbstractJavaWrapper
 ]
 
 { #category : 'accessing' }
-JavaWrapperFileCreator >> outPutFolderName: aString [
+JavaFileCreator >> outPutFolderName [
+
+	^ outPutFolderName ifNil: [ ^ self class defaultOutputFilename ]
+]
+
+{ #category : 'accessing' }
+JavaFileCreator >> outPutFolderName: aString [
 
 	outPutFolderName := aString
 ]

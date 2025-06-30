@@ -9,5 +9,4 @@ Class {
 { #category : 'printing' }
 JavaDefaultConstructor >> printParameterOn: aStream [
 
-
 ]

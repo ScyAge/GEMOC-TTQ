@@ -6,7 +6,8 @@ Class {
 		'folderSelectorPresenter',
 		'destFolder',
 		'actionBar',
-		'javaWrapperFileCreator'
+		'javaWrapperFileCreator',
+		'javaAdapterFileCreator'
 	],
 	#category : 'Gemoc-MMEWC-presenter',
 	#package : 'Gemoc-MMEWC',
@@ -16,7 +17,8 @@ Class {
 { #category : 'initialization' }
 MMEWCPresenter >> canGenerateWrapper [
 
-^  (chooserPresenter targetList items isEmpty not) and: [ destFolder isNotNil ]
+	^ chooserPresenter targetList items isEmpty not and: [
+		  destFolder isNotNil]
 ]
 
 { #category : 'layout' }
@@ -34,16 +36,27 @@ MMEWCPresenter >> defaultLayout [
 { #category : 'as yet unclassified' }
 MMEWCPresenter >> generateJavaFile [
 
+	javaWrapperFileCreator defaultDestinationDirectory: destFolder.
+	javaAdapterFileCreator defaultDestinationDirectory: destFolder.
+
+	"for wrapper"
 	chooserPresenter targetList items do: [ :each |
-		javaWrapperFileCreator createJavaFileForClass: each ]
+		javaWrapperFileCreator createJavaFileForClass: each ].
+
+
+	"for adapter"
+	GemocType allSubclasses do: [ :each |
+		javaAdapterFileCreator createJavaFileForClass: each ]
 ]
 
 { #category : 'initialization' }
-MMEWCPresenter >> initialize [ 
+MMEWCPresenter >> initialize [
 
-super initialize.
+	super initialize.
 
-javaWrapperFileCreator := JavaWrapperFileCreator new.
+	javaWrapperFileCreator := JavaWrappedFileCreator new.
+
+	javaAdapterFileCreator := JavaAdapterFileCreator new.
 ]
 
 { #category : 'initialization' }
@@ -86,9 +99,7 @@ MMEWCPresenter >> initializeWindow: aWindow [
 		                   label: 'chooseDestinationFolder';
 		                   icon: (self iconNamed: #smallAdd);
 		                   action: [
-			                   destFolder := folderSelectorPresenter openModal.
-			                   javaWrapperFileCreator
-				                   defaultDestinationDirectory: destFolder ];
+			                   destFolder := folderSelectorPresenter openModal ];
 		                   yourself.
 
 

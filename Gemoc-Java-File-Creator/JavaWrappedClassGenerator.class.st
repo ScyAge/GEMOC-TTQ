@@ -1,6 +1,6 @@
 Class {
 	#name : 'JavaWrappedClassGenerator',
-	#superclass : 'Object',
+	#superclass : 'AbstractJavaClassGenerator',
 	#category : 'Gemoc-Java-File-Creator',
 	#package : 'Gemoc-Java-File-Creator'
 }
@@ -10,19 +10,82 @@ JavaWrappedClassGenerator >> generateClass: aMetaModelElement [
 
 	| generator |
 	generator := JavaClass createClassWithName:
-		             ((self generateTrueClassName: aMetaModelElement),'Wrapper').
+		             (self generateTrueClassName: aMetaModelElement)
+		             , 'Wrapper'.
 
 
 	self
-		generateImportAndPackageOn: generator onElement: aMetaModelElement ;
+		generateImportAndPackageOn: generator onElement: aMetaModelElement;
 		generateInstanceVaribleOnClass: generator
 		onElement: aMetaModelElement;
 		generateStubOnClasseGen: generator onElement: aMetaModelElement;
-		generateStubForWrappedAttributeOnClasseGen: generator onElement:aMetaModelElement;
-		generateImplementorOnAJavaClassGenerator: generator.
-		
+		generateStubForWrappedAttributeOnClasseGen: generator
+		onElement: aMetaModelElement;
+		generateExtenderOnAJavaClassGenerator: generator
+		onClass: aMetaModelElement;
+		generateConstructorOnClassGen: generator onClass: aMetaModelElement.
+
+
+	^ generator
+]
+
+{ #category : 'as yet unclassified' }
+JavaWrappedClassGenerator >> generateConstructorOnClassGen: aGenerator onClass: aClass [
+
+	| listParam name |
+	name := self generateTrueClassName: aClass.
+	aGenerator addConstructor: (JavaDefaultConstructor new
+			 name: (name,'Wrapper');
+			 body: '').
+
+	listParam := JavaListOfElement new.
+	listParam addAnElement:
+		(JavaParameter createAParameterWithName: 'wrapped' withType: name).
+
+	aGenerator addConstructor: (JavaConstructor new
+			 name: ('{1}Wrapper' format: { name });
+			 parameters: listParam;
+			 body: ('{1} = wrapped;' format: { name asLowercase }))
+]
+
+{ #category : 'as yet unclassified' }
+JavaWrappedClassGenerator >> generateExtenderOnAJavaClassGenerator: aGenerator onClass: aClass [
+
+	| listParam listParam2  trueClassName |
+	aGenerator extender:
+		(JavaType createJavaType: 'MetamodelElementWrapper').
+
+	listParam := JavaListOfElement new.
+	listParam addAnElement: (JavaParameter
+			 createAParameterWithName: 'visitor'
+			 withType: (JavaType createJavaType: 'MetamodelElementWrapperReaderVisitor')).
 	
-		^ generator 
+	listParam2 := JavaListOfElement new.
+	listParam2 addAnElement: (JavaParameter
+			 createAParameterWithName: 'car'
+			 withType: (JavaType createJavaType: 'Object')).
+	
+	aGenerator addMethod: (JavaMethod
+			 createAjavaMethodWithVisibility: 'public'
+			 withReturnType: 'String'
+			 withParameter: listParam
+			 withBody: 'return visitor.visit(this);'
+			 withName: 'accept').
+			
+	trueClassName := self generateTrueClassName: aClass.
+	
+	aGenerator addMethod: (JavaMethod
+			 createAjavaMethodWithVisibility: 'public'
+			 withReturnType: 'Optional<MetamodelElementWrapper>'
+			 withParameter: listParam2
+			 withBody: ('if(car.getClass() == {1}.class) \{
+			return Optional.of(new {1}Wrapper(({1}) car)) ;
+		\}
+		
+		return Optional.empty();' format: {trueClassName})
+			 withName: 'test')
+			
+		
 ]
 
 { #category : 'as yet unclassified' }
@@ -57,6 +120,46 @@ JavaWrappedClassGenerator >> generateImplementorOnAJavaClassGenerator: aGenerato
 ]
 
 { #category : 'as yet unclassified' }
+JavaWrappedClassGenerator >> generateImplementorOnAJavaClassGenerator: aGenerator onClass: aClass [
+
+	| listParam listParam2  trueClassName |
+	aGenerator addImplementedInterface:
+		(JavaType createJavaType: 'MetamodelElementWrapper').
+
+	listParam := JavaListOfElement new.
+	listParam addAnElement: (JavaParameter
+			 createAParameterWithName: 'visitor'
+			 withType: (JavaType createJavaType: 'MetamodelElementWrapperReaderVisitor')).
+	
+	listParam2 := JavaListOfElement new.
+	listParam2 addAnElement: (JavaParameter
+			 createAParameterWithName: 'car'
+			 withType: (JavaType createJavaType: 'EObject')).
+	
+	aGenerator addMethod: (JavaMethod
+			 createAjavaMethodWithVisibility: 'public'
+			 withReturnType: 'String'
+			 withParameter: listParam
+			 withBody: 'return visitor.visit(this);'
+			 withName: 'accept').
+			
+	trueClassName := self generateTrueClassName: aClass.
+	
+	aGenerator addMethod: (JavaMethod
+			 createAjavaMethodWithVisibility: 'public'
+			 withReturnType: 'Optional<MetamodelElementWrapper>'
+			 withParameter: listParam2
+			 withBody: ('if(car instanceof {1}) \{
+			return Optional.of(new {1}Wrapper(({1}) car)) ;
+		\}
+		
+		return Optional.empty();' format: {trueClassName})
+			 withName: 'test')
+			
+		
+]
+
+{ #category : 'as yet unclassified' }
 JavaWrappedClassGenerator >> generateImportAndPackageOn: aGenerator onElement: aMetaModelElement [
 
 	aGenerator
@@ -67,6 +170,11 @@ JavaWrappedClassGenerator >> generateImportAndPackageOn: aGenerator onElement: a
 		addImport: (JavaType createJavaType:
 					 ('org.tetrabox.minijava.model.miniJava.impl.{1}' format:
 							  { (self generateTrueClassName: aMetaModelElement) }));
+		addImport: (JavaType createJavaType:
+					 ('java.util.Optional' ));
+		addImport: (JavaType createJavaType:
+					 ('org.eclipse.emf.ecore.EObject' ));
+						
 		package:
 			'main.java.gemocServer.metamodelElementWrapper.generatedWrapper'
 ]
@@ -141,16 +249,4 @@ JavaWrappedClassGenerator >> generateStubOnClasseGen: classGenerator onElement: 
 	 ].
 
 
-]
-
-{ #category : 'as yet unclassified' }
-JavaWrappedClassGenerator >> generateTrueClassName: aMetaModelElement [
-
-	^ (aMetaModelElement name withoutPrefix: 'Gemoc') , 'Impl'
-]
-
-{ #category : 'as yet unclassified' }
-JavaWrappedClassGenerator >> getInstanceVariableFromAMetaModelElement: aMetaModelElement [
-
-	^ aMetaModelElement slots collect: [ :slot | slot name ]
 ]

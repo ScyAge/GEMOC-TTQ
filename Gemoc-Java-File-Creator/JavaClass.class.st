@@ -72,6 +72,18 @@ JavaClass >> constructor [
 	^ constructor
 ]
 
+{ #category : 'accessing' }
+JavaClass >> extender: anObject [
+
+	extender := anObject
+]
+
+{ #category : 'accessing' }
+JavaClass >> implementor [
+
+	^ implementor
+]
+
 { #category : 'initialization' }
 JavaClass >> initialize [
 
@@ -120,7 +132,7 @@ JavaClass >> printClassBodyOn: aStream [
 		cr;
 		cr.
 	attributes do: [ :att | att printOn: aStream ].
-	constructor isEmpty ifFalse: [ constructor printOn: aStream ].
+	constructor do: [:cons | cons printOn: aStream ].
 	methods do: [ :met | met printOn: aStream ].
 	aStream << '}'
 ]
@@ -128,7 +140,7 @@ JavaClass >> printClassBodyOn: aStream [
 { #category : 'printing' }
 JavaClass >> printClassHeaderOn: aStream [
 
-	aStream << ('class {1} ' format: { name }).
+	aStream << ('public class {1} ' format: { name }).
 	extender ifNotNil: [
 		aStream << 'extends '.
 		extender printOn: aStream ].

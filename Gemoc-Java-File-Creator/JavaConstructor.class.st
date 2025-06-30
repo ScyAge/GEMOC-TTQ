@@ -56,13 +56,13 @@ JavaConstructor >> parameters: anObject [
 { #category : 'printing' }
 JavaConstructor >> printOn: aStream [
 
-	aStream << ('public {1}(' format: { name }).
+	aStream << ('	public {1}(' format: { name }).
 
 	self printParameterOn: aStream.
 
 	aStream << (')\{
-{1}
-\}' format: { body }).
+		{1}
+	\}' format: { body }).
 
 	aStream
 		cr;
