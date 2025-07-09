@@ -5,8 +5,9 @@ Class {
 		'client',
 		'hostURL'
 	],
-	#category : 'Gemoc-Java-Trace-Server',
-	#package : 'Gemoc-Java-Trace-Server'
+	#category : 'Gemoc-Java-Trace-Server-server',
+	#package : 'Gemoc-Java-Trace-Server',
+	#tag : 'server'
 }
 
 { #category : 'as yet unclassified' }
@@ -32,7 +33,7 @@ GemocTraceServerHandler >> getDefault [
 { #category : 'as yet unclassified' }
 GemocTraceServerHandler >> getRuntime [ 
 
-^ (client get: (hostURL , '/runTime')).
+^  STONJSON fromString: (client get: (hostURL , '/runTime')).
 ]
 
 { #category : 'as yet unclassified' }
