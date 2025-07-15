@@ -1,3 +1,23 @@
+"
+This presenter is for creating TTQ selection fonction or prediacte (to define ) base on the list of the subclass of GemocType or the list of element we receive from the connection with gemoc (to define).
+
+The element create are stock and can be use for to create TTQ.
+
+
+This presenter need to be instanciate with the model DynamicTTQCreator.
+
+```language=Pharo&caption=Beautiful&anchor=Fig1
+   |app loader |
+
+	app := DynamicTTQCreatorApp new.
+
+
+	loader := DynamicTTQCreatorPresenter newApplication: app model: (DynamicTTQCreator new).
+
+
+	loader open.
+```
+"
 Class {
 	#name : 'DynamicTTQCreatorPresenter',
 	#superclass : 'SpPresenterWithModel',
@@ -14,11 +34,6 @@ Class {
 	#package : 'Gemoc-DynamicTTQCreator-UI',
 	#tag : 'Presenters'
 }
-
-{ #category : 'accessing' }
-DynamicTTQCreatorPresenter class >> getTraceFromInterface [
-	^ getTraceFromInterface
-]
 
 { #category : 'private - testing' }
 DynamicTTQCreatorPresenter >> clickMetaModelElementAtIndex: index [
@@ -56,10 +71,10 @@ DynamicTTQCreatorPresenter >> detailWrapper [
 ]
 
 { #category : 'as yet unclassified' }
-DynamicTTQCreatorPresenter >> getAllTheMetaModelElement [ 
-
-
-^ GemocType allSubclasses.
+DynamicTTQCreatorPresenter >> getAllTheMetaModelElement [
+	"Specific method to get elements from the GemocType hierarchie"
+	self flag: 'this method may be removed'.
+	^ GemocType allSubclasses
 ]
 
 { #category : 'initialization' }
@@ -68,6 +83,7 @@ DynamicTTQCreatorPresenter >> initializePresenters [
 	traceLoaderInterface := self instantiate: TraceLoaderUI on: nil.
 	
 	listMetaModelElement := self newList.
+	self flag: 'the line below may be remove te add a custom add of the element to select'.
 	listMetaModelElement items: (OrderedCollection newFrom: self getAllTheMetaModelElement).
 	
 	detailWrapper:= self newText.

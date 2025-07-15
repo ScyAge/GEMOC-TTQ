@@ -1,3 +1,14 @@
+"
+This class abstraction is for representing all the subPresenter for creating a TTQ (for methodCall etc)
+
+The subCall may be generated.
+
+
+This hierarchie is principaly use with the **sendPredicateCreate** method this method put the object create by the abstract method **createTTQObjectPredicate** in the block set by **setCallBackMethod** if the parametred block is not set **sendPredicateCreate** will throw an error 
+
+
+
+"
 Class {
 	#name : 'AbstractTTQPredicateCreator',
 	#superclass : 'SpPresenter',
