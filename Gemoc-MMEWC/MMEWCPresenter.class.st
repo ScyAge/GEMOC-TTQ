@@ -1,3 +1,17 @@
+"
+This presenter helps a DSL creator to choose which element of the metamodel he wants to have wrapper. Once is selected the one he wants is selected and he chooses a destination directory, he can generate the wrapper with the help of the java file creator and generator.
+
+
+you can just open it by doing 
+
+```language=Pharo
+   MMEWCPresenter new open.
+```
+
+note :
+
+for the moment, the list is populated by getting all the subclasses of GemocType. In the future, the possibility to use something else is a must-have
+"
 Class {
 	#name : 'MMEWCPresenter',
 	#superclass : 'SpPresenterWithModel',
@@ -37,16 +51,13 @@ MMEWCPresenter >> defaultLayout [
 MMEWCPresenter >> generateJavaFile [
 
 	javaWrapperFileCreator defaultDestinationDirectory: destFolder.
-	javaAdapterFileCreator defaultDestinationDirectory: destFolder.
 
-	"for wrapper"
 	chooserPresenter targetList items do: [ :each |
 		javaWrapperFileCreator createJavaFileForClass: each ].
-
-
-	"for adapter"
-	GemocType allSubclasses do: [ :each |
-		javaAdapterFileCreator createJavaFileForClass: each ]
+	
+	
+	
+	
 ]
 
 { #category : 'initialization' }
@@ -55,8 +66,6 @@ MMEWCPresenter >> initialize [
 	super initialize.
 
 	javaWrapperFileCreator := JavaWrappedFileCreator new.
-
-	javaAdapterFileCreator := JavaAdapterFileCreator new.
 ]
 
 { #category : 'initialization' }
@@ -80,6 +89,7 @@ MMEWCPresenter >> initializeActionBar [
 MMEWCPresenter >> initializePresenters [ 
 
 chooserPresenter := self instantiate: SpChooserPresenter .
+self flag: 'the line below need to be change to allow the usage of an another list of element'.
 chooserPresenter sourceItems: (GemocType allSubclasses).
 
 
