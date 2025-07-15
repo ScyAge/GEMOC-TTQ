@@ -27,10 +27,11 @@ Class {
 { #category : 'as yet unclassified' }
 JavaConstructor class >> createConstructorWithName: className withParameter: listOfParameter withBody: aString [
 
-	self new
-		name: className;
-		parameters: listOfParameter;
-		body: aString.
+	^ self new
+		  name: className;
+		  parameters: listOfParameter;
+		  body: aString;
+		  yourself
 ]
 
 { #category : 'accessing' }
