@@ -54,7 +54,7 @@ In this trace only the case of method calls for minijava are present, and in Pha
 
 this sceenshot shows the creation of a TTQ on method calls whose method is called bubblesort, which uses the dictionary received from the server and the adapter.
 
-## prochine réalisation 
+## next realization 
 
 For the creators of dsl: 
 
