@@ -31,5 +31,5 @@ BaselineOfGEMOCTTQ >> baseline: spec [
 				#() ].
 		spec package: 'Gemoc-DynamicTTQCreator-UI-Tests' with: [
 			spec requires:
-				#(Gemoc-DynamicTTQCreator-UI) ].	 ]
+				#('Gemoc-DynamicTTQCreator-UI') ].	 ]
 ]
