@@ -1,3 +1,8 @@
+"
+This presenter is for handling two sub-presenters, one to preview the path of a file and the second to preview the content of the file.
+
+This presenter can be used with the transmission of spec by sending via an output port a FileReference 
+"
 Class {
 	#name : 'PreviewerPathFile',
 	#superclass : 'SpPresenter',
@@ -7,8 +12,9 @@ Class {
 		'filePreviewer',
 		'filePreviewerGenerator'
 	],
-	#category : 'Gemoc-UI-Trace-loader',
-	#package : 'Gemoc-UI-Trace-loader'
+	#category : 'Gemoc-UI-Trace-loader-presenter',
+	#package : 'Gemoc-UI-Trace-loader',
+	#tag : 'presenter'
 }
 
 { #category : 'layout' }

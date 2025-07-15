@@ -27,8 +27,9 @@ Class {
 		'browser',
 		'blockLoader'
 	],
-	#category : 'Gemoc-UI-Trace-loader',
-	#package : 'Gemoc-UI-Trace-loader'
+	#category : 'Gemoc-UI-Trace-loader-presenter',
+	#package : 'Gemoc-UI-Trace-loader',
+	#tag : 'presenter'
 }
 
 { #category : 'adding' }
