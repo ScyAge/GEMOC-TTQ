@@ -1,3 +1,6 @@
+"
+This class is adapteur that map a method call receive from the server to be use by TTQ selection fonction 
+"
 Class {
 	#name : 'MethodCallAdapteurToPharo',
 	#superclass : 'Object',

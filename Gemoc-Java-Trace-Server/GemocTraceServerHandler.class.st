@@ -1,3 +1,10 @@
+"
+this class handle the connection with the Gemoc server in java, 
+
+you can create the object with the class side method withUrl:  and put the server URL
+
+if you want to get the Trace of the program use the method getTrace, you will get a dictionnary with as key number between 0 and the number of element in the dict.
+"
 Class {
 	#name : 'GemocTraceServerHandler',
 	#superclass : 'Object',
@@ -18,28 +25,15 @@ GemocTraceServerHandler class >> withUrl: anUrl [
 ]
 
 { #category : 'as yet unclassified' }
-GemocTraceServerHandler >> getAllTrace [
-
-^ STONJSON fromString: (client get: (hostURL , '/allTrace')).
-
-]
-
-{ #category : 'as yet unclassified' }
 GemocTraceServerHandler >> getDefault [ 
 
 ^ client get: (hostURL , '/').
 ]
 
 { #category : 'as yet unclassified' }
-GemocTraceServerHandler >> getRuntime [ 
+GemocTraceServerHandler >> getTrace [ 
 
 ^  STONJSON fromString: (client get: (hostURL , '/runTime')).
-]
-
-{ #category : 'as yet unclassified' }
-GemocTraceServerHandler >> getStep [ 
-
-^ client get: (hostURL , '/step').
 ]
 
 { #category : 'accessing' }
