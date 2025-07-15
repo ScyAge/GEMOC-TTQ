@@ -28,5 +28,8 @@ BaselineOfGEMOCTTQ >> baseline: spec [
 				#() ].	
 		spec package: 'Gemoc-Java-Trace-Server' with: [
 			spec requires:
-				#() ].	 ]
+				#() ].
+		spec package: 'Gemoc-DynamicTTQCreator-UI-Tests' with: [
+			spec requires:
+				#(Gemoc-DynamicTTQCreator-UI) ].	 ]
 ]
