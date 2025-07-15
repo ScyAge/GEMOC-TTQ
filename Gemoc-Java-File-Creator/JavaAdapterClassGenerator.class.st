@@ -1,8 +1,9 @@
 Class {
 	#name : 'JavaAdapterClassGenerator',
 	#superclass : 'AbstractJavaClassGenerator',
-	#category : 'Gemoc-Java-File-Creator',
-	#package : 'Gemoc-Java-File-Creator'
+	#category : 'Gemoc-Java-File-Creator-classContentGenerator',
+	#package : 'Gemoc-Java-File-Creator',
+	#tag : 'classContentGenerator'
 }
 
 { #category : 'building' }
@@ -15,6 +16,7 @@ JavaAdapterClassGenerator >> generateClass: aMetaModelElement [
 
 
 	self
+		generateInstanceVaribleOnClass: generator onElement: aMetaModelElement; 
 		generateImportAndPackageOn: generator onElement: aMetaModelElement;
 		generateExtenderOnAJavaClassGenerator: generator
 		onClass: aMetaModelElement;
@@ -48,7 +50,7 @@ JavaAdapterClassGenerator >> generateExtenderOnAJavaClassGenerator: aGenerator o
 
 	| listParam listParam2  trueClassName |
 	aGenerator extender:
-		(JavaType createJavaType: 'MetamodelElementWrapper').
+		(JavaType createJavaType: 'MetamodelElementAdapter').
 
 	listParam := JavaListOfElement new.
 	listParam addAnElement: (JavaParameter
@@ -71,14 +73,14 @@ JavaAdapterClassGenerator >> generateExtenderOnAJavaClassGenerator: aGenerator o
 	
 	aGenerator addMethod: (JavaMethod
 			 createAjavaMethodWithVisibility: 'public'
-			 withReturnType: 'Optional<MetamodelElementWrapper>'
+			 withReturnType: 'Optional<MetamodelElementAdapter>'
 			 withParameter: listParam2
 			 withBody: ('if(element.getClass() == {1}.class) \{
 			return Optional.of(new {1}Adapter(({1}) element)) ;
 		\}
 		
 		return Optional.empty();' format: {trueClassName})
-			 withName: 'test')
+			 withName: 'createAdapterIfInstanceOf')
 			
 		
 ]
@@ -88,7 +90,7 @@ JavaAdapterClassGenerator >> generateImportAndPackageOn: aGenerator onElement: a
 
 	aGenerator
 		addImport: (JavaType createJavaType:
-					 'main.java.gemocServer.metamodelElementWrapper.MetamodelElementWrapper');
+					 'main.java.gemocServer.metamodelElementWrapper.MetamodelElementAdapter');
 		addImport: (JavaType createJavaType:
 					 'main.java.gemocServer.runtimeStepReader.MetamodelElementWrapperReaderVisitor');
 		addImport: (JavaType createJavaType:
@@ -105,17 +107,16 @@ JavaAdapterClassGenerator >> generateImportAndPackageOn: aGenerator onElement: a
 
 { #category : 'as yet unclassified' }
 JavaAdapterClassGenerator >> generateInstanceVaribleOnClass: classGen onElement: aMetaModelElement [
-
-	(self getInstanceVariableFromAMetaModelElement: aMetaModelElement)
-		do: [ :att |
-			classGen addAttribute: (JavaAttribute
-					 createAttributeWithName: (att, 'Generated')
-					 withVisibility: 'private'
-					 withType: 'String') ].
 	
 	classGen addAttribute: (JavaAttribute
 					 createAttributeWithName: ((self generateTrueClassName: aMetaModelElement) asLowercase )
 					 withVisibility: 'private'
 					 withType: (self generateTrueClassName: aMetaModelElement))
 				
+]
+
+{ #category : 'as yet unclassified' }
+JavaAdapterClassGenerator >> generateTrueClassName: aMetaModelElement [
+
+	^ (aMetaModelElement name withoutPrefix: 'Gemoc') , 'Impl'
 ]

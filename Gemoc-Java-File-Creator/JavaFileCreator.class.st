@@ -26,8 +26,9 @@ Class {
 		'defaultDestinationDirectory',
 		'outPutFolderName'
 	],
-	#category : 'Gemoc-Java-File-Creator',
-	#package : 'Gemoc-Java-File-Creator'
+	#category : 'Gemoc-Java-File-Creator-fileCreator',
+	#package : 'Gemoc-Java-File-Creator',
+	#tag : 'fileCreator'
 }
 
 { #category : 'defaults' }
@@ -67,12 +68,12 @@ JavaFileCreator >> createJavaFileFileRef: aClass [
 { #category : 'as yet unclassified' }
 JavaFileCreator >> createJavaFileForClass: aClass [
 
-	|  fileRef |
+	| fileRef |
 	self createEndpointDirectory.
 	fileRef := self createJavaFileFileRef: aClass.
-	
-	fileRef writeStreamDo: [ :aStream | (javaFileWrapper generateClass: aClass) printOn: aStream ].
-	
+
+	fileRef writeStreamDo: [ :aStream |
+		(self generateContent: aClass) printOn: aStream ]
 ]
 
 { #category : 'accessing' }
@@ -85,6 +86,12 @@ JavaFileCreator >> defaultDestinationDirectory [
 JavaFileCreator >> defaultDestinationDirectory: aFileLocator [
 
 	defaultDestinationDirectory := aFileLocator
+]
+
+{ #category : 'hooks' }
+JavaFileCreator >> generateContent: anObject [ 
+
+	self subclassResponsibility.
 ]
 
 { #category : 'as yet unclassified' }

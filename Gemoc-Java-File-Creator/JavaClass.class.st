@@ -1,3 +1,23 @@
+"
+class that holds all the information for class code generation
+
+In this class you have different setters and adders that help you to construct your class.
+
+
+In the adding protocol, there are all the methods that help you add elements to an existing list of elements. You can add as many methods, constructors, imports, interfaces implemented, and attributes.
+
+For the package and the extension, there is a single attribute you can set: 
+
+- For the package you can put just a string.
+- for the extension you need to put a JavaType
+	
+To create the class, there is a class-side method that simplifies the creation 
+
+```language=Pharo
+   JavaClass createClassWithName: 'aName'
+```
+ 
+"
 Class {
 	#name : 'JavaClass',
 	#superclass : 'Object',

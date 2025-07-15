@@ -1,8 +1,9 @@
 Class {
 	#name : 'JavaWrappedClassGenerator',
 	#superclass : 'AbstractJavaClassGenerator',
-	#category : 'Gemoc-Java-File-Creator',
-	#package : 'Gemoc-Java-File-Creator'
+	#category : 'Gemoc-Java-File-Creator-classContentGenerator',
+	#package : 'Gemoc-Java-File-Creator',
+	#tag : 'classContentGenerator'
 }
 
 { #category : 'building' }
@@ -249,4 +250,16 @@ JavaWrappedClassGenerator >> generateStubOnClasseGen: classGenerator onElement: 
 	 ].
 
 
+]
+
+{ #category : 'as yet unclassified' }
+JavaWrappedClassGenerator >> generateTrueClassName: aMetaModelElement [
+
+	^ (aMetaModelElement name withoutPrefix: 'Gemoc') , 'Impl'
+]
+
+{ #category : 'as yet unclassified' }
+JavaWrappedClassGenerator >> getInstanceVariableFromAMetaModelElement: aMetaModelElement [
+
+	^ aMetaModelElement slots collect: [ :slot | slot name ]
 ]

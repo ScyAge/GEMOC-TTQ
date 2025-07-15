@@ -1,3 +1,8 @@
+"
+class representing a Java parameter with the type and the name of the parameter 
+
+the method createAParameterWithName: aName withType: (JavaType) can be helpful the create to create one easily
+"
 Class {
 	#name : 'JavaParameter',
 	#superclass : 'Object',

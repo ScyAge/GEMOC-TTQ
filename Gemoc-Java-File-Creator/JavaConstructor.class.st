@@ -1,3 +1,16 @@
+"
+this class is for generating constructors for a Java class
+
+you can use the class side method createConstructorWithName:withParameter:withBody:
+
+```language=Pharo
+   JavaConstructor createConstructorWithName: the class name
+	withParameter: JavaListOfElement
+	withBody: aString
+```
+
+after the creation you can add it to the class
+"
 Class {
 	#name : 'JavaConstructor',
 	#superclass : 'Object',
@@ -10,6 +23,15 @@ Class {
 	#package : 'Gemoc-Java-File-Creator',
 	#tag : 'java-element-represenation'
 }
+
+{ #category : 'as yet unclassified' }
+JavaConstructor class >> createConstructorWithName: className withParameter: listOfParameter withBody: aString [
+
+	self new
+		name: className;
+		parameters: listOfParameter;
+		body: aString.
+]
 
 { #category : 'accessing' }
 JavaConstructor >> body [

@@ -1,3 +1,8 @@
+"
+class to create an attribute in a class you cant specify the visibility the name and the type of the attribute
+
+the method createAttributeWithName: aName withVisibility: aString withType: JavaType help you to create an instance
+"
 Class {
 	#name : 'JavaAttribute',
 	#superclass : 'Object',

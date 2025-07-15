@@ -1,3 +1,19 @@
+"
+this class is for representing a Java method 
+
+you can use the class side method createAjavaMethodWithVisibility:withReturnType:withParameter:withBody:withName: 
+to help you create this class 
+
+```language=Pharo
+   JavaMethod createAjavaMethodWithVisibility: 'private/public/protected' 	
+	withReturnType: JavaType
+	withParameter: JavaListOfElement
+	withBody: a string of the body of your method
+	withName: string
+```
+
+once you've created the method you can add it to the class
+"
 Class {
 	#name : 'JavaMethod',
 	#superclass : 'Object',

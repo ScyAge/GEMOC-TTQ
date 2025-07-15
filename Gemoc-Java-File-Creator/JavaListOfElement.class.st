@@ -1,3 +1,9 @@
+"
+Class for representing a list of elements separated by a comma.
+
+You can add an element in the list with the method addAnElement.
+All the subClasses use the same method only printOn: change.
+"
 Class {
 	#name : 'JavaListOfElement',
 	#superclass : 'Object',

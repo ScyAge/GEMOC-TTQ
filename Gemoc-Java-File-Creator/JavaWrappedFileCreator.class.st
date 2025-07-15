@@ -1,8 +1,9 @@
 Class {
 	#name : 'JavaWrappedFileCreator',
-	#superclass : 'JavaFileCreator',
-	#category : 'Gemoc-Java-File-Creator',
-	#package : 'Gemoc-Java-File-Creator'
+	#superclass : 'JavaFileCreatorForClass',
+	#category : 'Gemoc-Java-File-Creator-fileCreator',
+	#package : 'Gemoc-Java-File-Creator',
+	#tag : 'fileCreator'
 }
 
 { #category : 'hooks' }
