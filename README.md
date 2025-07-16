@@ -37,7 +37,8 @@ With the method `getTrace` the user will be able to retrieve the trace that he h
 
 Subsequently, this information is used in DynamicTTQCreatorPresenter to be able to create selection functions on the available elements and apply them on the trace in order to perform TTQs.
 
-<img width="901" height="741" alt="routesServer drawio (1)" src="https://github.com/user-attachments/assets/26737bdb-1457-4652-912d-9fb5a372cf17" />
+<img width="951" height="951" alt="diagramServerRoute drawio" src="https://github.com/user-attachments/assets/32297f24-763b-4e7f-9f27-31d225f0ddf2" />
+
 
 ## Current state of progress
 
@@ -49,6 +50,11 @@ For users:
 
 A user can only retrieve an already existing minijava trace. 
 In this trace only the case of method calls for minijava are present, and in Pharo there is only one adapter for methodCall in order to be able to perform selection functions.
+
+
+<img width="629" height="413" alt="image" src="https://github.com/user-attachments/assets/15c10fad-c8c0-4c8a-ba0f-56f1fb056178" />
+
+- the user can use TraceLoaderUI and connect it to the servrer with ip of the server. After specifying the IP, it can retrieve all the trace names present in the traceContainer folder of the server using the "fetch all trace" button. After selecting a trace, it must first do "set Trace" in order to notify the server which trace it wants to be able to get. Once the server has sent the response, he can do "get trace" and retrieve a dictionary with the trace parsed inside
 
 <img width="753" height="872" alt="image" src="https://github.com/user-attachments/assets/ddab8b12-f571-4662-8ed8-2b27c468ae6a" />
 
