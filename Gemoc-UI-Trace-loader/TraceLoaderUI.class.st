@@ -30,7 +30,9 @@ Class {
 		'buttonSetSeverIp',
 		'selectedItem',
 		'hostIp',
-		'actionBar'
+		'actionBar',
+		'setTraceButton',
+		'getTraceButton'
 	],
 	#category : 'Gemoc-UI-Trace-loader-presenter',
 	#package : 'Gemoc-UI-Trace-loader',
@@ -55,7 +57,8 @@ TraceLoaderUI >> alertIpMissing [
 { #category : 'initialization' }
 TraceLoaderUI >> connectPresenters [
 
-	listTraceAvailable whenSelectedItemChangedDo: [ :item | selectedItem := item. ].
+	listTraceAvailable whenSelectedItemChangedDo: [ :item | selectedItem := item.
+		setTraceButton enabled: true]
 ]
 
 { #category : 'layout' }
@@ -85,7 +88,6 @@ TraceLoaderUI >> doGetTraceAction [
 { #category : 'initialization' }
 TraceLoaderUI >> initializeActionBar [
 
-	| setTraceButton getTraceButton |
 	actionBar := self newActionBar.
 
 
@@ -95,12 +97,15 @@ TraceLoaderUI >> initializeActionBar [
 			                  selectedItem ifNotNil: [
 					                  response := [
 					                              server postTraceName: selectedItem ]
-						                              future ] ].
+						                              future ].
+			                  getTraceButton enabled: true ].
+	setTraceButton enabled: false.
 
 	getTraceButton := self newButton
 		                  label: 'Get Trace';
 		                  action: [ self doGetTraceAction ].
 
+	getTraceButton enabled: false.
 	actionBar
 		add: setTraceButton;
 		add: getTraceButton
