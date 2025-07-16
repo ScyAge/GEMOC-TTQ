@@ -16,7 +16,7 @@ BaselineOfGEMOCTTQ >> baseline: spec [
 			with: [ spec requires: #( 'PyBridge-MiniJava-TTQAdapter' ) ].
 		spec
 			package: 'Gemoc-UI-Trace-loader'
-			with: [ spec requires: #( 'PyBridge-MiniJava-TTQAdapter' ) ].
+			with: [ spec requires: #( 'PyBridge-MiniJava-TTQAdapter' 'Gemoc-Java-Trace-Server') ].
 		spec package: 'Gemoc-DynamicTTQCreator-UI' with: [
 			spec requires:
 				#( 'PyBridge-MiniJava-TTQAdapter' 'Gemoc-UI-Trace-loader' ) ].

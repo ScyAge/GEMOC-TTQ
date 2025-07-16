@@ -128,15 +128,11 @@ DynamicTTQCreatorPresenter >> listMetaModelElement [
 
 { #category : 'as yet unclassified' }
 DynamicTTQCreatorPresenter >> loadTraceInThePresenter [
-	| future |
 	
-	traceLoaderInterface addBlockResult: [ :futureRes | future := futureRes ].
-	traceLoaderInterface openModal.
-	
-	future ifNotNil: [
-		future onSuccessDo: [ :v |
-			self model trace: v.
-			self model trace inspect ] ]
+	traceLoaderInterface addBlockResult: [ :futureRes | self model trace: futureRes.
+	self model trace inspect].
+	traceLoaderInterface open.
+
 ]
 
 { #category : 'private - testing' }

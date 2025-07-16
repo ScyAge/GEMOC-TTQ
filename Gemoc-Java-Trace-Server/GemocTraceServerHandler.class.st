@@ -37,6 +37,12 @@ GemocTraceServerHandler >> getFetchAllAvailableTrace [
 ]
 
 { #category : 'as yet unclassified' }
+GemocTraceServerHandler >> getParsedTrace [
+
+ ^ STONJSON fromString: (client get: (hostURL , '/getParsedTrace')).
+]
+
+{ #category : 'as yet unclassified' }
 GemocTraceServerHandler >> getTrace [ 
 
 ^  STONJSON fromString: (client get: (hostURL , '/runTime')).
@@ -58,4 +64,11 @@ GemocTraceServerHandler >> hostURL: anObject [
 GemocTraceServerHandler >> initialize [ 
 
 client := ZnClient new.
+client timeout: 2.
+]
+
+{ #category : 'as yet unclassified' }
+GemocTraceServerHandler >> postTraceName: aString [
+
+^ ZnEasy post: (hostURL , '/postTraceName') data: (ZnStringEntity text: aString ).
 ]

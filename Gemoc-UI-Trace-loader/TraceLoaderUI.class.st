@@ -19,13 +19,18 @@ The result will be in the variable res in the you open the presenter as a Modal 
 "
 Class {
 	#name : 'TraceLoaderUI',
-	#superclass : 'SpPresenterWithModel',
+	#superclass : 'SpPresenter',
 	#instVars : [
-		'tracepath',
+		'response',
 		'toolBar',
-		'previewer',
-		'browser',
-		'blockLoader'
+		'blockLoader',
+		'listTraceAvailable',
+		'server',
+		'textIp',
+		'buttonSetSeverIp',
+		'selectedItem',
+		'hostIp',
+		'actionBar'
 	],
 	#category : 'Gemoc-UI-Trace-loader-presenter',
 	#package : 'Gemoc-UI-Trace-loader',
@@ -38,144 +43,130 @@ TraceLoaderUI >> addBlockResult: aBlock [
 	blockLoader := aBlock 
 ]
 
-{ #category : 'testing' }
-TraceLoaderUI >> browser [
+{ #category : 'as yet unclassified' }
+TraceLoaderUI >> alertIpMissing [
 
-	^ browser
+	(self instantiate: SpAlertDialog)
+		label:
+			'You need to be connected to a GEMOC sever. Put the IP and press set server IP';
+		open
 ]
 
 { #category : 'initialization' }
 TraceLoaderUI >> connectPresenters [
 
-	self transmitTo: previewer.
+	listTraceAvailable whenSelectedItemChangedDo: [ :item | selectedItem := item. ].
 ]
 
 { #category : 'layout' }
-TraceLoaderUI >> defaultLayout [ 
-^ SpBoxLayout newTopToBottom
-	add: previewer ;
-	yourself
+TraceLoaderUI >> defaultLayout [
+
+	^ SpBoxLayout newTopToBottom
+		  add: (SpBoxLayout newLeftToRight
+				   add: textIp;
+				   add: buttonSetSeverIp)
+		  withConstraints: [ :cons |
+			  cons
+				  width: 100;
+				  height: 50 ];
+		  add: listTraceAvailable;
+		  add: actionBar;
+		  yourself
 ]
 
 { #category : 'as yet unclassified' }
-TraceLoaderUI >> getFilePathFromBrowser [
- 	| fileRef |
-	fileRef := browser openModal.
-	fileRef ifNotNil:[self model: fileRef].
-	
-	
+TraceLoaderUI >> doGetTraceAction [
+
+	^ response ifNotNil: [
+		  response onSuccessDo: [ :v |
+			  v status = 200 ifTrue: [ self notifyLoadTraceAction ] ] ]
 ]
 
 { #category : 'initialization' }
-TraceLoaderUI >> initializeDialogWindow: aDialogPresenter [
+TraceLoaderUI >> initializeActionBar [
 
-	aDialogPresenter centered.
-	aDialogPresenter okAction: [ self notifyLoadFutureAction ].
-	
-	aDialogPresenter
-		addButton: 'Cancel' do: [ :button |
-			button triggerCancelAction.
-			button close ];
-		addButton: 'Load Trace' do: [ :button |
-			self model ifNotNil: [
-					button
-						triggerOkAction;
-						beOk;
-						close ] ]
+	| setTraceButton getTraceButton |
+	actionBar := self newActionBar.
+
+
+	setTraceButton := self newButton
+		                  label: 'Set Trace';
+		                  action: [
+			                  selectedItem ifNotNil: [
+					                  response := [
+					                              server postTraceName: selectedItem ]
+						                              future ] ].
+
+	getTraceButton := self newButton
+		                  label: 'Get Trace';
+		                  action: [ self doGetTraceAction ].
+
+	actionBar
+		add: setTraceButton;
+		add: getTraceButton
 ]
 
 { #category : 'initialization' }
 TraceLoaderUI >> initializePresenters [
 
-	| fileSystemModel fileSystemPresenter root |
-	fileSystemModel := StFileSystemModel new.
-	fileSystemPresenter := StFileSystemPresenter on: fileSystemModel.
-	self flag: 'root := FileLocator home.'.
-	root := 'C:\Users\evanj\Documents\stage\gemoc\gemoc\minijava\modeling_workbench\minijava-examples\gemoc-gen\execution\execution-20241016_091542'
-		        asFileLocatorOrReference.
-
-	
-	browser := (StOpenFilePresenter
-		            owner: fileSystemPresenter
-		            on: fileSystemModel) defaultFolder: root.
-
-	previewer := self instantiate: PreviewerPathFile.
+	listTraceAvailable := self newList.
+	server := GemocTraceServerHandler new.
+	textIp := self newTextInput.
+	buttonSetSeverIp := self newButton
+		                    label: 'set server ip';
+		                    action: [
+			                    textIp text isEmpty
+				                    ifTrue: [
+												self alertIpMissing.
+					                     ]
+				                    ifFalse: [
+					                    server hostURL: textIp text.
+					                    hostIp := textIp text ] ].
+			
+	self initializeActionBar.
 ]
 
 { #category : 'initialization' }
-TraceLoaderUI >> initializeWindow: aWindow [ 
+TraceLoaderUI >> initializeWindow: aWindow [
 
-| toolbar buttonAddTrace  buttonRemoveTrace | 
+	| toolbar buttonFetchAllTrace |
+	buttonFetchAllTrace := self newToolbarButton
+		                       label: 'fetch all trace';
+		                       icon: (self iconNamed: #smallAdd);
+		                       action: [
+			                       hostIp
+				                       ifNil: [ self alertIpMissing ]
+				                       ifNotNil: [
+					                       listTraceAvailable items:
+							                       server getFetchAllAvailableTrace ] ];
+		                       yourself.
 
-buttonAddTrace := self newToolbarButton
-					label: 'add trace';
-					icon: (self iconNamed: #smallAdd);
-					action: [ self getFilePathFromBrowser];
-					yourself.
-					
+	toolbar := self newToolbar
+		           add: buttonFetchAllTrace;
+		           yourself.
 
-								
-buttonRemoveTrace := (self newToolbarButton 
-							icon: (self iconNamed: #delete );
-							label: 'remove trace';
-							action: [ self removeTrace ];
-							yourself).
-					
-toolbar := self newToolbar
-					add: buttonAddTrace;
-					add: buttonRemoveTrace;
-					yourself.
-					
-
-
-aWindow 
+	aWindow
 		title: 'Trace Loader';
-		initialExtent: 600@400;
-		toolbar: toolbar.
-		
+		initialExtent: 600 @ 400;
+		toolbar: toolbar
 ]
 
 { #category : 'as yet unclassified' }
-TraceLoaderUI >> loadTraceInFuture [
+TraceLoaderUI >> loadTrace [
 
-	| traceFuture path |
-	path := self model fullPath pathString withoutPrefix: '/'.
-
-	self model ifNotNil: [
-		traceFuture := [ GemocTrace source: path ] future ].
-
-	^ traceFuture
+	^ server getParsedTrace.
 ]
 
 { #category : 'as yet unclassified' }
-TraceLoaderUI >> notifyLoadFutureAction [
+TraceLoaderUI >> notifyLoadTraceAction [
 
 	^ blockLoader
-		  ifNotNil: [ :block | block cull: self loadTraceInFuture ]
+		  ifNotNil: [ :block | block cull: self loadTrace ]
 		  ifNil: [
 			  Exception new
 				  messageText:
 					  'add a Block that retrive the result with addBlockResult:. ';
 				  signal ]
-]
-
-{ #category : 'showing' }
-TraceLoaderUI >> open [ 
-
-	^ self openDialog.
-]
-
-{ #category : 'showing' }
-TraceLoaderUI >> openModal [
-
-	super openModal cancelled
-		ifTrue: [ ^ nil ].
-]
-
-{ #category : 'testing' }
-TraceLoaderUI >> previewer [
-
-	^ previewer
 ]
 
 { #category : 'removing' }
@@ -187,10 +178,4 @@ TraceLoaderUI >> removeTrace [
 TraceLoaderUI >> toolBar [
 
 	^ toolBar
-]
-
-{ #category : 'testing' }
-TraceLoaderUI >> tracepath [
-
-	^ tracepath
 ]
