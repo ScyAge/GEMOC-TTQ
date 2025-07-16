@@ -31,6 +31,12 @@ GemocTraceServerHandler >> getDefault [
 ]
 
 { #category : 'as yet unclassified' }
+GemocTraceServerHandler >> getFetchAllAvailableTrace [
+
+ ^ STONJSON fromString: (client get: (hostURL , '/fetchAllAvailableTrace'))
+]
+
+{ #category : 'as yet unclassified' }
 GemocTraceServerHandler >> getTrace [ 
 
 ^  STONJSON fromString: (client get: (hostURL , '/runTime')).
