@@ -122,6 +122,10 @@ selection selector: #bubbleSort.
 test select: [ :ps | selection value: ps].
 ```
 
+## schema
+
+<img width="2511" height="1301" alt="diagrameTTQPharoGemoc drawio (1)" src="https://github.com/user-attachments/assets/990b2304-a086-4d3f-83cd-e423dae4fecf" />
+
 
 ## issues
 
