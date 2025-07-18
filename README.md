@@ -74,9 +74,9 @@ For users:
  ## How to make the exp again
 
 
-- clone for GEMOC https://github.com/ScyAge/GemocTTQ/tree/add-server-route et allé sur la branche add server route
+- clone for GEMOC https://github.com/ScyAge/GemocTTQ/tree/add-server-route and go on the add server route branch 
 
-- clone for Pharo https://github.com/ScyAge/GEMOC-TTQ/tree/traceLoaderChange et allé sur la branche traceLoaderChange (Baseline)
+- clone for Pharo https://github.com/ScyAge/GEMOC-TTQ/tree/traceLoaderChange and go on th  traceLoaderChange branch  (Baseline)
 
 
 
