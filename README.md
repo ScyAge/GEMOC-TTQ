@@ -84,30 +84,30 @@ GEMOC
 
 Firstly, you need to get these libraries:
 
-annotations-13.0.jar
-error_prone_annotations-2.38.0.jar
-gson-2.13.1.jar
-javalin-6.6.0.jar
-jetty-http-11.0.25.jar
-jetty-io-11.0.25.jar
-jetty-jakarta-servlet-api-5.0.2.jar
-jetty-security-11.0.25.jar
-jetty-server-11.0.25.jar
-jetty-servlet-11.0.25.jar
-jetty-util-11.0.25.jar
-jetty-webapp-11.0.25.jar
-jetty-xml-11.0.25.jar
-kotlin-stdlib-1.9.25.jar
-kotlin-stdlib-jdk7-1.9.25.jar
-kotlin-stdlib-jdk8-1.9.25.jar
-slf4j-api-2.0.17.jar
-slf4j-simple-2.0.16.jar
-websocket-core-common-11.0.25.jar
-websocket-core-server-11.0.25.jar
-websocket-jetty-api-11.0.25.jar
-websocket-jetty-common-11.0.25.jar
-websocket-jetty-server-11.0.25.jar
-websocket-servlet-11.0.25.jar
+annotations-13.0.jar  
+error_prone_annotations-2.38.0.jar  
+gson-2.13.1.jar  
+javalin-6.6.0.jar  
+jetty-http-11.0.25.jar  
+jetty-io-11.0.25.jar  
+jetty-jakarta-servlet-api-5.0.2.jar  
+jetty-security-11.0.25.jar  
+jetty-server-11.0.25.jar  
+jetty-servlet-11.0.25.jar  
+jetty-util-11.0.25.jar  
+jetty-webapp-11.0.25.jar  
+jetty-xml-11.0.25.jar  
+kotlin-stdlib-1.9.25.jar  
+kotlin-stdlib-jdk7-1.9.25.jar  
+kotlin-stdlib-jdk8-1.9.25.jar  
+slf4j-api-2.0.17.jar  
+slf4j-simple-2.0.16.jar  
+websocket-core-common-11.0.25.jar  
+websocket-core-server-11.0.25.jar  
+websocket-jetty-api-11.0.25.jar  
+websocket-jetty-common-11.0.25.jar  
+websocket-jetty-server-11.0.25.jar  
+websocket-servlet-11.0.25.jar  
 
 - put all these exact dependencies in a libs package at the project root
 - verify the dependencies in the classpath of the simpletrace and minijava modules
