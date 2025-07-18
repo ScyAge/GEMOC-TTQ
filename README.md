@@ -65,6 +65,12 @@ For users:
 - reutiliser le TraceLoader afin de l'adapter au server Gemoc, avec les routes `setTrace` et `getTrace`
 - adapt the DynamicTTQCreatorPresenter so that after loading the trace, we can create selection functions only on elements of the trace that have been retrieved, and that after creating the selection functions, we can apply them to the trace 
 
+## schema
+
+<img width="2511" height="1301" alt="diagrameTTQPharoGemoc drawio" src="https://github.com/user-attachments/assets/62787098-309c-4ee4-ba0b-e0a6e5aeb46f" />
+
+
+
 ## issues
 
 ### Merging GemocProgramState and GemocType in PyBridge-MiniJava-TTQAdapter :
