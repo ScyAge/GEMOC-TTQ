@@ -111,7 +111,16 @@ loader open.
 - then getTrace 
 - an inspector should open on  the list of steps that we retrieved from the server 
 
+in the inspector -
+```st
+| selection test |
 
+test := self collect: [ :a | MethodCallAdapteurToPharo createAdapterWithDictionary: a ].
+
+selection := SkSelectionMessagesSentWithSelector new.
+selection selector: #bubbleSort.
+test select: [ :ps | selection value: ps].
+```
 
 
 ## issues
