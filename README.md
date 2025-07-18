@@ -71,6 +71,49 @@ For users:
 - reutiliser le TraceLoader afin de l'adapter au server Gemoc, avec les routes `setTrace` et `getTrace`
 - adapt the DynamicTTQCreatorPresenter so that after loading the trace, we can create selection functions only on elements of the trace that have been retrieved, and that after creating the selection functions, we can apply them to the trace 
 
+ ## How to make the exp again
+
+
+- clone for GEMOC https://github.com/ScyAge/GemocTTQ/tree/add-server-route et allé sur la branche add server route
+
+- clone for Pharo https://github.com/ScyAge/GEMOC-TTQ/tree/traceLoaderChange et allé sur la branche traceLoaderChange (Baseline)
+
+
+
+GEMOC
+
+- verify the dependencies in the classpath of the simpletrace and minijava modules
+- check the precency of libraries for the server in the project’s METAINF (runtime/classpath tab) and in the Java buildpath (libraries/classpath tab)
+- launch the server in the test folder, With the LaunchServerTest class
+
+Pharo 
+
+- once the baseline is loaded, in a playgroup do: 
+
+
+```st
+|app loader |
+
+app := DynamicTTQCreatorApp new.
+
+
+loader := DynamicTTQCreatorPresenter newApplication: app model: (DynamicTTQCreator new).
+
+
+loader open.
+```
+
+
+- one then clicks on load trace 
+- we enter the IP of the server and connect
+- we can then fetch all trace (give fake files for the moment)
+- we choose a track then we do setTrace
+- then getTrace 
+- an inspector should open on  the list of steps that we retrieved from the server 
+
+
+
+
 ## issues
 
 ### Merging GemocProgramState and GemocType in PyBridge-MiniJava-TTQAdapter :
