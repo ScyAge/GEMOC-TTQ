@@ -54,6 +54,8 @@ In this trace only the case of method calls for minijava are present, and in Pha
 
 this sceenshot shows the creation of a TTQ on method calls whose method is called bubblesort, which uses the dictionary received from the server and the adapter.
 
+The traceloader is functional with the java server and the routes `setTrace` and `getTrace`and `fetchAllAvailableTrace`.
+
 ## next realization 
 
 For the creators of dsl: 
@@ -62,7 +64,6 @@ For the creators of dsl:
 
 For users:
 
-- reutiliser le TraceLoader afin de l'adapter au server Gemoc, avec les routes `setTrace` et `getTrace`
 - adapt the DynamicTTQCreatorPresenter so that after loading the trace, we can create selection functions only on elements of the trace that have been retrieved, and that after creating the selection functions, we can apply them to the trace 
 
 ## schema
